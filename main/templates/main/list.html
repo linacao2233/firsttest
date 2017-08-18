@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% include 'navbar.html' %}
+<h1>Test page</h1>
+
+
+<dl>
+    {% for poi in apartlist %}
+        <dt>{{ poi.title }}</dt>
+        <dd>{{ poi.location2 }}</dd>
+    {% endfor %}
+</dl>
+
+<div id="map-canvas" style="height: 300px;"></div>
+
+{% for apart in apartlist %}
+
+<a href="{% url 'detail' apart.slug %}"><h2>{{ apart.title }}</h2></a>
+
+<p>{{ apart.description}}</p>
+<p>{{ apart.location2.y }}, {{apart.location2.x}}</p>
+<img src="{{apart.iconpic.url}}">
+<p>{{ apart.phonenumber}}</p>
+<p>{{ apart.email}}</p>
+<p>{{ apart.numberofrooms}}</p>
+<p>{{ apart.numberofstudents}}</p>
+<p>{{ apart.roomsperbath}}</p>
+<p>{{ apart.facebooklink}}</p>
+{% endfor %}
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
+
+
+{% endblock %}
+
+<script type="text/javascript">
+	{% block script %}
+    function initialize() {
+        var map = new google.maps.Map(document.getElementById('map-canvas'));
+        var bounds = new google.maps.LatLngBounds();
+        var infowindow1 = new google.maps.InfoWindow();
+        function addMarker(lat, lng, title, label, content) {
+            var position = new google.maps.LatLng(lat, lng);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: title,
+                label: label,
+            });
+            var infowindow = new google.maps.InfoWindow({
+            	content: content,
+            	maxwidth: 20,
+            })
+            marker.addListener('click', function(){
+            	//infowindow.open(map,marker)
+            	infowindow1.setContent(content);
+            	//infowindow1.setPosition(position);
+            	infowindow1.open(map,this);
+            })
+            bounds.extend(position);
+        }
+        var apartcontent;
+        {% for poi in apartlist %}
+          apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description}}'
+
+            addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
+        {% endfor %}
+        map.fitBounds(bounds);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+	{% endblock %}
+</script>
+

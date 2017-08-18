@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class='container'> 
+<h1> {{apart.title}}</h1>
+
+<div>
+<a href="{{ apart.officalweblink }}"><h2>{{ apart.title }}</h2></a>
+
+<p>{{ apart.description}}</p>
+<p>{{ apart.location2.y }}, {{apart.location2.x}}</p>
+<img src="{{apart.iconpic.url}}">
+<p>{{ apart.phonenumber}}</p>
+<p>{{ apart.email}}</p>
+<p>{{ apart.numberofrooms}}</p>
+<p>{{ apart.numberofstudents}}</p>
+<p>{{ apart.roomsperbath}}</p>
+<p>{{ apart.facebooklink}}</p>
+</div>
+<div>
+<script src="https://maps.googleapis.com/maps/api/js?v=3&key={{apikey}}&sensor=false"></script>
+<img src="http://maps.googleapis.com/maps/api/staticmap?center={{ apart.location2.y }},{{ apart.location2.x }}&zoom=14&size=200x200&maptype=roadmap&markers={{ apart.location2.y }},{{ apart.location2.x }}&sensor=false&visual_refresh=true&scale=2">
+</div>
+
+<div>
+<h2> form section </h2>
+
+<form method="POST" action="">{% csrf_token %}
+    {{ form.as_p }}
+</form>
+<h2>comment section </h2>
+<ol>
+	{% for comment in comments %}
+	<li>{{ comment.body }}, {{comment.starlevel}} </li>
+	{% endfor %}
+</ol>
+</div>
+
+
+</div>
+
+
+
+{% endblock %}

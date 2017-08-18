@@ -1,0 +1,17 @@
+{% load i18n %}
+<footer class="footer bg-warning mt-3">
+<div class="container">
+	<div class="col-lg-6 col-xs-12 text-center">
+		<p>© <a href="http://www.kalias.club">www.kalias.club</a></p>
+		<p>{% trans 'This website is made and maintained by' %} <a href="http://www.kalias.club">www.kalias.club</a></p>
+	</div>
+	<div class="col-lg-6 col-xs-12 text-center">
+	<ul class="list-inline">
+		<li class="list-inline-item"> <a href="{% url 'home' %}">{% trans 'Home' %}</a> </li>
+		<li class="list-inline-item"> <a href="{% url 'home' %}#contactme">{% trans 'Contact Me' %}</a> </li>
+		</ul>
+	</div>
+              
+</div>
+	
+</footer>

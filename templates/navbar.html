@@ -1,0 +1,26 @@
+<nav class="navbar navbar-toggleable-sm navbar-light sticky-top bg-faded" id="headerNav">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarc" aria-controls="navbarc" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+
+  <div class="collapse navbar-collapse" id="navbarc">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+      </li>         
+
+    </ul>
+
+    <ul class="nav navbar-nav pull-md-right">
+   {% if request.user.is_staff%}
+    <li class="nav-item">          
+     <a class="nav-link btn btn-primary" href="{% url 'admin:index' %}"> AdminPage </a>
+    </li>
+    {% endif %}
+
+    </ul>
+
+  </div>
+</nav>
