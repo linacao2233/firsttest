@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Apart, Comment
+from .models import Apart, Comment, University, UniversityGate
 from mapwidgets.widgets import GooglePointFieldWidget 
 #from django.contrib.gis.db import models
 #from djgeojson.fields import PointField
@@ -42,5 +42,13 @@ class ApartAdmin(admin.ModelAdmin):
 		    }
 	location_map.allow_tags = True
 
+class UniversityGateAdmin(admin.ModelAdmin):
+	formfield_overrides = {
+	PointField: {"widget": GooglePointFieldWidget}
+	}
+
+
 admin.site.register(Apart,ApartAdmin)
 admin.site.register(Comment)
+admin.site.register(University)
+admin.site.register(UniversityGate,UniversityGateAdmin)

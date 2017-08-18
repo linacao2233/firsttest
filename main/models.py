@@ -12,7 +12,7 @@ from django.utils import timezone
 
 class Apart(models.Model):
 	title = models.CharField(max_length=200)
-	slug = models.CharField(max_length=300)
+	slug = models.CharField(max_length=300, editable=False)
 
 	description = models.TextField()
 	iconpic = models.ImageField(null=True, blank=True)
@@ -23,6 +23,13 @@ class Apart(models.Model):
 	location2 = PointField(null=True,blank=True)
 	phonenumber = models.CharField(max_length=100, null=True, blank=True)
 	email = models.EmailField(max_length=254,null=True, blank=True)
+
+	# male or female
+	gender = models.CharField(max_length=2,
+		choices=[('m','Erkek'),('f','Kiz'), ('mf', 'Erkek and Kiz'),
+		('n', 'Not Sure')],
+		default='n',
+		)
 
 	numberofrooms = models.PositiveSmallIntegerField(null=True, blank=True, 
 		help_text='how many rooms do you have in total?')
@@ -67,7 +74,7 @@ class Apart(models.Model):
 
 
 class Comment(models.Model):
-	owner = models.ForeignKey(User, null=True, blank=True)
+	created_by = models.ForeignKey(User, null=True, blank=True)
 	ipaddress = models.CharField(max_length=100, null=True, blank=True)
 	starlevel = models.PositiveSmallIntegerField(
 		choices=[(1,1),(2,2),(3,3),(4,4),(5,5)],
@@ -87,6 +94,29 @@ class Comment(models.Model):
 		self.modifiedTime = timezone.now()
 
 		super(Comment,self).save(*args, **kwargs)
+
+class ApartImage(models.Model):
+	apart = models.ForeignKey(Apart)
+	image = models.ImageField(upload_to='apartimage/%Y/%m/%d')
+
+
+class University(models.Model):
+	title = models.CharField(max_length=200)
+	city = models.CharField(max_length = 200)
+
+	def __str__(self):
+		return self.title
+
+		
+
+class UniversityGate(models.Model):
+	title = models.CharField(max_length=200)
+	location = PointField()
+	university = models.ForeignKey(University)
+
+	def __str__(self):
+		return self.title
+
 
 
 

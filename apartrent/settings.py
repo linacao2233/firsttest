@@ -96,7 +96,6 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID=1
 
 GOOGLE_MAPS_API_KEY = 'AIzaSyCcdmdG9ePdOCuyTdjPH3U91mE7B6pUwdI'
-GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCcdmdG9ePdOCuyTdjPH3U91mE7B6pUwdI'
 
 # GEOPOSITION_MAP_OPTIONS = {
 #     'minZoom': 3,
@@ -124,7 +123,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'apartrent',
-        'USER': 'linacao2233',
+        'USER': 'lcao',
         'PASSWORD': 'test123456',
     }
 }

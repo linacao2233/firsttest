@@ -25,6 +25,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', mainviews.home, name='home'),
     url(r'^newpart/$', mainviews.CreateApart, name='create'),
+    url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),
+
+    url(r'^ajax/commentsave/$', mainviews.commentsSave, name='commentsave'),
     url(r'^(?P<slug>[-\w]+)/$', mainviews.ApartDetail, name='detail'),
 ]
 

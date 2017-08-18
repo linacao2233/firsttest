@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+<style type="text/css">
+{% block style%}
+
+{% endblock %}
+</style>
 
 
 {% block content %}
@@ -6,39 +12,39 @@
 {% include 'navbar.html' %}
 <h1>Test page</h1>
 
+<div class="container">
 
-<dl>
-    {% for poi in apartlist %}
-        <dt>{{ poi.title }}</dt>
-        <dd>{{ poi.location2 }}</dd>
-    {% endfor %}
-</dl>
 
 <div id="map-canvas" style="height: 300px;"></div>
 
-{% for apart in apartlist %}
 
-<a href="{% url 'detail' apart.slug %}"><h2>{{ apart.title }}</h2></a>
+<section class="row">
 
-<p>{{ apart.description}}</p>
-<p>{{ apart.location2.y }}, {{apart.location2.x}}</p>
-<img src="{{apart.iconpic.url}}">
-<p>{{ apart.phonenumber}}</p>
-<p>{{ apart.email}}</p>
-<p>{{ apart.numberofrooms}}</p>
-<p>{{ apart.numberofstudents}}</p>
-<p>{{ apart.roomsperbath}}</p>
-<p>{{ apart.facebooklink}}</p>
-{% endfor %}
+    {% for apart in apartlist %}
+    <div class="card col-sm-6 col-md-4 col-lg-3 text-center mx-2 my-2">
+    <img src="{{apart.iconpic.url}}" width="100%">
+    <a href="{% url 'detail' apart.slug %}"><h2>{{ apart.title }}</h2></a>
+        
+    </div>
+
+    {% endfor %}
+
+</section>
+
+</div>
 
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3&key={{googleapikey}}"></script>
+<script src="{% static 'js/fontawesome-markers.min.js' %}"></script>
 
 
 {% endblock %}
 
 <script type="text/javascript">
 	{% block script %}
+
+
+
     function initialize() {
         var map = new google.maps.Map(document.getElementById('map-canvas'));
         var bounds = new google.maps.LatLngBounds();
@@ -63,11 +69,34 @@
             })
             bounds.extend(position);
         }
+
+        function addGateMarker(lat,lng,title) {
+            var position = new google.maps.LatLng(lat, lng);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: title,
+                //labelContent: '<i class="fa fa-camera-retro"></i>',
+                icon: {
+                    path: fontawesome.markers.UNIVERSITY,
+                    scale: 0.5,
+                    strokeWeight: 0.2,
+                    strokeColor: 'black',
+                    strokeOpacity: 1,
+                    fillColor: '#f8ae5f',
+                    fillOpacity: 0.7,
+                }
+            });
+        }
         var apartcontent;
         {% for poi in apartlist %}
           apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description}}'
 
             addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
+        {% endfor %}
+
+        {% for gate in gatelist %}
+            addGateMarker({{ gate.location.y }}, {{ gate.location.x }}, "{{ gate.title }}");
         {% endfor %}
         map.fitBounds(bounds);
     }

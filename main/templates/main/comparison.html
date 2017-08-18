@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title%}
+Comparison page
+{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<h1>Comparison page</h1>
+
+<section id="map">
+	
+</section>
+
+<section id="comparison">
+	
+</section>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3&key={{googleapikey}}"></script>
+<script src="{% static 'js/fontawesome-markers.min.js' %}"></script>
+
+{% endblock %}
+
+<script type="text/javascript">
+	{% block script %}
+
+
+
+    function initialize() {
+        var map = new google.maps.Map(document.getElementById('map-canvas'));
+        var bounds = new google.maps.LatLngBounds();
+        var infowindow1 = new google.maps.InfoWindow();
+        function addMarker(lat, lng, title, label, content) {
+            var position = new google.maps.LatLng(lat, lng);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: title,
+                label: label,
+            });
+            var infowindow = new google.maps.InfoWindow({
+            	content: content,
+            	maxwidth: 20,
+            })
+            marker.addListener('click', function(){
+            	//infowindow.open(map,marker)
+            	infowindow1.setContent(content);
+            	//infowindow1.setPosition(position);
+            	infowindow1.open(map,this);
+            })
+            bounds.extend(position);
+        }
+
+        function addGateMarker(lat,lng,title) {
+            var position = new google.maps.LatLng(lat, lng);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: title,
+                //labelContent: '<i class="fa fa-camera-retro"></i>',
+                icon: {
+                    path: fontawesome.markers.UNIVERSITY,
+                    scale: 0.5,
+                    strokeWeight: 0.2,
+                    strokeColor: 'black',
+                    strokeOpacity: 1,
+                    fillColor: '#f8ae5f',
+                    fillOpacity: 0.7,
+                }
+            });
+        }
+        var apartcontent;
+        {% for poi in apartlist %}
+          apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description}}'
+
+            addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
+        {% endfor %}
+
+        {% for gate in gatelist %}
+            addGateMarker({{ gate.location.y }}, {{ gate.location.x }}, "{{ gate.title }}");
+        {% endfor %}
+        map.fitBounds(bounds);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+	{% endblock %}
+</script>
