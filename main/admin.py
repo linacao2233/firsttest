@@ -30,6 +30,7 @@ class ApartAdmin(admin.ModelAdmin):
 	'location_map',)
 	inlines = [ImageIncline]
 	filter_horizontal = ('apartfeatures',)
+	search_fields = ['title','description']
 
 	formfield_overrides = {
 	PointField: {"widget": GooglePointFieldWidget}

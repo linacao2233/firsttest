@@ -66,6 +66,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+ADMINS = (('Lina Cao', 'lncao6@gmail.com'),)
+
 ROOT_URLCONF = 'apartrent.urls'
 
 TEMPLATES = [
@@ -98,14 +100,6 @@ SITE_ID=1
 
 GOOGLE_MAPS_API_KEY = 'AIzaSyCcdmdG9ePdOCuyTdjPH3U91mE7B6pUwdI'
 
-# GEOPOSITION_MAP_OPTIONS = {
-#     'minZoom': 3,
-#     'maxZoom': 15,
-# }
-
-# GEOPOSITION_MARKER_OPTIONS = {
-#     'cursor': 'move'
-# }
 
 WSGI_APPLICATION = 'apartrent.wsgi.application'
 
@@ -128,6 +122,10 @@ DATABASES = {
         'PASSWORD': 'test123456',
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 
@@ -154,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -162,6 +160,21 @@ USE_L10N = True
 
 USE_TZ = True
 
+LIBCLOUD_PROVIDERS = {
+    'default': {
+        'type': 'libcloud.storage.types.Provider.GOOGLE_STORAGE',
+        'user': 'GOOGECKKYDKQWEACYD57',
+        'key': 'ggGXgTWmtQVs0/aLOj6NL3ScPfrDoN/fJo49p1wT',
+        'bucket': 'linacaopage.appspot.com',
+    },
+}
+#STATICFILES_STORAGE = 'storages.backends.apache_libcloud.LibCloudStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.apache_libcloud.LibCloudStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATIC_URL = '/static/'
+#STATIC_ROOT = 'static'
+#MEDIA_ROOT = ''
+MEDIA_URL = 'uploads/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -169,7 +182,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(BASE_DIR), 'static'),
+    os.path.join(BASE_DIR, 'static'),
 )
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'uploads')
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'uploads')
+LOGIN_REDIRECT_URL = "/"
+#ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USERNAME_REQURIED=True
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'lina.cao.ktu@gmail.com'
+EMAIL_HOST_PASSWORD = 'kagan12LINA'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
