@@ -12,6 +12,9 @@ from django.utils import timezone
 
 class ApartFeatures(models.Model):
 	name = models.CharField(max_length=50)
+	priority = models.PositiveSmallIntegerField(choices=[(1,1),(2,2),(3,3)],
+		help_text="1 is the highest (most important)", default=1)
+	note = models.CharField(max_length=50, null=True, blank=True)
 
 	def __str__(self):
 		return self.name
@@ -42,7 +45,8 @@ class Apart(models.Model):
 		('n', 'Not Sure')],
 		default='n',
 		)
-	numberOfPeoplePerRoom = models.PositiveSmallIntegerField(null=True,blank=True)
+	numberOfPeoplePerRoom = models.CharField(max_length=50,null=True,
+		blank=True, help_text="enter in this format: 1,2,3")
 	#StudyDesk = models.BooleanField(help_text='study desk for each person?')
 
 
@@ -50,8 +54,9 @@ class Apart(models.Model):
 		help_text='how many rooms do you have in total?')
 	numberofstudents = models.PositiveSmallIntegerField(null=True, blank=True,
 		help_text='how many students can you host in total?')
-	roomsperbath = models.PositiveSmallIntegerField(default=3, 
-		help_text='how many rooms share on bathroom?')
+	roomsperbath = models.CharField(max_length=50, null=True,blank=True, 
+		help_text='how many rooms share one bathroom?')
+
 	apartfeatures = models.ManyToManyField(ApartFeatures)
 
 
@@ -115,7 +120,7 @@ class ApartImage(models.Model):
 	apart = models.ForeignKey(Apart)
 	image = models.ImageField(upload_to='apartimage/%Y/%m/%d')
 	thumbnail = models.ImageField(upload_to='apartimage/%Y/%m/%d', null=True,
-		blank=True)
+		blank=True, editable=False)
 
 	def create_thumbnail(self):
 	    # original code for this method came from
@@ -183,7 +188,7 @@ class ApartImage(models.Model):
 		super(ApartImage, self).save(force_update=force_update)
 
 	def __str__(self):
-		return self.apart.title+self.pk
+		return self.apart.title
 
 
 class University(models.Model):
