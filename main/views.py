@@ -6,7 +6,17 @@ from .forms import ApartForm, CommentForm
 from django.conf import settings
 from django.utils import timezone
 from django.http import JsonResponse
+
 # Create your views here.
+
+def index(request):
+	template='main/index.html'
+
+	context = {
+
+	}
+
+	return render(request, template, context)
 
 def home(request):
 	template = 'main/list.html'

@@ -13,21 +13,22 @@
 <h1>Test page</h1>
 
 <div class="container">
-
-
-<div id="map-canvas" style="height: 300px;"></div>
-
-
 <section class="row">
 
+
+<div id="map-canvas" style="height: 60vh;" class="col-md-6"></div>
+
+
+<div class="col-md-6">
+
     {% for apart in apartlist %}
-    <div class="card col-sm-6 col-md-4 col-lg-3 text-center mx-2 my-2">
-    <img src="{{apart.iconpic.url}}" width="100%">
+    <div class="mx-2 my-2 listapart">
+    <img src="{{apart.iconpic.url}}">
     <a href="{% url 'detail' apart.slug %}"><h2>{{ apart.title }}</h2></a>
-        
     </div>
 
     {% endfor %}
+</div>
 
 </section>
 
@@ -44,63 +45,84 @@
 	{% block script %}
 
 
+var apartmarkers = [];
 
-    function initialize() {
-        var map = new google.maps.Map(document.getElementById('map-canvas'));
-        var bounds = new google.maps.LatLngBounds();
-        var infowindow1 = new google.maps.InfoWindow();
-        function addMarker(lat, lng, title, label, content) {
-            var position = new google.maps.LatLng(lat, lng);
-            var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: title,
-                label: label,
-            });
-            var infowindow = new google.maps.InfoWindow({
-            	content: content,
-            	maxwidth: 20,
-            })
-            marker.addListener('click', function(){
-            	//infowindow.open(map,marker)
-            	infowindow1.setContent(content);
-            	//infowindow1.setPosition(position);
-            	infowindow1.open(map,this);
-            })
-            bounds.extend(position);
-        }
+function initialize() {
+    var map = new google.maps.Map(document.getElementById('map-canvas'));
+    var bounds = new google.maps.LatLngBounds();
+    var infowindow1 = new google.maps.InfoWindow();
 
-        function addGateMarker(lat,lng,title) {
-            var position = new google.maps.LatLng(lat, lng);
-            var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: title,
-                //labelContent: '<i class="fa fa-camera-retro"></i>',
-                icon: {
-                    path: fontawesome.markers.UNIVERSITY,
-                    scale: 0.5,
-                    strokeWeight: 0.2,
-                    strokeColor: 'black',
-                    strokeOpacity: 1,
-                    fillColor: '#f8ae5f',
-                    fillOpacity: 0.7,
-                }
-            });
-        }
-        var apartcontent;
-        {% for poi in apartlist %}
-          apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description}}'
-
-            addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
-        {% endfor %}
-
-        {% for gate in gatelist %}
-            addGateMarker({{ gate.location.y }}, {{ gate.location.x }}, "{{ gate.title }}");
-        {% endfor %}
-        map.fitBounds(bounds);
+    function addMarker(lat, lng, title, label, content) {
+        var position = new google.maps.LatLng(lat, lng);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: title,
+            label: label,
+        });
+        var infowindow = new google.maps.InfoWindow({
+        	content: content,
+        	maxwidth: 20,
+        })
+        marker.addListener('click', function(){
+        	//infowindow.open(map,marker)
+        	infowindow1.setContent(content);
+        	//infowindow1.setPosition(position);
+        	infowindow1.open(map,this);
+        })
+        bounds.extend(position);
+        apartmarkers.push(marker);
+        //marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
     }
-    google.maps.event.addDomListener(window, 'load', initialize);
+
+    function addGateMarker(lat,lng,title) {
+        var position = new google.maps.LatLng(lat, lng);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: title,
+            //labelContent: '<i class="fa fa-camera-retro"></i>',
+        });
+        //marker.setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png')
+        marker.setIcon('http://labs.google.com/ridefinder/images/mm_20_green.png'
+            )
+    }
+    var apartcontent;
+    {% for poi in apartlist %}
+      apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description}}'
+
+        addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
+
+    {% endfor %}
+
+
+    {% for gate in gatelist %}
+        addGateMarker({{ gate.location.y }}, {{ gate.location.x }}, "{{ gate.title }}");
+    {% endfor %}
+    map.fitBounds(bounds);
+
+    // function checking
+
+    // for (var i=0; i<apartmarkers.length; i++) {
+    //     apartmarkers[i].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png')
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+$('.listapart').hover(
+    function() {
+        var idx = $(this).index();
+        //apartmarkers[idx].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png');
+        apartmarkers[idx].setAnimation(google.maps.Animation.BOUNCE);
+
+    },
+    function() {
+        var idx = $(this).index();
+        //apartmarkers[idx].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png');
+        apartmarkers[idx].setAnimation(null);
+    }
+    )
+
 
 	{% endblock %}
 </script>

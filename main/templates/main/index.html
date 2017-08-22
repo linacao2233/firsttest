@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+<style type="text/css">
+{% block style%}
+.jumbotron {
+    height: 90vh;
+}
+
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+{% include 'navbar.html' %}
+<div class="jumbotron text-center bg-info">
+    <h1>Find the apartment perfect for you!</h1>
+    <input type="text" name="" class="mt-4">
+    <button>Kiz</button>
+    <button>Erkek</button>
+</div>
+
+<section id="features" class="container">
+<div class="row">
+<div class="col-md-6">
+<img src="" alt="image example" width="" ="100%">
+    
+</div>
+<div class="col-md-6">
+<h2>Check out real comments</h2>
+<p> Check the comments from real students. </p>
+<button>Find out more!</button>
+    
+</div>
+
+<div class="col-md-6">
+<img src="" alt="image example" width="" ="100%">
+    
+</div>
+<div class="col-md-6">
+<h2>Compare different Apartments</h2>
+<p> Select the apartments you are interested in to compare. </p>
+<button>Find out more!</button>
+    
+</div>  
+</div>
+
+</section>
+
+{% include 'footer.html' %}
+
+
+
+{% endblock %}
+
+
+
