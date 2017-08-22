@@ -1,0 +1,1 @@
+web: gunicorn apartrent.wsgi --log-file -
