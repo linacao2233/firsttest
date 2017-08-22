@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Apart, Comment, University, UniversityGate
+from .models import *
 from mapwidgets.widgets import GooglePointFieldWidget 
 #from django.contrib.gis.db import models
 #from djgeojson.fields import PointField
@@ -19,12 +19,17 @@ from django.contrib.gis.db.models import PointField
 # 		'location': GeopositionWidget,
 # 		}
 
+class ImageIncline(admin.StackedInline):
+	model = ApartImage
+
 class ApartAdmin(admin.ModelAdmin):
 	list_display = ('title', 
 	'description',
 	'iconpic',
 	'address',
 	'location_map',)
+	inlines = [ImageIncline]
+	filter_horizontal = ('apartfeatures',)
 
 	formfield_overrides = {
 	PointField: {"widget": GooglePointFieldWidget}
@@ -42,13 +47,14 @@ class ApartAdmin(admin.ModelAdmin):
 		    }
 	location_map.allow_tags = True
 
-class UniversityGateAdmin(admin.ModelAdmin):
-	formfield_overrides = {
-	PointField: {"widget": GooglePointFieldWidget}
-	}
+class UniversityGateInline(admin.StackedInline):
+	model = UniversityGate
+
+class UniversityAdmin(admin.ModelAdmin):
+	inlines = [UniversityGateInline]
 
 
 admin.site.register(Apart,ApartAdmin)
 admin.site.register(Comment)
-admin.site.register(University)
-admin.site.register(UniversityGate,UniversityGateAdmin)
+admin.site.register(University,UniversityAdmin)
+admin.site.register(ApartFeatures)

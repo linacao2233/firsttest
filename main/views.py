@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from .models import Apart, Comment, University, UniversityGate
-from .forms import ApartForm, CommentForm
+from .forms import ApartForm, CommentForm, MainSearchForm
 
 from django.conf import settings
 from django.utils import timezone
@@ -12,7 +12,10 @@ from django.http import JsonResponse
 def index(request):
 	template='main/index.html'
 
+	ulist = University.objects.all()
+
 	context = {
+	'universitylist': ulist,
 
 	}
 

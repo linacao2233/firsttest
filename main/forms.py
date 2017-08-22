@@ -1,5 +1,5 @@
 from django import forms
-from .models import Apart, Comment
+from .models import Apart, Comment, University
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit,Layout,Field,Div
@@ -29,6 +29,10 @@ class CommentForm(forms.ModelForm):
 		'starlevel', 
 		'body',
 		]
+
+
+class MainSearchForm(forms.Form):
+	q = forms.ModelChoiceField(queryset=University.objects.all())
 
 
 		

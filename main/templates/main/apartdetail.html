@@ -7,6 +7,25 @@
 
 {% endblock %}
 
+<style type="text/css">
+	{% block style %}
+	.carousel-inner {
+		height:60vh;
+	}
+	.carousel-item > img {
+		max-height: 60vh;
+		margin: auto;
+	}
+	.carousel-caption {
+		position: absolute;
+		top:0;
+		color: blue;
+	}
+
+
+	{% endblock %}
+</style>
+
 
 {% block content %}
 {% include 'navbar.html' %}
@@ -15,13 +34,27 @@
 
 <div id="imagesession">
 	<div id="picCarousel" class="carousel bg-faded">
+		<ol class="carousel-indicators">
+		    <li data-target="#picCarousel" data-slide-to="0" class="active"></li>
+		    {% for apartimage in apart.apartimage_set.all %}
+		    <li data-target="#picCarousel" data-slide-to="{{forloop.counter}}"></li>
+		    {% endfor %}
+			
+		</ol>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-			<img src="{{apart.iconpic.url}}" class="img-responsive thumbnail">				
+			<img src="{{apart.iconpic.url}}" class="img-responsive thumbnail">
+			<div class="carousel-caption">
+			Image 0 of {{apart.apartimage_set.all.count }}
+				
+			</div>				
 			</div>
-			{% for image in apart.ApartImage_set %}
+			{% for apartimage in apart.apartimage_set.all %}
 			<div class="carousel-item">
-			<img src="{{image.url}}" class="img-responsive thumbnail">
+			<img src="{{apartimage.image.url}}" class="img-responsive thumbnail">
+			<div class="carousel-caption">
+			Image {{ forloop.counter }} of {{apart.apartimage_set.all.count }}
+			</div>
 			</div>
 			{% endfor %}
 		</div>
@@ -35,10 +68,12 @@
 	    </a>
 	</div>
 
-	<img src="{{apart.iconpic.url}}" width="100px">
-	{% for image in apart.ApartImage_set %}
-		<img src="{{image.url}}" width="100px">
+	<div class="mt-2 bg-faded">
+	<img src="{{apart.iconpic.url}}" class="smallimagicon" width="100px">
+	{% for apartimage in apart.apartimage_set.all %}
+		<img src="{{apartimage.image.url}}" class="smallimagicon" width="100px">
 	{% endfor %}
+	</div>
 </div>
 
 <div class="row">
@@ -144,6 +179,12 @@
 
 <script type="text/javascript">
 	{% block script %}
+
+	$('.smallimagicon').click(function() {
+		var idx = $(this).index();
+		$('#picCarousel').carousel(idx);
+
+	})
 
 	Vue.component('star-rating', VueStarRating.default)
 
