@@ -21,11 +21,32 @@ def index(request):
 
 	return render(request, template, context)
 
-def home(request):
+def list(request):
 	template = 'main/list.html'
 
-	apartlist = Apart.objects.all()
-	gatelist = UniversityGate.objects.all()
+	if request.GET:
+		universityname = request.GET.get('university').split(',')[0]
+		university = University.objects.get(title=universityname)
+
+		gatelist = university.universitygate_set.all()
+
+		universitygate = gatelist[0]
+
+		gender = request.GET.get('gender')
+
+		if gender=='Kiz':
+			genders = ['f','mf', 'n']
+		else:
+			genders = ['m', 'mf', 'n']
+
+		apartlist = Apart.objects.filter(location2__distance_lte=
+			(universitygate.location, 5000)).filter(
+			gender__in=genders)
+		print('here I am')
+	else:
+		apartlist = Apart.objects.all()
+		gatelist = UniversityGate.objects.all()
+
 	apikey = settings.GOOGLE_MAPS_API_KEY
 
 	context = {

@@ -2,6 +2,11 @@
 {% load static %}
 <style type="text/css">
 {% block style%}
+.fa {
+    position: absolute;
+    top: 0;
+    right: 20px;
+}
 
 {% endblock %}
 </style>
@@ -10,7 +15,7 @@
 {% block content %}
 
 {% include 'navbar.html' %}
-<h1>Test page</h1>
+<h1>{{gatelist.0.university.title}}, {{gatelist.0.university.city}}</h1>
 
 <div class="container">
 <section class="row">
@@ -23,14 +28,31 @@
 
     {% for apart in apartlist %}
     <div class="mx-2 my-2 listapart">
-    <img src="{{apart.iconpic.url}}">
-    <a href="{% url 'detail' apart.slug %}"><h2>{{ apart.title }}</h2></a>
+    <div class="container">
+        <div class="row">
+            {% if apart.iconpic %}
+            <div  class="col-4">
+                <img src="{{apart.iconpic.url}}" width="100%">
+            </div>
+            <div class="col-8">           
+                <a href="{% url 'detail' apart.slug %}">{{ apart.title }}</a>
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </div>
+            {% endif %}
+        </div>
+    </div>
     </div>
 
     {% endfor %}
 </div>
 
 </section>
+<div class="pull-right">
+<button id="comparebutton">Compare</button>
+    
+</div>
+    
+</div>
 
 </div>
 
@@ -91,7 +113,7 @@ function initialize() {
 
     var apartcontent;
     {% for poi in apartlist %}
-      apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description}}'
+      apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description|safe }}'
 
         addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
 
@@ -148,6 +170,24 @@ $('.listapart:visible').hover(
         apartmarkers[idx].setAnimation(null);
     }
     )
+
+// add aparts to compare
+$('.fa').click(function(){
+    $(this).toggleClass('fa-heart-o fa-heart');
+})
+
+$('#comparebutton').click(function(){
+    var selected = $('.fa-heart').map(function(){
+        return $(this).siblings('a').text();
+    }).get();
+    console.log(selected);
+    hrefurl='{% url 'comparison' %}?'
+    for (var i = 0; i< selected.length; i++) {
+        hrefurl += 'apartlist='+selected[i]+'&';
+    }
+    console.log('hrefurl');
+    
+})
 
 
 	{% endblock %}
