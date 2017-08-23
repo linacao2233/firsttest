@@ -17,6 +17,7 @@
     {% include 'navbar.html' %}
 
     <h1 style="line-height: 5rem;">Find the apartment perfect for you!</h1>
+
     <input list="universitylist" class="mt-4" placeholder="university, City" name="university">
     <datalist id="universitylist">
     	{% for university in universitylist %}
@@ -69,8 +70,13 @@
 $('.gender').click(function (){
 	console.log('clicked');
 	var university = $('input').val();
+	if (university =='') {
+
+	}
+	else {
 	var gender = $(this).text();
 	window.location.href = "{% url 'list' %}?university="+university+'&gender='+gender;
+	}
 	//console.log(university)
 	//console.log(gender)
 })
