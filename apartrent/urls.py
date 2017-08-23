@@ -24,7 +24,7 @@ from main import views as mainviews
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', mainviews.index, name='home'),
-    url(r'^list/$', mainviews.home, name='list'),
+    url(r'^list/$', mainviews.list, name='list'),
 
     url(r'^newpart/$', mainviews.CreateApart, name='create'),
     url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),
