@@ -49,6 +49,9 @@ class ApartAdmin(admin.ModelAdmin):
 
 class UniversityGateInline(admin.StackedInline):
 	model = UniversityGate
+	formfield_overrides = {
+	PointField: {"widget": GooglePointFieldWidget}
+	}
 
 class UniversityAdmin(admin.ModelAdmin):
 	inlines = [UniversityGateInline]
