@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import dj_database_url
 
+from os import environ
+
+GEOS_LIBRARY_PATH = environ.get('GEOS_LIBRARY_PATH')
+GDAL_LIBRARY_PATH = environ.get('GDAL_LIBRARY_PATH')
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -96,6 +102,8 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID=1
 
+ADMINS = (('Lina Cao', 'lncao6@gmail.com'),)
+
 GOOGLE_MAPS_API_KEY = 'AIzaSyCcdmdG9ePdOCuyTdjPH3U91mE7B6pUwdI'
 
 # GEOPOSITION_MAP_OPTIONS = {
@@ -128,9 +136,12 @@ DATABASES = {
         'PASSWORD': 'test123456',
     }
 }
+
+
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
-
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -166,10 +177,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+LIBCLOUD_PROVIDERS = {
+    'default': {
+        'type': 'libcloud.storage.types.Provider.GOOGLE_STORAGE',
+        'user': 'GOOGECKKYDKQWEACYD57',
+        'key': 'ggGXgTWmtQVs0/aLOj6NL3ScPfrDoN/fJo49p1wT',
+        'bucket': 'linacaopage.appspot.com',
+    },
+}
+STATICFILES_STORAGE = 'storages.backends.apache_libcloud.LibCloudStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.apache_libcloud.LibCloudStorage'
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+#STATIC_ROOT = 'static'
+#MEDIA_ROOT = ''
+MEDIA_URL = 'uploads/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(BASE_DIR), 'static'),
+    os.path.join(BASE_DIR, 'static'),
 )
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'uploads')
+
+LOGIN_REDIRECT_URL = "/"
+#ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USERNAME_REQURIED=True
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'lina.cao.ktu@gmail.com'
+EMAIL_HOST_PASSWORD = 'kagan12LINA'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
