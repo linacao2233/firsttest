@@ -181,11 +181,12 @@ $('#comparebutton').click(function(){
         return $(this).siblings('a').text();
     }).get();
     console.log(selected);
-    hrefurl='{% url 'comparison' %}?'
+    hrefurl='{% url 'comparison' %}?apartlist='
     for (var i = 0; i< selected.length; i++) {
-        hrefurl += 'apartlist='+selected[i]+'&';
+        hrefurl += selected[i]+',';
     }
-    console.log('hrefurl');
+    console.log(hrefurl);
+    window.location.href = hrefurl;
     
 })
 

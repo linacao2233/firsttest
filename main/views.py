@@ -144,11 +144,14 @@ def ComparisonApart(request):
 	template = 'main/comparison.html'
 
 	if request.GET:
-		apartlist = request.GET['apartlist']
+		apartlist = request.GET.get('apartlist').split(',')
 	else:
 		apartlist = ''
 
-	apartToCompare = Apart.objects.filter(slug__in=apartlist)
+	print(type(apartlist))
+	print(apartlist)
+
+	apartToCompare = Apart.objects.filter(title__in=apartlist)
 	apikey = settings.GOOGLE_MAPS_API_KEY
 
 	context={
