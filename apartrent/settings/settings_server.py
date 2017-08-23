@@ -210,4 +210,8 @@ EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
 
 
-GDAL_LIBRARY_PATH = '/app/.heroku/vendor/lib/libgdal.so'
+#GDAL_LIBRARY_PATH = '/app/.heroku/vendor/lib/libgdal.so'
+from os import environ
+GEOS_LIBRARY_PATH = "{}/libgeos_c.so".format(environ.get('GEOS_LIBRARY_PATH'))
+GDAL_LIBRARY_PATH = "{}/libgdal.so".format(environ.get('GDAL_LIBRARY_PATH'))
+PROJ4_LIBRARY_PATH = "{}/libproj.so".format(environ.get('PROJ4_LIBRARY_PATH'))
