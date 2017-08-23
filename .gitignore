@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.dump
-apartrent/settings/settings_local.py
+settings_local*
 staticfiles/
 
 # C extensions
