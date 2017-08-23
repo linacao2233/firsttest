@@ -138,10 +138,11 @@ DATABASES = {
 }
 
 
-DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -185,9 +186,9 @@ LIBCLOUD_PROVIDERS = {
         'bucket': 'linacaopage.appspot.com',
     },
 }
-STATICFILES_STORAGE = 'storages.backends.apache_libcloud.LibCloudStorage'
+#STATICFILES_STORAGE = 'storages.backends.apache_libcloud.LibCloudStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.apache_libcloud.LibCloudStorage'
-#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 #STATIC_ROOT = 'static'
 #MEDIA_ROOT = ''
