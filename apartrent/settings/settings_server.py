@@ -208,3 +208,6 @@ EMAIL_HOST_USER = 'lina.cao.ktu@gmail.com'
 EMAIL_HOST_PASSWORD = 'kagan12LINA'
 EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
+
+
+GDAL_LIBRARY_PATH = '/app/.heroku/vendor/lib/libgdal.so'
