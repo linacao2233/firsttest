@@ -18,7 +18,7 @@ Comparison page
     <img class="card-img-top img-thumbnail" src="{{apart.iconpic.url }}" alt="{{apart.title}} icon picture" height="200px" >
     <div class="card-block">
       <h4 class="card-title">{{apart.title}}, {{apart.starlevel }}</h4> <a href="{{apart.officalweblink}}">Link</a>
-      <p class="card-text">{{ apart.description }}</p>
+      <p class="card-text">{{ apart.description|truncatechars:200 }}</p>
     </div>
 
       <ul class="list-group list-group-flush">
@@ -31,6 +31,7 @@ Comparison page
           {{feature.name}},
           {% endfor %}
       </li>
+      <li class="list-group-item"> <small>Cleaning </small> weekly</li>
 
       </ul>
   </div>
@@ -40,6 +41,7 @@ Comparison page
 
 <script src="https://maps.googleapis.com/maps/api/js?key={{googleapikey}}"></script>
 
+{% include 'footer.html' %}
 {% endblock %}
 
 <script type="text/javascript">

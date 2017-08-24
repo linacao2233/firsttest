@@ -15,6 +15,9 @@ class ApartFeatures(models.Model):
 	priority = models.PositiveSmallIntegerField(choices=[(1,1),(2,2),(3,3)],
 		help_text="1 is the highest (most important)", default=1)
 	note = models.CharField(max_length=50, null=True, blank=True)
+	category = models.CharField(max_length=10,
+		choices=[('room','oda'),('floor','kat'),('building','bina')],
+		default='building')
 
 	def __str__(self):
 		return self.name
@@ -143,6 +146,14 @@ class UniversityGate(models.Model):
 
 	def __str__(self):
 		return self.title
+
+
+class ContactMe(models.Model):
+	subject = models.CharField(max_length=200)
+	sender = models.CharField(max_length=200)
+	receiver = models.CharField(max_length=300)
+	body = models.TextField()
+	date = models.DateTimeField(auto_now_add=True)
 
 
 

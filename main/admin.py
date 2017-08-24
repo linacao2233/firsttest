@@ -57,8 +57,12 @@ class UniversityGateInline(admin.StackedInline):
 class UniversityAdmin(admin.ModelAdmin):
 	inlines = [UniversityGateInline]
 
+class featureadmin(admin.ModelAdmin):
+	list_display=('name','category','priority','note')
+	search_fields = ['name','category','note']
+
 
 admin.site.register(Apart,ApartAdmin)
 admin.site.register(Comment)
 admin.site.register(University,UniversityAdmin)
-admin.site.register(ApartFeatures)
+admin.site.register(ApartFeatures, featureadmin)
