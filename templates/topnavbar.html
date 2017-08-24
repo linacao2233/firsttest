@@ -1,0 +1,19 @@
+{% load i18n %}
+<nav class="nav nav-bar" id="topnavbar" style="position: absolute;top:0;right: 10px;">
+  <ul class="list-inline">
+    <li class="list-inline-item"> <a href="{% url 'home' %}">{% trans 'Home' %}</a> </li>
+    <li class="list-inline-item"> <a href="{% url 'home' %}">{% trans 'About Us' %}</a> </li>
+    <li class="list-inline-item"> <a href="{% url 'home' %}">{% trans 'Legal' %}</a> </li>
+    <li class="list-inline-item"> <a href="{% url 'contact' %}">{% trans 'Contact Me' %}</a> </li>
+    <li class="list-inline-item"> <a href="{% url 'home' %}">{% trans 'Login' %}</a> </li>
+    <li class="list-inline-item"> <a href="{% url 'home' %}"><i class="fa fa-twitter"></i></a> </li>
+    <li class="list-inline-item"> <a href="{% url 'home' %}"><i class="fa fa-facebook"></i></a> </li>
+       {% if request.user.is_staff%}
+    <li class="list-inline-item">          
+     <a class="nav-link btn btn-primary" href="{% url 'admin:index' %}"> AdminPage </a>
+    </li>
+    <li class="list-inline-item"> <a href="{% url 'list' %}">{% trans 'List' %}</a> </li>
+    {% endif %}
+  </ul>
+  
+</nav>

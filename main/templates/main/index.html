@@ -14,11 +14,14 @@
 
 <div class="jumbotron text-center bg-info">
 
-    {% include 'navbar.html' %}
+    {% include 'topnavbar.html' %}
 
     <h1 style="line-height: 5rem;">Find the apartment perfect for you!</h1>
 
-    <input list="universitylist" class="mt-4" placeholder="university, City" name="university">
+    <form method="GET" action="{% url 'list' %}">
+
+    <input class="form-control col-md-6 offset-md-3 my-3" list="universitylist" class="mt-4" placeholder="university, City" name="university" required pattern="{{matchingpattern}}">
+
     <datalist id="universitylist">
     	{% for university in universitylist %}
     	<option value="{{university.title}}, {{university.city}}"></option>
@@ -26,8 +29,11 @@
     	
     </datalist>
 
-    <button class='gender btn btn-secondary'>Kiz</button>
-    <button class='gender btn btn-secondary'>Erkek</button>
+    <button class='gender btn btn-danger' type="submit" name="Kiz">Kiz
+</button>
+    <button class='gender btn btn-primary' type="submit" name="Erkek">Erkek </i>
+</button>
+    </form>
 </div>
 
 <section id="features" class="container">
@@ -67,19 +73,19 @@
 <script type="text/javascript">
 {% block script %}
 
-$('.gender').click(function (){
-	console.log('clicked');
-	var university = $('input').val();
-	if (university =='') {
+// $('.gender').click(function (){
+// 	console.log('clicked');
+// 	var university = $('input').val();
+// 	if (university =='') {
 
-	}
-	else {
-	var gender = $(this).text();
-	window.location.href = "{% url 'list' %}?university="+university+'&gender='+gender;
-	}
-	//console.log(university)
-	//console.log(gender)
-})
+// 	}
+// 	else {
+// 	var gender = $(this).text();
+// 	window.location.href = "{% url 'list' %}?university="+university+'&gender='+gender;
+// 	}
+// 	//console.log(university)
+// 	//console.log(gender)
+// })
 
 {% endblock %}
 </script>

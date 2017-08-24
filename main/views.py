@@ -1,11 +1,14 @@
 from django.shortcuts import render
 
-from .models import Apart, Comment, University, UniversityGate
-from .forms import ApartForm, CommentForm, MainSearchForm
+from .models import Apart, Comment, University, UniversityGate,ContactMe
+from .forms import ApartForm, CommentForm, MainSearchForm,ContactForm
 
 from django.conf import settings
 from django.utils import timezone
 from django.http import JsonResponse
+
+from django.core.mail import send_mail
+
 
 # Create your views here.
 
@@ -13,9 +16,15 @@ def index(request):
 	template='main/index.html'
 
 	ulist = University.objects.all()
+	patterlist = []
+	for university in ulist:
+		patterlist.append(university.title + ', '+university.city)
+
+	pattern = '|'.join(patterlist)
 
 	context = {
 	'universitylist': ulist,
+	'matchingpattern': pattern,
 
 	}
 
@@ -32,9 +41,9 @@ def list(request):
 
 		universitygate = gatelist[0]
 
-		gender = request.GET.get('gender')
+		#gender = request.GET.get('gender')
 
-		if gender=='Kiz':
+		if 'Kiz' in request.GET:
 			genders = ['f','mf', 'n']
 		else:
 			genders = ['m', 'mf', 'n']
@@ -160,6 +169,43 @@ def ComparisonApart(request):
 	}
 
 	return render(request,template, context)
+
+
+def ContactPage(request):
+	template='main/contact.html'
+
+	title = 'contact me'
+	form = ContactForm(request.POST or None)
+	confirm_message = None
+
+	if form.is_valid():
+		subject = 'email from mysite:' + form.cleaned_data['subject']
+		message = 'from: ' + form.cleaned_data['sender'] +'\n'+form.cleaned_data['body']
+
+		confirm_message = 'thanks for the message'
+		sender = form.cleaned_data['sender']
+		recipients = ['lina.cao.ktu@gmail.com']
+
+
+		send_mail(subject, message, sender, recipients)
+		send_mail('site message received', '',sender, ['lncao6@gmail.com'])
+		
+		contactme = ContactMe(
+			subject=subject,
+			sender=form.cleaned_data['sender'],
+			body=form.cleaned_data['body'],
+			receiver=recipients[0])
+
+		contactme.save()
+
+	context = {
+	'contactform': form,
+	'title': title,
+	'message': confirm_message,
+	}
+
+	return render(request, template, context)	
+
 
 
 
