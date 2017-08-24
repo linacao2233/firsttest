@@ -57,7 +57,8 @@ class Apart(models.Model):
 	roomsperbath = models.CharField(max_length=50, null=True,blank=True, 
 		help_text='how many rooms share one bathroom?')
 
-	apartfeatures = models.ManyToManyField(ApartFeatures)
+	apartfeatures = models.ManyToManyField(ApartFeatures, 
+		blank=True)
 
 
 

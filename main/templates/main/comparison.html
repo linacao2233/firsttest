@@ -12,10 +12,10 @@ Comparison page
 <div id="map-canvas" style="height: 300px;">	
 </div>
 
-<div class="card-group">
+<div class="card-deck">
 {% for apart in apartlist %}
   <div class="card">
-    <img class="card-img-top" src="{{apart.iconpic.url }}" alt="Card image cap">
+    <img class="card-img-top img-thumbnail" src="{{apart.iconpic.url }}" alt="{{apart.title}} icon picture" height="200px" >
     <div class="card-block">
       <h4 class="card-title">{{apart.title}}, {{apart.starlevel }}</h4> <a href="{{apart.officalweblink}}">Link</a>
       <p class="card-text">{{ apart.description }}</p>
@@ -38,7 +38,7 @@ Comparison page
 </div>
 
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3&key={{googleapikey}}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{googleapikey}}"></script>
 
 {% endblock %}
 
@@ -49,7 +49,9 @@ Comparison page
 
 
     function initialize() {
-        var map = new google.maps.Map(document.getElementById('map-canvas'));
+        var map = new google.maps.Map(document.getElementById('map-canvas'), {
+        	gestureHandling: 'cooperative',
+        });
         var bounds = new google.maps.LatLngBounds();
         var infowindow1 = new google.maps.InfoWindow();
         function addMarker(lat, lng, title, label, content) {
