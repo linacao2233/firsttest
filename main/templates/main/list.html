@@ -7,6 +7,16 @@
     top: 0;
     right: 20px;
 }
+.listapart{
+    overflow: hidden;
+    min-height: 100px;
+}
+
+.labelnumber {
+    position: absolute;
+    top: 0;
+    left: 20px;  
+}
 
 
 {% endblock %}
@@ -24,29 +34,32 @@
 <div id="map-canvas" class="col-md-6" style="height: 60vh;"></div>
 
 
-<div class="col-md-6 card" style="overflow: auto; height: 60vh;">
-    <p class="card-header" > Click <i class='fa fa-heart-o'></i> for comparison.</p>
-    <ul class="list-group list-group-flush">
-    
+<div class="col-md-6" style="overflow: auto; height: 60vh;">
+    <p class="card-header" > Click <i class='fa fa-heart-o'></i> for comparison. <small>{{apartlist|length}} found.</small></p>
     {% for apart in apartlist %}
-    <li class="list-group-item listapart">
-    <div class="container">
+
+    <div class="listapart py-2" style="background: {% cycle '#f7f7f9' '#ddd'%}">
+        <div class="container" style="position: relative;top: 0;">
         <div class="row">
-            {% if apart.iconpic %}
-            <div  class="col-4">
-                <img src="{{apart.iconpic.url}}" width="100%">
+            <span class="blocklabel">{{ forloop.counter }}.</span>
+
+            <div class="col-4">
+                <img src="{% if apart.iconpic %} {{apart.iconpic.url}} {% endif %}" width="100%">
             </div>
-            <div class="col-8">           
+             
+            <div class="col-7">           
                 <a href="{% url 'detail' apart.slug %}">{{ apart.title }}</a>
                 <i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" data-original-title="click to add" ></i>
             </div>
-            {% endif %}
-        </div>
+           
+            </div>
+        </div>   
     </div>
-    </li>
 
     {% endfor %}
-    </ul>
+            
+
+
 </div>
 <div class="col-12">
 <button id="comparebutton" class="btn btn-primary pull-right">Compare details</button>
@@ -156,19 +169,21 @@ function initialize() {
 }
 
 function loadMapFromcurrentBounds(){
-    var label = 0;
+    var num;
+    //$('.listapart').hide();
     for (var i=0; i< apartmarkers.length; i++){
+        num = (i+2).toString();
         if (map.getBounds().contains(apartmarkers[i].getPosition())) {
             //apartmarkers[i].setMap();
-            $('.listapart:nth-child('+(i+1)+')').show();
-            label += 1;
-            apartmarkers[i].setLabel(label.toString());
+            console.log(num);
+
+            $('.listapart:nth-child('+num+')').show();
+
+           // apartmarkers[i].setLabel(label.toString());
 
         }
         else {
-            $('.listapart:nth-child('+(i+1)+')').hide();
-
-             //apartmarkers[i].setMap(null);
+            $('.listapart:nth-child('+num+')').hide();
         }
     }
 }
@@ -181,13 +196,14 @@ google.maps.event.addListener(map, 'idle', loadMapFromcurrentBounds);
 
 $('.listapart:visible').hover(
     function() {
-        var idx = $(this).index();
+        var idx = $(this).index()-1;
+        console.log(idx);
         //apartmarkers[idx].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png');
         apartmarkers[idx].setAnimation(google.maps.Animation.BOUNCE);
 
     },
     function() {
-        var idx = $(this).index();   
+        var idx = $(this).index()-1;   
              //apartmarkers[idx].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png');
         apartmarkers[idx].setAnimation(null);
     }
