@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from .models import Apart, Comment, University, UniversityGate,ContactMe
-from .forms import ApartForm, CommentForm, MainSearchForm,ContactForm
+from .forms import ApartForm, CommentForm, MainSearchForm,ContactForm,ContactApartOwnerForm
 
 from django.conf import settings
 from django.utils import timezone
@@ -88,11 +88,13 @@ def ApartDetail(request, slug):
 	comments = Comment.objects.filter(apart=apart).order_by('modifiedTime')
 
 	form = CommentForm(None)
+	contactform = ContactApartOwnerForm(None)
 
 	context = {
 	'apart': apart,
 	'comments': comments,
 	'form': form,
+	'contactform': contactform,
 	'apikey': settings.GOOGLE_MAPS_API_KEY,
 	}
 
