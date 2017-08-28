@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .models import Apart, Comment, University, UniversityGate,ContactMe
+from .models import *
 from .forms import ApartForm, CommentForm, MainSearchForm,ContactForm,ContactApartOwnerForm
 
 from django.conf import settings
@@ -158,15 +158,29 @@ def ComparisonApart(request):
 	else:
 		apartlist = ''
 
-	print(type(apartlist))
-	print(apartlist)
-
 	apartToCompare = Apart.objects.filter(title__in=apartlist)
 	apikey = settings.GOOGLE_MAPS_API_KEY
+
+	featureToCompare = ApartFeatures.objects.filter(priority=1).order_by('note')
+	
+	featurestosend = []
+
+	for num in range(10):
+		features = featureToCompare.filter(note__icontains=num)
+		if features:
+			note = features[0].note.split('_')[1]
+			featurestosend.append({
+				'category': note,
+				'features': features,
+				})
+
+	print(featurestosend)
+
 
 	context={
 	'apartlist': apartToCompare,
 	'googleapikey': apikey,
+	'featureslist': featurestosend,
 	}
 
 	return render(request,template, context)

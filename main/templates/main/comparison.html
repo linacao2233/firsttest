@@ -1,13 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load extra %}
 
 {% block title%}
 Comparison page
 {% endblock %}
 
+<style type="text/css">
 {% block style %}
+.imagecell {
+  position: relative;
+}
+
+.imagecell img {
+  position: absolute;
+  top:0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.2;
+  width: 100%;
+  height: 100%;
+}
+
 
 {% endblock %}
+</style>
 
 {% block content %}
 {% include 'navbar.html' %}
@@ -19,47 +36,82 @@ Comparison page
 </div>
 
 
-<div class="card-group mt-3">
-{% for apart in apartlist %}
-  <div class="card apartlist">
-    <img class="card-img-top img-thumbnail" src="{%if apart.iconpic %}{{apart.iconpic.url }}{% endif %}" alt="{{apart.title}} icon picture">
-    <div class="card-block">
+
+</div>
+
+
+
+<table class="table table-hover table-bordered table-responsive">
+  <thead>
+    <tr>
+      <th> </th>
+      {% for apart in apartlist %}
+      <th class="imagecell">
+      {% if apart.iconpic %}
+        <img src="{{ apart.iconpic.url }}">  
+      {% endif %}
+      
       <h4 class="card-title">{{forloop.counter}}, {{apart.title}} <a href="{% url 'detail' apart.slug %}"> >> </a></h4> 
 
-      {% with ''|center:apart.starlevel as range %}
-			{% for _ in range %}
-				<i class="fa fa-star" style="color: orange;"></i>
-			{% endfor %}
-			{% endwith %}
+      </th>
+      {% endfor %}
+    </tr>    
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row"> comments  contact</th>
+      {% for apart in apartlist %}
+        <td>
 
-	({{apart.comment_set|length}} comments) <br>
-	<i class="fa fa-phone"></i>: {{apart.phonenumber}} <br>
-	<i class="fa fa-envelope"></i>: {{ apart.email}}
+        {% with ''|center:apart.starlevel as range %}
+        {% for _ in range %}
+          <i class="fa fa-star" style="color: orange;"></i>
+        {% endfor %}
+        {% endwith %}
+          ({{apart.comment_set|length}} comments) <br>
+          <i class="fa fa-phone"></i>: {{apart.phonenumber}} <br>
+          <i class="fa fa-envelope"></i>: {{ apart.email}}
 
-      <a href="{{apart.officalweblink}}"><i class="fa fa-globe"></i></a>
-      <a href="{{apart.facebooklink}}"><i class="fa fa-facebook"></i></a>
-    </div>
+        <a href="{{apart.officalweblink}}"><i class="fa fa-globe"></i></a>
+        <a href="{{apart.facebooklink}}"><i class="fa fa-facebook"></i></a>
 
-      <ul class="list-group list-group-flush">
-      <li class="list-group-item"> Gender: {{apart.gender}}
-      </li>
+        </td>
+      {% endfor %}
+      </tr>
 
-      <li class="list-group-item">
-      {{apart.NumberOfPeoplePerRoom}} <small>persons per room </small>, {{apart.Numberofrooms}} <small>rooms</small>,
-      {{apart.Roomsperbath}} <small>rooms per bath</small> </li>
-      <li class="list-group-item">
-      Features:
-          {% for feature in apart.apartfeatures.all %}
-          {{feature.name}},
+    <tr>
+      <th scope="row"> Room properties</th>
+        {% for apart in apartlist %}
+          <td>
+              {{apart.NumberofPeoplePerRoom}}
+          </td>
+        {% endfor %}
+    </tr>
+
+    {% for features in featureslist %}
+      <tr>
+        <th scope="row"> {{features.category}}</th>
+          {% for apart in apartlist %}
+            <td>
+              {% for feature in features.features %}
+                {% if apart|has_feature:feature %}
+                   <strong>{{ feature.name }}</strong>,
+                {% else %}
+                    <small><strike>{{ feature.name }}</strike></small>,
+                  {% endif %}
+
+               {% endfor %}
+
+            </td>
           {% endfor %}
-      </li>
-      <li class="list-group-item"> <small>Cleaning </small> weekly</li>
+      </tr>
 
-      </ul>
-  </div>
-{% endfor %}
-</div>
-</div>
+    {% endfor %}     
+  </tbody>
+  
+</table>
+
+
 </div>
 
 
