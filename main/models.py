@@ -27,7 +27,7 @@ class Apart(models.Model):
 	title = models.CharField(max_length=200)
 	slug = models.CharField(max_length=300, editable=False)
 
-	description = models.TextField()
+	description = models.TextField(blank=True)
 	iconpic = models.ImageField(null=True, blank=True)
 
 	address=models.CharField(max_length=255, default='KTU')
@@ -39,7 +39,7 @@ class Apart(models.Model):
 	facebooklink = models.URLField(null=True, blank=True)
 	officalweblink = models.URLField(null=True, blank=True)
 
-	starlevel = models.FloatField()
+	starlevel = models.FloatField(default=0)
 
 	#features 
 	# male or female
@@ -87,6 +87,11 @@ class Apart(models.Model):
 
 	    self.slug = created_slug
 	    #self.modified_on = datetime.now()
+
+	    # add description default to be title
+	    if self.description is None or self.description == '':
+	    	self.description = self.title
+
 
 	    super(Apart, self).save(*args, **kwargs)
 
