@@ -90,12 +90,29 @@ def ApartDetail(request, slug):
 	form = CommentForm(None)
 	contactform = ContactApartOwnerForm(None)
 
+	featureToCompare = ApartFeatures.objects.filter(priority=1).order_by('note')
+
+	criticalfeatures = []
+
+	for num in range(10):
+		features = featureToCompare.filter(note__icontains=num)
+		if features:
+			note = features[0].note.split('_')[1]
+			criticalfeatures.append({
+				'category': note,
+				'features': features,
+				})
+
+	otherfeatures = ApartFeatures.objects.exclude(priority=1)
+
 	context = {
 	'apart': apart,
 	'comments': comments,
 	'form': form,
 	'contactform': contactform,
 	'apikey': settings.GOOGLE_MAPS_API_KEY,
+	'criticalfeatures': criticalfeatures,
+	'otherfeatures': otherfeatures,
 	}
 
 	return render(request, template, context)
@@ -162,7 +179,7 @@ def ComparisonApart(request):
 	apikey = settings.GOOGLE_MAPS_API_KEY
 
 	featureToCompare = ApartFeatures.objects.filter(priority=1).order_by('note')
-	
+
 	featurestosend = []
 
 	for num in range(10):
@@ -173,8 +190,6 @@ def ComparisonApart(request):
 				'category': note,
 				'features': features,
 				})
-
-	print(featurestosend)
 
 
 	context={

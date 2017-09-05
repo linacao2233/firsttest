@@ -7,8 +7,11 @@ from django.contrib.gis.db.models import PointField
 
 from django.utils import timezone
 
+from phonenumber_field.modelfields import PhoneNumberField
+
 #from django_google_maps import fields as map_fields
 #from djgeojson.fields import PointField
+
 
 class ApartFeatures(models.Model):
 	name = models.CharField(max_length=50)
@@ -18,6 +21,32 @@ class ApartFeatures(models.Model):
 	category = models.CharField(max_length=10,
 		choices=[('room','oda'),('floor','kat'),('building','bina')],
 		default='building')
+
+	def __str__(self):
+		return self.name
+
+class RoomType(models.Model):
+	name = models.CharField(max_length=50)
+	description = models.TextField()
+
+	numberOfPeoplePerRoom = models.PositiveSmallIntegerField(default=2)
+	restroomnumber = models.PositiveIntegerField(default=2)
+	restroomtype = models.CharField(max_length=20,
+		choices=[('1','In room'),('2','2 rooms share'),('3','3 rooms share'),
+		('4', '> 3 rooms share')], default='3')
+	showernumber = models.PositiveSmallIntegerField(default=1)
+	showertype = models.CharField(max_length=20,
+		choices=[('1','In room'),('2','2 rooms share'),('3','3 rooms share'),
+		('4', '3 to 6 rooms share'), ('5', '>6 rooms share')], 
+		default='3')
+	kitchen = models.CharField(max_length=20,
+		choices=[('0', 'no kitchen'),('1','In room'),('2','2 rooms share'),('3','3 rooms share'),
+		('4', '> 3 rooms share')], 
+		default='3')
+	livingroom = models.CharField(max_length=2,
+		choices=[('0', 'no livingroom'),('1','In room'),('2','2 rooms share'),('3','3 rooms share'),
+		('4', '> 3 rooms share')],
+		default='3')
 
 	def __str__(self):
 		return self.name
@@ -34,6 +63,7 @@ class Apart(models.Model):
 
 	#location = GeopositionField(max_length=100, null=True, blank=True)
 	location2 = PointField(null=True,blank=True)
+	mainphonenumber = PhoneNumberField(blank=True,null=True)
 	phonenumber = models.CharField(max_length=100, null=True, blank=True)
 	email = models.EmailField(max_length=254,null=True, blank=True)
 	facebooklink = models.URLField(null=True, blank=True)
@@ -50,15 +80,21 @@ class Apart(models.Model):
 		)
 	numberOfPeoplePerRoom = models.CharField(max_length=50,null=True,
 		blank=True, help_text="enter in this format: 1,2,3")
+
 	#StudyDesk = models.BooleanField(help_text='study desk for each person?')
+
+	roomsperbath = models.FloatField(null=True, blank=True,
+		editable=False)
 
 
 	numberofrooms = models.PositiveSmallIntegerField(null=True, blank=True, 
 		help_text='how many rooms do you have in total?')
+
+	roomtype = models.ManyToManyField(RoomType, blank=True, null=True)
+
 	numberofstudents = models.PositiveSmallIntegerField(null=True, blank=True,
 		help_text='how many students can you host in total?')
-	roomsperbath = models.CharField(max_length=50, null=True,blank=True, 
-		help_text='how many rooms share one bathroom?')
+
 
 	apartfeatures = models.ManyToManyField(ApartFeatures, 
 		blank=True)

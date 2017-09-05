@@ -5,33 +5,7 @@
 .jumbotron {
     height: 100vh;
 }
-.datalist-polyfill {
-    list-style: none;
-    display: none;
-    background: white;
-    box-shadow: 0 2px 2px #999;
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 0;
-    padding: 0;
-    max-height: 300px;
-    overflow-y: auto;
-}
 
-.datalist-polyfill:empty {
-    display: none !important;
-}
-
-    .datalist-polyfill > li {
-        padding: 3px;
-        font: 13px "Lucida Grande", Sans-Serif;
-    }
-    
-    .datalist-polyfill__active {
-        background: #3875d7;
-        color: white;
-    }
 
 {% endblock %}
 </style>
@@ -47,19 +21,17 @@
 
     <form method="GET" action="{% url 'list' %}">
 
-    <input class="form-control col-md-6 offset-md-3 my-3" list="universitylist" class="mt-4" placeholder="university, City" name="university" required pattern="{{matchingpattern}}">
-    <datalist id="universitylist">
-    <select>
-    	{% for university in universitylist %}
-    	<option value="{{university.title}}, {{university.city}}">{{university.title}}, {{university.city}}</option>
-    	{% endfor %}
-        </select>
-    </datalist>
+            <input class="form-control col-md-6 offset-md-3 my-3" list="universitylist" class="mt-4" placeholder="university, City" name="university" required pattern="{{matchingpattern}}">
+            <datalist id="universitylist">
+            	{% for university in universitylist %}
+            	<option value="{{university.title}}, {{university.city}}">{{university.title}}, {{university.city}}</option>
+            	{% endfor %}
+            </datalist>
 
-    <button class='gender btn btn-danger' type="submit" name="Kiz">Kiz
-</button>
-    <button class='gender btn btn-primary' type="submit" name="Erkek">Erkek </i>
-</button>
+            <button class='gender btn btn-danger' type="submit" name="Kiz">Kiz
+        </button>
+            <button class='gender btn btn-primary' type="submit" name="Erkek">Erkek </i>
+        </button>
     </form>
 </div>
 

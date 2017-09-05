@@ -16,7 +16,6 @@ class ApartForm(forms.ModelForm):
 		'email',
 		'numberofrooms',
 		'numberofstudents',
-		'roomsperbath',
 		'facebooklink',
 		'officalweblink',
 		'allowcomments',

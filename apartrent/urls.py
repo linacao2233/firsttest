@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^$', mainviews.index, name='home'),
     url(r'^list/$', mainviews.list, name='list'),
     url(r'^contact/$', mainviews.ContactPage, name='contact'),
+    url(r'^accounts/', include('allauth.urls')),
+
 
     url(r'^newpart/$', mainviews.CreateApart, name='create'),
     url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),

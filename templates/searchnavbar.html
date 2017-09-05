@@ -1,0 +1,20 @@
+{% load i18n %}
+<nav class="navbar sticky-top bg-success" id="searchNav">
+
+<form class="form-inline my-2" method="GET" action="{% url 'list' %}">
+
+        <input class="form-control mr-sm-2" list="universitylist" class="mt-4" placeholder="university, City" name="university" required pattern="{{matchingpattern}}">
+        <datalist id="universitylist">
+          {% for university in universitylist %}
+          <option value="{{university.title}}, {{university.city}}">{{university.title}}, {{university.city}}</option>
+          {% endfor %}
+        </datalist>
+
+        <button class='gender btn btn-danger' type="submit" name="Kiz">Kiz
+    </button>
+        <button class='gender btn btn-primary' type="submit" name="Erkek">Erkek </i>
+    </button>
+</form>
+
+
+</nav>

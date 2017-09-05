@@ -6,6 +6,9 @@ from mapwidgets.widgets import GooglePointFieldWidget
 #from django.contrib.gis.db import models
 #from djgeojson.fields import PointField
 from django.contrib.gis.db.models import PointField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 
 
@@ -29,11 +32,13 @@ class ApartAdmin(admin.ModelAdmin):
 	'address',
 	'location_map',)
 	inlines = [ImageIncline]
-	filter_horizontal = ('apartfeatures',)
+	filter_horizontal = ('apartfeatures','roomtype')
 	search_fields = ['title','description']
 
 	formfield_overrides = {
-	PointField: {"widget": GooglePointFieldWidget}
+	PointField: {"widget": GooglePointFieldWidget},
+	PhoneNumberField: {"widget": PhoneNumberPrefixWidget},
+
 	}
 
 	def location_map(self, instance):
@@ -64,5 +69,6 @@ class featureadmin(admin.ModelAdmin):
 
 admin.site.register(Apart,ApartAdmin)
 admin.site.register(Comment)
+admin.site.register(RoomType)
 admin.site.register(University,UniversityAdmin)
 admin.site.register(ApartFeatures, featureadmin)

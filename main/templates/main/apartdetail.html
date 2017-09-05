@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-
-
+{% load extra %}
 
 {% block header %}
 <script src="https://unpkg.com/vue"></script>
@@ -28,24 +27,50 @@
 	color: red;
 	}
 
+	.yesfeature {
+		background: lightgreen;
+		
+	}
+	.nofeature {
+		background: lightgrey;
+	}
+
+	h1 {
+		line-height: 200%;
+	}
+
+	h3 {
+		line-height: 200%;
+		background: orange;
+	}
+
+
 	{% endblock %}
 </style>
 
 
 {% block content %}
-{% include 'navbar.html' %}
+{% include 'topnavbar.html' %}
+{% include 'searchnavbar.html' %}
 <div class='container'> 
-<h1> {{apart.title}}</h1> 
+
+	<div class="row my-3" id="pagenav">
+		<div class="col-12 bg-faded text-small">
+			<a href="{% url 'home' %}">Home</a> > <a href="{% url 'list' %} ">List</a> > <a href="#">{{apart.title}}</a>
+		</div>
+	</div>
+	<h1> {{apart.title}}</h1> 
     {% with ''|center:apart.starlevel as range %}
 			{% for _ in range %}
 				<i class="fa fa-star" style="color: orange;"></i>
 			{% endfor %}
-			{% endwith %}
+	{% endwith %}
 
 	({{apart.comment_set|length}} comments) <br>
 	<ul class="fa-ul">
-		<li><i class="fa-li fa fa-envelope-open"></i> {{apart.email}} </li>
-		<li><i class="fa-li fa fa-phone"></i> {{apart.phonenumber}} </li>
+		<li><i class="fa-li fa fa-globe"></i> <a href="{{apart.officalweblink}}">{{apart.officalweblink|truncatechars:40}}</a></li>
+		<li><i class="fa-li fa fa-envelope-open"></i> <a href="mailto:{{apart.email}}">{{apart.email}} </a></li>
+		<li><i class="fa-li fa fa-phone"></i> <a href="tel:{{apart.mainphonenumber}}">{{apart.mainphonenumber}} </a></li>
 		<li><i class="fa-li fa fa-map-marker"></i>{{apart.address}} <a href="#map">Map</a></li>
 		
 	</ul>
@@ -62,7 +87,8 @@
 			</ol>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-				<img src="{{apart.iconpic.url}}" class="img-responsive thumbnail">
+
+				<img src="{% if apart.iconpic %}{{apart.iconpic.url}} {% endif %}" class="img-responsive thumbnail" alt="{{apart.title}} icon image">
 				<div class="carousel-caption">
 				Image 0 of {{apart.apartimage_set.all.count }}
 					
@@ -88,22 +114,22 @@
 		</div>
 
 		<div class="mt-2 bg-faded">
-		<img src="{{apart.iconpic.url}}" class="smallimagicon" width="100px">
+		<img src="{% if apart.iconpic %}{{apart.iconpic.url}}{% endif %}" alt="{{ apart.title }} icon image" class="smallimagicon" width="100px">
 		{% for apartimage in apart.apartimage_set.all %}
 			<img src="{{apartimage.image.url}}" class="smallimagicon" width="100px">
 		{% endfor %}
 		</div>
 	</div>
 	<div class="col-md-4 bg-faded" id="contact">
-	{% if message %}
-	<p> {{ message }} </p>
-	<a class="btn btn-primary" href="{% url 'contact' %}"> send again </a>
-	{% else %}
+		{% if message %}
+		<p> {{ message }} </p>
+		<a class="btn btn-primary" href="{% url 'contact' %}"> send again </a>
+		{% else %}
 
-	<form method="POST" action=''> {% csrf_token %}
-	{% crispy contactform %}
-	</form>
-	{% endif %}
+		<form method="POST" action=''> {% csrf_token %}
+		{% crispy contactform %}
+		</form>
+		{% endif %}
 		
 	</div>
 
@@ -117,71 +143,99 @@
 		<p><span>How many rooms share one bathroom?: </span>  {{ apart.roomsperbath}}</p>
 
 	</div>
-<div class="col-md-8">
-<h3>Features</h3>
-</div>
-
-	<div class="col-md-8" id="features">
-		{% for feature in apart.apartfeatures.all %}
-		{{ feature.name }}
-		{% endfor %}
+	<div class="col-md-8">
+		<h3>Features</h3>
 	</div>
+
+		<div class="col-md-8">
+		<li class="list-inline-item yesfeature p-2 my-1"><i class="fa fa-check"></i> </li> Feature exists,  
+		<li class="list-inline-item nofeature p-2 mx-2 my-1"> --- </li> not known
+
+		<div class="container">
+		<dl class="row bg-faded">
+			{% for features in criticalfeatures %}
+			<dt class="col-sm-2 p-2 my-1"> {{ features.category }}		
+			</dt>
+			<dd class="col-sm-10"> 
+				<ul class="list-inline">
+					{% for feature in features.features %}
+						{% if apart|has_feature:feature %} 
+						<li class="list-inline-item yesfeature p-2 my-1"><i class="fa fa-check"></i> {{feature.name}}</li>
+						{% else %} 
+						<li class="list-inline-item nofeature p-2 my-1">{{ feature.name }}</li> 
+						{% endif %}
+					{% endfor %}
+					
+				</ul>
+				
+			</dd>
+			{% endfor %}
+			<dt class="col-sm-2 p-2 my-1"> extra features
+			</dt>
+			<dd class="col-sm-10">
+						<ul class="list-inline">
+			{% for feature in otherfeatures %}
+				<li class="list-inline-item yesfeature p-2 my-2"><i class="fa fa-check"></i> {{ feature.name }}</li>
+		    {% endfor %}	
+		</ul>
+			</dd>
+			
+		</dl>
+		</div>
+		</div>
+
 
 	<div class="col-md-8">
-<h3> Address </h3>
-</div>
-<div class="col-md-8">
-	<div id="map" style="height: 300px"></div>
-</div>
-</div>
-
-
-<div id='comments_session'>
-
-	<div class="row">
-	<div class="form-group col-sm-12">
-	<div id="div_id_body" class="control-group"><label for="id_body" class="control-label "> Add Comment: </label> 
-	<div class="controls"><textarea v-model="newcomment" name="body" cols="40" rows="2" id="id_body" class="form-control textarea"></textarea></div>
+		<h3> Address </h3>
 	</div>
-	<star-rating v-model="rating"></star-rating>
-	</div>
+	<div class="col-md-8">
+		<div id="map" style="height: 300px"></div>
 	</div>
 
-	<button class='btn btn-secondary' @click="addNewItem"> ADD </button>
 
-	<comment v-for="item in comments" :onecomment="item"></comment>
+	<div id='comments_session' class="col-md-8">
+	<h3>Comments</h3>
 
-
-	<div id='comments'>
-		{% for comment in comments %}
-		<div class="card-group row">
-		<div class='card col-md-2 mb-2'>
-			<div class="text-muted"> {{comment.created_by}} </div>
-			<small class='text-muted'>{{comment.modifiedTime|timesince}} ago</small>
-			<div class="pull-right">
-					{% with ''|center:comment.starlevel as range %}
-			{% for _ in range %}
-				<i class="fa fa-star"></i>
-			{% endfor %}
-			{% endwith %}
+		<div class="row">
+			<div class="form-group col-sm-12">
+			<div id="div_id_body" class="control-group"><label for="id_body" class="control-label "> Add Comment: </label> 
+			<div class="controls"><textarea v-model="newcomment" name="body" cols="40" rows="2" id="id_body" class="form-control textarea"></textarea></div>
+			</div>
+			<star-rating v-model="rating"></star-rating>
 			</div>
 		</div>
-		<div class='card col-md-10 mb-2'>
-			<p class='card-text'>{{comment.body}},
+		<button class='btn btn-secondary' @click="addNewItem"> ADD </button>
+
+		<comment v-for="item in comments" :onecomment="item"></comment>
 
 
+		<div id='comments'>
+			{% for comment in comments %}
+			<div class="card-group row">
+				<div class='card col-md-2 mb-2'>
+					<div class="text-muted"> {{comment.created_by}} </div>
+					<small class='text-muted'>{{comment.modifiedTime|timesince}} ago</small>
+					<div class="pull-right">
+							{% with ''|center:comment.starlevel as range %}
+					{% for _ in range %}
+						<i class="fa fa-star"></i>
+					{% endfor %}
+					{% endwith %}
+					</div>
+				</div>
+				<div class='card col-md-10 mb-2'>
+					<p class='card-text'>{{comment.body}},
+					</p>
+				</div>
+			</div>
 
-			</p>
-
+			{% endfor %}
 		</div>
-		</div>
 
-		{% endfor %}
 	</div>
+</div>
 
 {% verbatim %}
-
-</div>
 
 <template id="commenttemplate">
 	<div class="card-group row">
