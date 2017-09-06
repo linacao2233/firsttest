@@ -69,6 +69,9 @@ class Apart(models.Model):
 	facebooklink = models.URLField(null=True, blank=True)
 	officalweblink = models.URLField(null=True, blank=True)
 
+	pricelow = models.FloatField(blank=True,null=True)
+	pricehigh = models.FloatField(blank=True,null=True)
+
 	starlevel = models.FloatField(default=0)
 
 	#features 

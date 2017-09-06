@@ -30,6 +30,7 @@ def index(request):
 
 	return render(request, template, context)
 
+
 def list(request):
 	template = 'main/list.html'
 
@@ -65,6 +66,45 @@ def list(request):
 
 	return render(request, template, context)
 
+def list2(request):
+	template = 'main/listajax.html'
+
+	if request.GET:
+		universityname = request.GET.get('university').split(',')[0]
+		university = University.objects.get(title=universityname)
+
+		gatelist = university.universitygate_set.all()
+
+		universitygate = gatelist[0]
+
+		location = universitygate.location
+		print(location)
+
+		#gender = request.GET.get('gender')
+
+		if 'Kiz' in request.GET:
+			genders = ['f','mf', 'n']
+		else:
+			genders = ['m', 'mf', 'n']
+
+		apartlist = Apart.objects.filter(location2__distance_lte=
+			(universitygate.location, 5000)).filter(
+			gender__in=genders)
+	else:
+		apartlist = Apart.objects.all()
+		gatelist = UniversityGate.objects.all()
+		location = gatelist[0].location
+
+	apikey = settings.GOOGLE_MAPS_API_KEY
+
+	context = {
+	'apartlist': apartlist,
+	'gatelist': gatelist,
+	'googleapikey': apikey,
+	'location': location,
+	}
+
+	return render(request, template, context)
 
 def CreateApart(request):
 	template = 'main/apartform.html'
@@ -86,6 +126,7 @@ def ApartDetail(request, slug):
 	apart = Apart.objects.get(slug=slug)
 
 	comments = Comment.objects.filter(apart=apart).order_by('modifiedTime')
+	gatelist = UniversityGate.objects.filter(location__distance_lte=(apart.location2,5000))
 
 	form = CommentForm(None)
 	contactform = ContactApartOwnerForm(None)
@@ -105,6 +146,16 @@ def ApartDetail(request, slug):
 
 	otherfeatures = ApartFeatures.objects.exclude(priority=1)
 
+	# add to visited history
+	if request.user.is_authenticated: 
+		pass
+
+	try:
+		request.session['visited'].append(apart.slug)
+	except:
+		request.session['visited'] = [apart.slug]
+		
+
 	context = {
 	'apart': apart,
 	'comments': comments,
@@ -113,6 +164,7 @@ def ApartDetail(request, slug):
 	'apikey': settings.GOOGLE_MAPS_API_KEY,
 	'criticalfeatures': criticalfeatures,
 	'otherfeatures': otherfeatures,
+	'gatelist': gatelist,
 	}
 
 	return render(request, template, context)
@@ -176,6 +228,12 @@ def ComparisonApart(request):
 		apartlist = ''
 
 	apartToCompare = Apart.objects.filter(title__in=apartlist)
+	if apartToCompare:
+		gatelist = UniversityGate.objects.filter(location__distance_lte=(
+			apartToCompare[0].location2,10000))
+	else:
+		gatelist = ''
+
 	apikey = settings.GOOGLE_MAPS_API_KEY
 
 	featureToCompare = ApartFeatures.objects.filter(priority=1).order_by('note')
@@ -196,6 +254,7 @@ def ComparisonApart(request):
 	'apartlist': apartToCompare,
 	'googleapikey': apikey,
 	'featureslist': featurestosend,
+	'gatelist': gatelist,
 	}
 
 	return render(request,template, context)

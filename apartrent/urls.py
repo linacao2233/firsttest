@@ -20,11 +20,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from main import views as mainviews
+from main import ajaxviews as ajaxviews
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', mainviews.index, name='home'),
     url(r'^list/$', mainviews.list, name='list'),
+    # testing views
+    url(r'^list2/$', mainviews.list2, name='list2'),
+
     url(r'^contact/$', mainviews.ContactPage, name='contact'),
     url(r'^accounts/', include('allauth.urls')),
 
@@ -34,6 +38,9 @@ urlpatterns = [
 
     url(r'^ajax/commentsave/$', mainviews.commentsSave, name='commentsave'),
     url(r'^(?P<slug>[-\w]+)/$', mainviews.ApartDetail, name='detail'),
+
+    url(r'^ajax/apartlist/$', ajaxviews.apartlist.as_view(), name='ajaxlist'),
+    url(r'^ajax/apart/(?P<pk>[0-9]+)/$', ajaxviews.ApartDetail.as_view()),
 ]
 
 if settings.DEBUG:

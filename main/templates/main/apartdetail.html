@@ -265,13 +265,30 @@
 	var position = new google.maps.LatLng({{apart.location2.y}}, {{apart.location2.x}});
 	var map = new google.maps.Map(document.getElementById('map'), {
         	gestureHandling: 'cooperative',
-        	zoom: 15,
+        	zoom: 14,
         	center: position,
         });
     var marker = new google.maps.Marker({
                 position: position,
                 map: map,
             });
+
+    function AddGate(lat, lng, title,label) {
+    	var location = new google.maps.LatLng(lat, lng);
+    	var marker = new google.maps.Marker({
+    		position: location,
+    		map: map,
+    		icon: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
+    		title: title,
+    		label: label,
+    	})
+    }
+
+    {% for gate in gatelist %}
+
+    AddGate({{gate.location.y}}, {{gate.location.x}}, '{{gate.title}}', '');
+
+    {% endfor %}
 
 
 
