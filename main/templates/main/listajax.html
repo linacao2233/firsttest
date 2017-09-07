@@ -322,9 +322,7 @@ h1 {
     var bounds = new google.maps.LatLngBounds();
 
 
-
-
-    getapartlist("{% url 'ajaxlist' %}");
+    getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1));
 
     // for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
     //     addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
