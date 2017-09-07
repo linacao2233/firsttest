@@ -52,15 +52,28 @@ h1 {
         </div>
     </div>
 
-    <h1>{{gatelist.0.university.title}}, {{gatelist.0.university.city}}</h1>
 
     <section class="row">
+
+        <h1>{{gatelist.0.university.title}}, {{gatelist.0.university.city}}</h1>
+
+        <div class="col-12 my-3">
+
+
+            <countnumber :count="count" :length="apartlist.length"></countnumber>
+
+            <button v-if="next" @click="loadmore">Load More</button>
+            <button v-else disabled> all loaded </button>
+
+
+        </div>
+
 
         <div id="map-canvas" class="col-md-6" style="height: 80vh;"></div>
 
 
         <div class="col-md-6" style="overflow: auto; height: 80vh;">
-            <p class="card-header" > Click <i class='fa fa-heart-o'></i> for comparison. <small>{{apartlist|length}} found.</small></p>
+
 
 <!--             {% for apart in apartlist %}
 
@@ -125,17 +138,21 @@ h1 {
 
     <section id="similars" class="row">
         <apartsquarevue v-for="apart in recommenedlist" :apart=apart> </apartsquarevue>
-
     </section>
     
 </div>
 
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?&key={{googleapikey}}"></script>
 
 {% include 'footer.html' %}
 
     {% verbatim %}
+    <template id="countnumbertemplate">
+            <p> {{ count }}  aparts are found, {{ length }} aparts are loaded.
+            Click <i class='fa fa-heart-o'></i> to add to comparison. 
+    </template>
 
     <template id="apartlisttemplate">
         <div :class="{'color1': index % 2 ===0, 'color2': index %2 !==0 }" class="py-2 listapart" 
@@ -145,8 +162,8 @@ h1 {
             <div class="container" style="position: relative;top: 0;">
                 <div class="row">
                     <span class="blocklabel">{{ index+1 }}.</span>
-                    <div class="col-4">
-                        <img v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%">
+                    <div class="col-4" style="height: 100px;">
+                        <img v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="200px" height="200px">
                     </div>
                     <div class="col-7">           
                         <a :href="apart.slug">{{ apart.title }}</a>
@@ -222,6 +239,11 @@ h1 {
         template: '#apartsquaretemplate',
     })
 
+    Vue.component('countnumber', {
+        props: ['count','length'],
+        template: '#countnumbertemplate',
+    })
+
     Vue.component('apartcomparevue', {
         props: ['apart'],
         template: '#apartcomparetemplate',
@@ -235,6 +257,19 @@ h1 {
             recommenedlist: [],
             comparelist: {},
             next: String,
+            count: Number,
+        },
+        computed: {
+            sortedArray: function(){
+                function rating(a,b) {
+                    if (a.starlevel < b.starlevel) return -1;
+                    if (a.starlevel > b.starlevel) return 1;
+                    return 0;
+                }
+
+                return this.apartlist.sort(rating);
+            }
+
         },
         methods: {
             hoveredindex: function(index) {
@@ -288,6 +323,7 @@ h1 {
 
 
 
+
     getapartlist("{% url 'ajaxlist' %}");
 
     // for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
@@ -304,16 +340,20 @@ h1 {
 
             success: function(data){
                 console.log('success');
-                apartlist = data;
                 apartvue.apartlist = apartvue.apartlist.concat(data.results);
                 apartvue.next = data.next;
                 apartvue.recommenedlist = data.results;
                 apartvue.visitedlist = data.results;
+                apartvue.count = data.count;
                 initialize();
 
                 for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
                     addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
                 }
+
+                var markerCluster = new MarkerClusterer(map, apartmarkers,
+                        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+                        maxZoom: 12,});
             },
 
             error: function(xhr){

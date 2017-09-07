@@ -87,18 +87,13 @@ def list2(request):
 		else:
 			genders = ['m', 'mf', 'n']
 
-		apartlist = Apart.objects.filter(location2__distance_lte=
-			(universitygate.location, 5000)).filter(
-			gender__in=genders)
 	else:
-		apartlist = Apart.objects.all()
 		gatelist = UniversityGate.objects.all()
 		location = gatelist[0].location
 
 	apikey = settings.GOOGLE_MAPS_API_KEY
 
 	context = {
-	'apartlist': apartlist,
 	'gatelist': gatelist,
 	'googleapikey': apikey,
 	'location': location,
