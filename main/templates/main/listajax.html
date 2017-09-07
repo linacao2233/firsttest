@@ -23,11 +23,11 @@ h1 {
 }
 
 .color1 {
-    background: #fff;
+    background: #f7f7f7;
 }
 
 .color2 {
-    background: #c1c1c1;
+    background: #ddd;
 }
 
 
@@ -89,6 +89,9 @@ h1 {
                 @addtocompare="addtocompare(index)"
                 @removefromcompare="removefromcompare(index)"></apartlistvue>
 
+            <button v-if="next" @click="loadmore">Load More</button>
+            <button v-else disabled>all loaded</button>
+
         </div>
 
 
@@ -100,7 +103,6 @@ h1 {
 
         <apartcomparevue v-for="(apart, key) in comparelist" :apart="apart">
         </apartcomparevue>
-        <apartsquarevue v-for="(apart, key) in comparelist" :apart="apart"></apartsquarevue>
 
 
         <div class="col-12">
@@ -232,6 +234,7 @@ h1 {
             visitedlist: [],
             recommenedlist: [],
             comparelist: {},
+            next: String,
         },
         methods: {
             hoveredindex: function(index) {
@@ -243,11 +246,12 @@ h1 {
 
             },
             addtocompare: function(index) {
-                this.comparelist[index] = this.apartlist[index];
+                Vue.set(this.comparelist, index, this.apartlist[index]);
+                //this.comparelist[index] = this.apartlist[index];
             },
             removefromcompare: function(index) {
-                delete this.comparelist[index];
-
+                //delete this.comparelist[index];
+                Vue.delete(this.comparelist, index);
             },
             compareaparts: function(index) {
                 var hrefurl='{% url 'comparison' %}?apartlist='
@@ -260,16 +264,15 @@ h1 {
                 console.log(hrefurl);
                 window.location.href = hrefurl;
             },
+            loadmore: function(){
+                getapartlist(this.next);
+            }
 
         },
 
     })
 
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-      getapartlist();
-
-    })
+    //original functions 
 
     var apartmarkers = [];
     var apartlist;
@@ -280,18 +283,37 @@ h1 {
         zoom: 13,
 
     });
+    var infowindow1 = new google.maps.InfoWindow();
+    var bounds = new google.maps.LatLngBounds();
 
-    function getapartlist() {
+
+
+    getapartlist("{% url 'ajaxlist' %}");
+
+    // for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
+    //     addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
+    // }
+
+    //**********************************************************//
+
+
+    function getapartlist(ajaxurl) {
         $.ajax({
-            url: "{% url 'ajaxlist' %}",
+            //url: "{% url 'ajaxlist' %}",
+            url: ajaxurl,
 
             success: function(data){
                 console.log('success');
                 apartlist = data;
-                apartvue.apartlist = data.results;
+                apartvue.apartlist = apartvue.apartlist.concat(data.results);
+                apartvue.next = data.next;
                 apartvue.recommenedlist = data.results;
                 apartvue.visitedlist = data.results;
                 initialize();
+
+                for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
+                    addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
+                }
             },
 
             error: function(xhr){
@@ -303,10 +325,6 @@ h1 {
 
 
 
-function initialize() {
-    var bounds = new google.maps.LatLngBounds();
-    var infowindow1 = new google.maps.InfoWindow();
-
     function addMarker(lat, lng, title, label, content) {
         var position = new google.maps.LatLng(lat, lng);
         var marker = new google.maps.Marker({
@@ -315,21 +333,19 @@ function initialize() {
             title: title,
             label: label,
         });
-        var infowindow = new google.maps.InfoWindow({
-        	content: content,
-        	maxwidth: 20,
-        })
+
+
         marker.addListener('click', function(){
-        	//infowindow.open(map,marker)
-        	infowindow1.setContent(content);
-        	//infowindow1.setPosition(position);
-        	infowindow1.open(map,this);
+            infowindow1.setContent(content);
+            infowindow1.open(map,this);
         })
+
         bounds.extend(position);
         apartmarkers.push(marker);
-        //marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-    }
+            //marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+        }
 
+function initialize() {
     function addGateMarker(lat,lng,title) {
         var position = new google.maps.LatLng(lat, lng);
         var marker = new google.maps.Marker({
@@ -343,11 +359,7 @@ function initialize() {
             )
     }
 
-    var apartcontent;
 
-    for (var i=0; i< apartlist.results.length; i++){
-        addMarker(apartlist.results[i].location[1], apartlist.results[i].location[0], apartlist.results[i].title, (i+1).toString(), '')
-    }
         // {% for poi in apartlist %}
         //   apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description|safe }}'
 
@@ -360,7 +372,7 @@ function initialize() {
     {% for gate in gatelist %}
         addGateMarker({{ gate.location.y }}, {{ gate.location.x }}, "{{ gate.title }}");
     {% endfor %}
-    map.fitBounds(bounds);
+    //map.fitBounds(bounds);
 
     // function checking
 
