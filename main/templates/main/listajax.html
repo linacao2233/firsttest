@@ -145,8 +145,8 @@ h1 {
             <div class="container" style="position: relative;top: 0;">
                 <div class="row">
                     <span class="blocklabel">{{ index+1 }}.</span>
-                    <div class="col-4" style="height: 100px;">
-                        <img v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="200px" height="200px">
+                    <div class="col-4">
+                        <img v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%">
                     </div>
                     <div class="col-7">           
                         <a :href="apart.url">{{ apart.title }}</a>

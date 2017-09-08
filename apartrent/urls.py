@@ -29,7 +29,7 @@ urlpatterns = [
     # testing views
     #url(r'^list2/$', mainviews.list2, name='list2'),
 
-    url(r'^contact/$', mainviews.ContactPage, name='contact'),
+    url(r'^contact/(?P<slug>[-\w]+)/$', mainviews.ContactPage, name='contact'),
     url(r'^accounts/', include('allauth.urls')),
 
 
