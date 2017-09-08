@@ -9,6 +9,8 @@ from django.utils import timezone
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+from django.urls import reverse_lazy
+
 #from django_google_maps import fields as map_fields
 #from djgeojson.fields import PointField
 
@@ -138,6 +140,9 @@ class Apart(models.Model):
 	    if not i==1:
 	            initial_slug += "-%s" % (i, )
 	    return initial_slug
+
+	def get_absolute_url(self):
+		return reverse_lazy('detail',kwargs={'slug': self.slug})
 
 
 class Comment(models.Model):

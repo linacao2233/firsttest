@@ -45,7 +45,6 @@ class apartlist(generics.ListCreateAPIView):
 	#lookup_url_kwarg= "university"
 
 	def get_queryset(self):
-		print(self.request.GET)
 		if 'university' in self.request.GET:
 			print('university inside')
 			universityname = self.request.GET.get('university').split(',')[0]
@@ -69,6 +68,20 @@ class apartlist(generics.ListCreateAPIView):
 			apartlist = Apart.objects.all()
 
 		return apartlist
+
+class visitedApart(generics.ListAPIView):
+	serializer_class = ApartSerializer
+
+	def get_queryset(self):
+		try:
+			visited = self.request.session['visited']
+			apartlist = Apart.objects.filter(slug__in=visited)
+		except:
+			apartlist = []
+
+		return apartlist
+
+
 
 
 class ApartDetail(generics.RetrieveUpdateDestroyAPIView):
