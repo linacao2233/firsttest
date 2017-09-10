@@ -30,7 +30,7 @@
         <a class="nav-link" href="{% url 'admin:index' %}">{% trans 'Help' %}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'contact' %}">{% trans 'Contact Me' %}</a>
+        <a class="nav-link" href="{% url 'contact' slug='me' %}">{% trans 'Contact Me' %}</a>
       </li> 
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if request.user.is_authenticated %} {{request.user}}

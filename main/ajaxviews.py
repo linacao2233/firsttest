@@ -1,4 +1,4 @@
-from .models import Apart
+from .models import Apart, University
 from .serializers import ApartSerializer
 
 from rest_framework import status
@@ -40,8 +40,49 @@ from rest_framework import generics
 # 		return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class apartlist(generics.ListCreateAPIView):
-	queryset = Apart.objects.all()
 	serializer_class = ApartSerializer
+
+	#lookup_url_kwarg= "university"
+
+	def get_queryset(self):
+		if 'university' in self.request.GET:
+			print('university inside')
+			universityname = self.request.GET.get('university').split(',')[0]
+			university = University.objects.get(title=universityname)
+
+			gatelist = university.universitygate_set.all()
+
+			universitygate = gatelist[0]
+
+		#gender = request.GET.get('gender')
+
+			if 'Kiz' in self.request.GET:
+				genders = ['f','mf', 'n']
+			else:
+				genders = ['m', 'mf', 'n']
+
+			apartlist = Apart.objects.filter(location2__distance_lte=
+			(universitygate.location, 5000)).filter(
+			gender__in=genders)
+		else:
+			apartlist = Apart.objects.all()
+
+		return apartlist
+
+class visitedApart(generics.ListAPIView):
+	serializer_class = ApartSerializer
+
+	def get_queryset(self):
+		try:
+			visited = self.request.session['visited']
+			apartlist = Apart.objects.filter(slug__in=visited)
+		except:
+			apartlist = []
+
+		return apartlist
+
+
+
 
 class ApartDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Apart.objects.all()

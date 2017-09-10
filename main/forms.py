@@ -90,14 +90,15 @@ class ContactApartOwnerForm(forms.ModelForm):
 	class Meta:
 		model = ContactMe
 		fields = [
-		    "subject",
-		    "sender",
-		    "body",
-		]
+			"body",
+		    "sender",		
+		    ]
 		labels = {
-		"subject" : "Subject",
-		"sender": "Email",
-		"body": "Questions",
+		"sender": "Email or phone number",
+		"body": "question to owner",
+		}
+		widgets = {
+		"body": forms.Textarea(attrs={'rows': 3})
 		}
 
 	#def __init__(self):
@@ -110,22 +111,15 @@ class ContactApartOwnerForm(forms.ModelForm):
 		self.helper.form_class = 'container'
 
 		self.helper.layout = Layout(
-			HTML("""
-				<p> questions about this apartment? email the owner. </p>
-				"""),
-			Div(Div(Field("subject",css_class='form-control', placeholder="Subject"),
-				css_class="form-group col-sm-12",),
-			css_class = 'row',
-			),
-			Div(Div(Field("sender",css_class='form-control', placeholder="Your email or phone number for us to contact you."),
-				css_class='form-group col-sm-12'),
-			css_class = 'row'
-				),
 			Div(Div(Field('body', css_class='form-control', placeholder="Your questions?"),
 				css_class='form-group col-sm-12',
 				),
-			css_class='row',
-			),
+				Div(Field("sender",css_class='form-control', placeholder=
+					"eg: ***@gmail.com"),
+				css_class='form-group col-sm-12'),
+				css_class = 'row'
+				),
+
 			ButtonHolder(
 				Submit('send','Send', css_class='btn btn-secondary'),
 				),

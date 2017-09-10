@@ -59,16 +59,25 @@
 			<a href="{% url 'home' %}">Home</a> > <a href="{% url 'list' %} ">List</a> > <a href="#">{{apart.title}}</a>
 		</div>
 	</div>
-	<h1> {{apart.title}}</h1> 
-    {% with ''|center:apart.starlevel as range %}
-			{% for _ in range %}
-				<i class="fa fa-star" style="color: orange;"></i>
-			{% endfor %}
-	{% endwith %}
 
-	({{apart.comment_set|length}} comments) <br>
+	<h1> {{apart.title}}</h1> 
+
+	{% for _ in rating %}
+	<i class="fa fa-star" style="color: orange;"></i>
+	{% endfor %}
+	{% for _ in norating %}
+	<i class="fa fa-star-o" style="color: orange;"></i>
+	{% endfor %}
+
+	{{apart.starlevel}}/5.0 ({{apart.comment_set|length}} comments) <br>
 	<ul class="fa-ul">
-		<li><i class="fa-li fa fa-globe"></i> <a href="{{apart.officalweblink}}">{{apart.officalweblink|truncatechars:40}}</a></li>
+		<li><i class="fa-li fa fa-globe"></i> <a href="{{apart.officalweblink}}">{{apart.officalweblink|truncatechars:40}}</a> 
+		{% if apart.facebookaddress %}
+		<a href="{{apart.facebooklink}}"><i class="fa fa-facebook"></i></a>
+		{% else %}
+		<i class="fa fa-facebook"></i>
+		{% endif %}
+		</li>
 		<li><i class="fa-li fa fa-envelope-open"></i> <a href="mailto:{{apart.email}}">{{apart.email}} </a></li>
 		<li><i class="fa-li fa fa-phone"></i> <a href="tel:{{apart.mainphonenumber}}">{{apart.mainphonenumber}} </a></li>
 		<li><i class="fa-li fa fa-map-marker"></i>{{apart.address}} <a href="#map">Map</a></li>
@@ -123,20 +132,19 @@
 	<div class="col-md-4 bg-faded" id="contact">
 		{% if message %}
 		<p> {{ message }} </p>
-		<a class="btn btn-primary" href="{% url 'contact' %}"> send again </a>
-		{% else %}
+		{% endif %}
+		<h4>Contact Owner</h4>
+		<p><strong>To:</strong> {{apart.title}}</p>
+		<form method="POST" action='{% url "contact" slug=apart.slug %}'> {% csrf_token %}
 
-		<form method="POST" action=''> {% csrf_token %}
 		{% crispy contactform %}
 		</form>
-		{% endif %}
 		
 	</div>
 
 
 	<div class="col-md-8" id="description">
-		<p><span>Web Address: </span> <a href="{{ apart.officalweblink }}">{{ apart.officalweblink }}</a></p>
-		<p><span>Facebook Address: </span>  {{ apart.facebooklink}}</p>
+		<p><span>Price: </span> <i class="fa fa-turkish-lira"></i> {{apart.pricelow }} - {{ apart.pricehigh }}</p>
 		<p><span>Total number of rooms: </span>  {{ apart.numberofrooms}}</p>
 		<p><span>Uplimit of hosting: </span>  {{ apart.numberofstudents}} students</p>
 		<p><span>Type of rooms: </span>  {{ apart.NumberOfPeoplePerRoom}} people rooms</p>

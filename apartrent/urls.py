@@ -25,11 +25,11 @@ from main import ajaxviews as ajaxviews
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', mainviews.index, name='home'),
-    url(r'^list/$', mainviews.list, name='list'),
+    url(r'^list/$', mainviews.list2, name='list'),
     # testing views
-    url(r'^list2/$', mainviews.list2, name='list2'),
+    #url(r'^list2/$', mainviews.list2, name='list2'),
 
-    url(r'^contact/$', mainviews.ContactPage, name='contact'),
+    url(r'^contact/(?P<slug>[-\w]+)/$', mainviews.ContactPage, name='contact'),
     url(r'^accounts/', include('allauth.urls')),
 
 
@@ -40,6 +40,8 @@ urlpatterns = [
     url(r'^(?P<slug>[-\w]+)/$', mainviews.ApartDetail, name='detail'),
 
     url(r'^ajax/apartlist/$', ajaxviews.apartlist.as_view(), name='ajaxlist'),
+    url(r'^ajax/visitedapartlist/$', ajaxviews.visitedApart.as_view(), name='ajaxvisitedlist'),
+
     url(r'^ajax/apart/(?P<pk>[0-9]+)/$', ajaxviews.ApartDetail.as_view()),
 ]
 

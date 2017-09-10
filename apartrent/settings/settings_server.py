@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     
     'mapwidgets',
+    'rest_framework',
+
 
     # self-written apps
     'main',
@@ -236,4 +238,8 @@ MAP_WIDGETS = {
         ("markerFitZoom", 12),
     ),
     "GOOGLE_MAP_API_KEY": "AIzaSyCcdmdG9ePdOCuyTdjPH3U91mE7B6pUwdI",
+}
+
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 10
 }

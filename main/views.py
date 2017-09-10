@@ -87,18 +87,13 @@ def list2(request):
 		else:
 			genders = ['m', 'mf', 'n']
 
-		apartlist = Apart.objects.filter(location2__distance_lte=
-			(universitygate.location, 5000)).filter(
-			gender__in=genders)
 	else:
-		apartlist = Apart.objects.all()
 		gatelist = UniversityGate.objects.all()
 		location = gatelist[0].location
 
 	apikey = settings.GOOGLE_MAPS_API_KEY
 
 	context = {
-	'apartlist': apartlist,
 	'gatelist': gatelist,
 	'googleapikey': apikey,
 	'location': location,
@@ -124,6 +119,10 @@ def ApartDetail(request, slug):
 	template='main/apartdetail.html'
 
 	apart = Apart.objects.get(slug=slug)
+
+	rating =' ' *round(apart.starlevel)
+	norating = ' ' * (5-round(apart.starlevel))
+	
 
 	comments = Comment.objects.filter(apart=apart).order_by('modifiedTime')
 	gatelist = UniversityGate.objects.filter(location__distance_lte=(apart.location2,5000))
@@ -158,6 +157,8 @@ def ApartDetail(request, slug):
 
 	context = {
 	'apart': apart,
+	'rating': rating,
+	'norating': norating,
 	'comments': comments,
 	'form': form,
 	'contactform': contactform,
@@ -260,32 +261,54 @@ def ComparisonApart(request):
 	return render(request,template, context)
 
 
-def ContactPage(request):
+def ContactPage(request, slug):
 	template='main/contact.html'
 
 	title = 'contact me'
-	form = ContactForm(request.POST or None)
 	confirm_message = None
-
-	if form.is_valid():
-		subject = 'email from mysite:' + form.cleaned_data['subject']
-		message = 'from: ' + form.cleaned_data['sender'] +'\n'+form.cleaned_data['body']
-
-		confirm_message = 'thanks for the message'
-		sender = form.cleaned_data['sender']
-		recipients = ['lina.cao.ktu@gmail.com']
+	
+	if slug=='me':
+		form = ContactForm(request.POST or None)
 
 
-		send_mail(subject, message, sender, recipients)
-		send_mail('site message received', '',sender, ['lncao6@gmail.com'])
-		
-		contactme = ContactMe(
-			subject=subject,
-			sender=form.cleaned_data['sender'],
-			body=form.cleaned_data['body'],
-			receiver=recipients[0])
+		if form.is_valid():
+			subject = 'email from mysite:' + form.cleaned_data['subject']
+			message = 'from: ' + form.cleaned_data['sender'] +'\n'+form.cleaned_data['body']
 
-		contactme.save()
+			confirm_message = 'thanks for the message'
+			sender = form.cleaned_data['sender']
+			recipients = ['lina.cao.ktu@gmail.com']
+
+
+			send_mail(subject, message, sender, recipients)
+			send_mail('site message received', '',sender, ['lncao6@gmail.com'])
+			
+			contactme = ContactMe(
+				subject=subject,
+				sender=form.cleaned_data['sender'],
+				body=form.cleaned_data['body'],
+				receiver=recipients[0])
+
+			contactme.save()
+
+	else:
+		form = ContactApartOwnerForm(request.POST or None)
+		apart = Apart.objects.get(slug=slug)
+
+		if form.is_valid():
+			subject = 'email from yurtkayisla '
+			confirm_message = 'thanks for the message'
+			sender = form.cleaned_data['sender']
+			recipients = [apart.email]
+			send_mail(subject, message, sender, recipients)
+
+			contactme = ContactMe(
+				subject=subject,
+				sender=form.cleaned_data['sender'],
+				body=form.cleaned_data['body'],
+				receiver=recipients[0])
+
+			contactme.save()
 
 	context = {
 	'contactform': form,
