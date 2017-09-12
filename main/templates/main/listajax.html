@@ -67,8 +67,7 @@ h1 {
             {% endverbatim %}
             </p>
 
-            <button v-if="next" @click="loadmore">Load More</button>
-            <button v-else disabled> all loaded </button>
+            <button v-if="next" class="btn btn-secondary loadbutton" @click="loadmore">Load More</button>
 
 
         </div>
@@ -86,8 +85,7 @@ h1 {
                 @addtocompare="addtocompare(index)"
                 @removefromcompare="removefromcompare(index)"></apartlistvue>
 
-            <button v-if="next" @click="loadmore">Load More</button>
-            <button v-else disabled>all loaded</button>
+            <button v-if="next" class="btn btn-secondary loadbutton" @click="loadmore">Load More</button>
 
         </div>
 
@@ -148,6 +146,9 @@ h1 {
                     <span class="blocklabel">{{ index+1 }}.</span>
                     <div class="col-4">
                         <img v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%">
+                        {% endverbatim %}
+                        <img v-else src="{% static 'img/logo_thumb.jpg' %}" width="100%">
+                        {% verbatim %}
                     </div>
                     <div class="col-7">           
                         <a :href="apart.url">{{ apart.title }}</a>
@@ -165,6 +166,9 @@ h1 {
     <template id='apartsquaretemplate'>
         <div class="col-sm-6 col-md-4 col-lg-3 card" >
                 <img class="card-img-top" v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%" height="100%">
+               {% endverbatim %}
+                        <img v-else src="{% static 'img/logo.png' %}" width="100%">
+                        {% verbatim %}
             <div class="card-block">
                  <a :href="apart.url">{{ apart.title }}</a>
             </div>
@@ -178,6 +182,9 @@ h1 {
                 @mouseenter="mouseenter"
                 @mouseleave="mouseleave">
                 <img class="card-img-top" v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%" height="100%">
+                               {% endverbatim %}
+                        <img v-else src="{% static 'img/logo.png' %}" width="100%">
+                        {% verbatim %}
             <div class="card-block">
                  <a :href="apart.url">{{ apart.title }}</a>
             </div>
@@ -297,7 +304,11 @@ h1 {
                 console.log(hrefurl);
                 window.location.href = hrefurl;
             },
-            loadmore: function(){
+            loadmore: function(event){
+                $('.loadbutton').each(function(){
+                    $(this).attr('disabled',true);
+                    $(this).text('loading');
+                })
                 getapartlist(this.next);
             }
 
@@ -319,9 +330,11 @@ h1 {
     var infowindow1 = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
-
     getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1));
     getvisitedlist("{% url 'ajaxvisitedlist' %}")
+    $(function(){
+        initialize();
+    })
 
     // for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
     //     addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
@@ -341,7 +354,6 @@ h1 {
                 apartvue.next = data.next;
                 apartvue.recommenedlist = data.results;
                 apartvue.count = data.count;
-                initialize();
 
                 for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
                     addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
@@ -350,6 +362,14 @@ h1 {
                 var markerCluster = new MarkerClusterer(map, apartmarkers,
                         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
                         maxZoom: 12,});
+
+                map.fitBounds(bounds);
+ 
+                $('.loadbutton').each(function(){
+                    $(this).attr('disabled',false);
+                    $(this).text('load more');
+                })
+
             },
 
             error: function(xhr){
