@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load extra %}
 <style type="text/css">
 {% block style%}
 .listapart .fa {
@@ -43,7 +44,7 @@ h1 {
 {% block content %}
 
 {% include 'topnavbar.html' %}
-{% include 'searchnavbar.html' %}
+{% universitysearchform %}
 
 <div class="container" id="vueapartlist">
     <div class="row my-3" id="pagenav">
@@ -253,8 +254,8 @@ h1 {
             visitedlist: [],
             recommenedlist: [],
             comparelist: {},
-            next: String,
-            count: Number,
+            next: '',
+            count: 0,
         },
         computed: {
             sortedArray: function(){

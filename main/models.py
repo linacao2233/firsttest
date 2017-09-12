@@ -8,6 +8,7 @@ from django.contrib.gis.db.models import PointField
 from django.utils import timezone
 
 from phonenumber_field.modelfields import PhoneNumberField
+from django.core.files.storage import default_storage as storage
 
 from django.urls import reverse_lazy
 
@@ -26,6 +27,7 @@ class ApartFeatures(models.Model):
 
 	def __str__(self):
 		return self.name
+
 
 class RoomType(models.Model):
 	name = models.CharField(max_length=50)
@@ -54,19 +56,28 @@ class RoomType(models.Model):
 		return self.name
 
 
+def icon_image_url(instance,filename):
+	fileurl = instance.title
+	filenameextension = filename.split('.')[-1]
+
+	savefilename = 'iconpic.'+filenameextension
+
+	return 'apartimage/{0}/{1}'.format(fileurl,savefilename)
+
 class Apart(models.Model):
 	title = models.CharField(max_length=200)
 	slug = models.CharField(max_length=300, editable=False)
 
 	description = models.TextField(blank=True)
-	iconpic = models.ImageField(null=True, blank=True)
+
+	iconpic = models.ImageField(upload_to=icon_image_url, blank=True,null=True)
 
 	address=models.CharField(max_length=255, default='KTU')
 
 	#location = GeopositionField(max_length=100, null=True, blank=True)
 	location2 = PointField(null=True,blank=True)
-	mainphonenumber = PhoneNumberField(blank=True,null=True)
-	phonenumber = models.CharField(max_length=100, null=True, blank=True)
+	mainphonenumber = PhoneNumberField(blank=True,null=True,default='+90')
+	phonenumber = models.CharField(max_length=100,null=True, blank=True)
 	email = models.EmailField(max_length=254,null=True, blank=True)
 	facebooklink = models.URLField(null=True, blank=True)
 	officalweblink = models.URLField(null=True, blank=True)
@@ -103,8 +114,6 @@ class Apart(models.Model):
 
 	apartfeatures = models.ManyToManyField(ApartFeatures, 
 		blank=True)
-
-
 
 
 	allowcomments = models.BooleanField(default=True, 
@@ -169,14 +178,71 @@ class Comment(models.Model):
 
 		super(Comment,self).save(*args, **kwargs)
 
+
+def apart_image_path(instance,filename):
+	apartname = instance.apart.title
+	return 'apartimage/{0}/{1}'.format(
+		apartname, filename)
+
+
 class ApartImage(models.Model):
 	apart = models.ForeignKey(Apart)
-	image = models.ImageField(upload_to='apartimage/%Y/%m/%d')
-	thumbnail = models.ImageField(upload_to='apartimage/%Y/%m/%d', null=True,
+	image = models.ImageField(upload_to=apart_image_path)
+	thumbnail = models.ImageField(upload_to=apart_image_path, null=True,
 		blank=True, editable=False)
 
 	def __str__(self):
 		return self.apart.title
+
+	def save(self, *args, **kwargs):
+		if not self.thumbnail:
+			self.create_thumbnail()
+		super(ApartImage, self).save(*args, **kwargs)
+
+	def create_thumbnail(self):
+		"""
+		Create and save the thumbnail for images
+
+		"""
+		from PIL import Image
+		import os
+		from io import BytesIO
+		from django.core.files.base import ContentFile
+
+
+		DJANGO_TYPE = self.image.file.content_type
+
+		if DJANGO_TYPE == 'image/jpeg':
+		    PIL_TYPE = 'jpeg'
+		    FILE_EXTENSION = 'jpg'
+		elif DJANGO_TYPE == 'image/png':
+		    PIL_TYPE = 'png'
+		FILE_EXTENSION = 'png'
+
+		image = Image.open(self.image)
+
+
+		image.thumbnail((128,128), Image.ANTIALIAS)
+
+		thumbname, thumb_extension = os.path.splitext(self.image.name)
+		thumb_filename = thumbname+'_thumb' + thumb_extension
+
+		temp_thumb = BytesIO()
+		image.save(temp_thumb, PIL_TYPE)
+		temp_thumb.seek(0)
+
+		self.thumbnail.save(thumb_filename, ContentFile(temp_thumb.read()), save=True)
+
+		temp_thumb.close()
+
+
+
+
+
+
+
+
+
 
 
 class University(models.Model):
