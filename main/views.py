@@ -224,11 +224,12 @@ def ComparisonApart(request):
 	template = 'main/comparison.html'
 
 	if request.GET:
-		apartlist = request.GET.get('apartlist').split(',')
+		apartlist = request.GET.get('apartlist').split(',')[0:-1]
+		print(apartlist)
 	else:
 		apartlist = ''
 
-	apartToCompare = Apart.objects.filter(title__in=apartlist)
+	apartToCompare = Apart.objects.filter(pk__in=apartlist)
 	if apartToCompare:
 		gatelist = UniversityGate.objects.filter(location__distance_lte=(
 			apartToCompare[0].location2,10000))

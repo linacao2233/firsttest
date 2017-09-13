@@ -1,8 +1,13 @@
 {% load i18n %}
 {% load socialaccount %}
 {% providers_media_js %}
+{% load static %}
 
 <nav class="navbar navbar-toggleable-sm navbar-light bg-faded" id="headerNav">
+  <a class="navbar-brand" href="#">
+    <img src="{% static 'img/logo_thumb.jpg'%}" height="45" alt="">
+  </a>
+    
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarc" aria-controls="navbarc" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

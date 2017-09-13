@@ -60,14 +60,16 @@ h1 {
 
         <div class="col-12 my-3">
 
-            <p v-if="count"> 
             {% verbatim %}
-            {{ count }}  aparts are found, {{ apartlist.length }} aparts are loaded.
+            <div v-if=loading>{{ loading }}</div>
+            <div v-else>  {{ count }}  aparts are found, {{ apartlist.length }} aparts are loaded.
             Click <i class='fa fa-heart-o'></i> to add to comparison. 
-            {% endverbatim %}
-            </p>
+            {% endverbatim %}</div>
 
-            <button v-if="next" class="btn btn-secondary loadbutton" @click="loadmore">Load More</button>
+            <div v-if="next">
+                <button class="btn btn-secondary loadbutton" @click="loadmore">Load More</button>
+            </div>
+
 
 
         </div>
@@ -110,22 +112,21 @@ h1 {
 
     </section>
 
-    <h2>Recommended</h2>
+    <section v-if="visitedlist.length" class="row">
+        <h2 class="col-12">Recent Visited</h2>
 
-    <section id="recommendation" class="row">
-
-         <apartsquarevue v-for="apart in recommenedlist" :apart=apart 
-         > </apartsquarevue>
-
-        
-    </section>
-
-    <h2>Recent Visited</h2>
-
-    <section id="visited" class="row">
         <apartsquarevue v-for="apart in visitedlist" :apart=apart> </apartsquarevue>
     </section>
     
+    <section v-if="recommenedlist.length" class="row">
+        <h2 class="col-12">Recommended</h2>
+
+        <apartsquarevue v-for="apart in recommenedlist" :apart=apart 
+             > </apartsquarevue>
+            
+    </section>
+
+
 </div>
 
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
@@ -261,8 +262,9 @@ h1 {
             visitedlist: [],
             recommenedlist: [],
             comparelist: {},
-            next: '',
+            next: '/',
             count: 0,
+            loading: 'loading',
         },
         computed: {
             sortedArray: function(){
@@ -299,7 +301,7 @@ h1 {
                 console.log(this.comparelist);
 
                 for (var index in this.comparelist) {
-                    hrefurl += this.comparelist[index]['title'] +',';
+                    hrefurl += this.comparelist[index]['id'] +',';
                 } 
                 console.log(hrefurl);
                 window.location.href = hrefurl;
@@ -344,16 +346,17 @@ h1 {
 
 
     function getapartlist(ajaxurl) {
+        apartvue.loading = 'loading';
+
         $.ajax({
             //url: "{% url 'ajaxlist' %}",
             url: ajaxurl,
-
             success: function(data){
                 console.log('success');
                 apartvue.apartlist = apartvue.apartlist.concat(data.results);
                 apartvue.next = data.next;
-                apartvue.recommenedlist = data.results;
                 apartvue.count = data.count;
+                apartvue.loading = '';
 
                 for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
                     addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
@@ -423,7 +426,7 @@ function initialize() {
             //labelContent: '<i class="fa fa-camera-retro"></i>',
         });
         //marker.setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png')
-        marker.setIcon('http://labs.google.com/ridefinder/images/mm_20_green.png'
+        marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7C0275d8'
             )
     }
 

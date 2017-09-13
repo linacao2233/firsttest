@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 
     # crispy forms
     'crispy_forms',
@@ -114,7 +115,14 @@ SOCIALACCOUNT_PROVIDERS = \
         'EXCHANGE_TOKEN': True,
         #'LOCALE_FUNC': lambda request: 'kr_KR',
         'VERIFIED_EMAIL': False,
-        'VERSION': 'v2.4'}}
+        'VERSION': 'v2.4'},
+     'google': {
+        'SCOPE':['profile','email'],
+        'AUTH_PARAMS': {
+        'access_type': 'online'
+        },
+        },
+        }
 
 #facebook
 
