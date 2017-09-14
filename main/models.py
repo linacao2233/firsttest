@@ -240,11 +240,6 @@ class ApartImage(models.Model):
 
 
 
-
-
-
-
-
 class University(models.Model):
 	title = models.CharField(max_length=200)
 	city = models.CharField(max_length = 200)
@@ -269,6 +264,14 @@ class ContactMe(models.Model):
 	receiver = models.CharField(max_length=300)
 	body = models.TextField()
 	date = models.DateTimeField(auto_now_add=True)
+
+
+class FrequentlyAskedQuestions(models.Model):
+	question = models.CharField(max_length=200)
+	answer = models.TextField()
+
+	def __str__(self):
+		return self.question
 
 
 

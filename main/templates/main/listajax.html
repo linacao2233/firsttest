@@ -3,11 +3,7 @@
 {% load extra %}
 <style type="text/css">
 {% block style%}
-.listapart .fa {
-    position: absolute;
-    bottom: 0;
-    right: 20px;
-}
+
 .listapart{
     overflow: hidden;
     min-height: 100px;
@@ -151,13 +147,19 @@ h1 {
                         <img v-else src="{% static 'img/logo_thumb.jpg' %}" width="100%">
                         {% verbatim %}
                     </div>
-                    <div class="col-7">           
-                        <a :href="apart.url">{{ apart.title }}</a>
+                    <div class="col-6">           
+                        <a :href="apart.url">{{ apart.title }}</a> <br>
+                        <i v-for="n in Math.round(apart.rating)" class="fa fa-star" style="color: orange;"></i> 
+                        <i v-for="n in (5-Math.round(apart.rating))" class="fa fa-star-o" style="color: orange;"></i> {{apart.rating}}/5.0 ({{apart.numberofcomments}} comments)
+                        </div>
+
+                        <div class="col-1">
+
                         <i v-if="addedtocompare" class="fa fa-heart" title="added to comparison, click to remove"
                         @click="removefromcompare"></i>
                         <i v-else class="fa fa-heart-o" title="click to add to comparison" 
                         @click="addtocompare"></i>
-                    </div>
+                        </div>
                
                 </div>
             </div>   

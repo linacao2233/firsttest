@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', mainviews.index, name='home'),
     url(r'^list/$', mainviews.list2, name='list'),
+    url(r'^help/$', mainviews.helppage, name='helppage'),
+
     # testing views
     #url(r'^list2/$', mainviews.list2, name='list2'),
 

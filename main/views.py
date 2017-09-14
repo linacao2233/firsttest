@@ -333,5 +333,17 @@ def roomtypedetail(request, pk):
 
 
 
+def helppage(request):
+	template = 'main/helppage.html'
+	questions = FrequentlyAskedQuestions.objects.all()
+
+	context = {
+	'questions': questions,
+	}
+
+	return render(request, template, context)
+
+
+
 
 

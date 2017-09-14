@@ -3,7 +3,7 @@
 <style type="text/css">
 {% block style%}
 .jumbotron {
-    height: 100vh;
+    height: 80vh;
 }
 
 
@@ -12,10 +12,10 @@
 
 
 {% block content %}
+{% include 'topnavbar.html' %}
 
 <div class="jumbotron text-center bg-info">
 
-    {% include 'topnavbar.html' %}
 
     <h1 style="line-height: 5rem;">Find the apartment perfect for you!</h1>
 
@@ -36,31 +36,45 @@
 </div>
 
 <section id="features" class="container">
-<div class="row">
-<div class="col-md-6">
-<img src="" alt="image example" width="" ="100%">
-    
-</div>
-<div class="col-md-6">
-<h2>Check out real comments</h2>
-<p> Check the comments from real students. </p>
-<button>Find out more!</button>
-    
-</div>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="" alt="image example" width="">
+        </div>
+        <div class="col-md-6">
+            <h2>Check out real comments</h2>
+            <p> Check the comments from real students. </p>
+            <button>Find out more!</button>    
+        </div>
 
-<div class="col-md-6">
-<img src="" alt="image example" width="" ="100%">
-    
-</div>
-<div class="col-md-6">
-<h2>Compare different Apartments</h2>
-<p> Select the apartments you are interested in to compare. </p>
-<a href="#" class="btn btn-secondary"> Start </a>
-<!-- <button onclick="#">Find out more!</button>
- -->    
-</div>  
-</div>
+         <div class="col-md-6">
+            <img src="" alt="image example" width="" ="100%">
+        
+        </div>
+         <div class="col-md-6">
+             <h2>Compare different Apartments</h2>
+            <p> Select the apartments you are interested in to compare. </p>
+             <a href="#" class="btn btn-secondary"> Start </a>
+    <!-- <button onclick="#">Find out more!</button>
+     -->    
+         </div>  
+    </div>
+</section>
 
+<section id="aboutus" class="bg-faded">
+    <div class="container">
+    <h2 class="text-center">About Us</h2>
+    <p>Our goal is to reduce our students' anxiety in finding a suitable dorm by helping in evaluating the dorms first without leaving their homes as well as gathering the spoken comments about different dorms with the help of already accomodated students in those dorms. </p>
+    <p>To add a comment about a place that you used to live/ currently living, you don't need to login. While you can login through registration or login via google or facebook login,  it's also possible to leave your comments through your facebook account. Anonymous commenting is also available if you'd like to share your experience without dısclosing your identity, however these comments can not be used in popularity through comments list.</p>
+
+    <p>You will have the option of comparing dorms without visiting in person.</p> 
+
+    <p>After login our website, you can configure your own important properties from the 'Dorm's properties' section. This way, your selection of important properties will be shown in the dorm page as well as during comparison of different dorms.</p>
+        
+    </div>
+
+
+
+    
 </section>
 
 {% include 'footer.html' %}

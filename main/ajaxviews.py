@@ -63,7 +63,7 @@ class apartlist(generics.ListCreateAPIView):
 
 			apartlist = Apart.objects.filter(location2__distance_lte=
 			(universitygate.location, 5000)).filter(
-			gender__in=genders)
+			gender__in=genders).order_by('starlevel')
 		else:
 			apartlist = Apart.objects.all()
 

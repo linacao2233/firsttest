@@ -28,13 +28,13 @@
         <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'admin:index' %}">{% trans 'About Us' %}</a>
+        <a class="nav-link" href="{% url 'home' %}#aboutus">{% trans 'About Us' %}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'admin:index' %}">{% trans 'Legal' %}</a>
       </li>
             <li class="nav-item">
-        <a class="nav-link" href="{% url 'admin:index' %}">{% trans 'Help' %}</a>
+        <a class="nav-link" href="{% url 'helppage' %}">{% trans 'Help' %}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'contact' slug='me' %}">{% trans 'Contact Me' %}</a>
