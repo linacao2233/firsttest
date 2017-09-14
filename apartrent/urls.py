@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^ajax/visitedapartlist/$', ajaxviews.visitedApart.as_view(), name='ajaxvisitedlist'),
 
     url(r'^ajax/apart/(?P<pk>[0-9]+)/$', ajaxviews.ApartDetail.as_view()),
+    url(r'^roomtypes/(?P<pk>[0-9]+)/$', mainviews.roomtypedetail, name="roomtypedetail"),
 ]
 
 if settings.DEBUG:

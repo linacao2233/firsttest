@@ -358,8 +358,12 @@ h1 {
                 apartvue.count = data.count;
                 apartvue.loading = '';
 
+                var markercontent = '';
+
                 for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
-                    addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
+                    markercontent = '<a href="' + apartvue.apartlist[i].url + '">' + 
+                     apartvue.apartlist[i].title + '</a>';
+                    addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), markercontent);
                 }
 
                 var markerCluster = new MarkerClusterer(map, apartmarkers,
@@ -405,7 +409,6 @@ h1 {
             label: label,
         });
 
-
         marker.addListener('click', function(){
             infowindow1.setContent(content);
             infowindow1.open(map,this);
@@ -426,7 +429,7 @@ function initialize() {
             //labelContent: '<i class="fa fa-camera-retro"></i>',
         });
         //marker.setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png')
-        marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7C0275d8'
+        marker.setIcon('https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=civic-building|16a765'
             )
     }
 

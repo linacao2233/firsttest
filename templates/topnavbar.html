@@ -40,23 +40,23 @@
         <a class="nav-link" href="{% url 'contact' slug='me' %}">{% trans 'Contact Me' %}</a>
       </li> 
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if request.user.is_authenticated %} {{request.user}}
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if request.user.is_authenticated %} {% if request.user.first_name %}{{request.user.first_name}} {% else %} {{request.user.username}} {% endif %}
        {% else %} Accounts 
        {% endif %}</a>
         <div class="dropdown-menu" aria-labelledby="dropdown02">
         {% if not request.user.is_authenticated %}
           <a class="dropdown-item" href="{% url 'account_signup' %}">Sign Up</a>
           <a class="dropdown-item" href="{% url 'account_login'%}">Login</a>
-          <a class="btn btn-primary" href="{% provider_login_url 'facebook' %}"> login with facebook</a>
+          <hr>
+          <a class="dropdown-item" href="{% provider_login_url 'facebook' %}"> <i class="fa fa-facebook"></i> facebook</a>
+          <a class="dropdown-item" href="{% provider_login_url 'google' %}"> <i class="fa fa-google-plus"></i> Google</a>
+
         {% else %}
           <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
 
         {% endif %}
         </div>
       </li> 
-
-    <li class="nav-item"> <a class="nav-link" href="{% url 'home' %}"><i class="fa fa-twitter"></i></a> </li>
-    <li class="nav-item"> <a class="nav-link" href="{% url 'home' %}"><i class="fa fa-facebook"></i></a> </li>
 
     </ul>
 

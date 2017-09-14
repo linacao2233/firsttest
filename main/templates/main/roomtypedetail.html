@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static extra %}
+
+{% block content %}
+{% include 'topnavbar.html' %}
+{% universitysearchform %}
+<div class="container">
+	<h1>{{ roomtype.name }}</h1>
+	<hr>
+	<p>{{ roomtype.description }}</p>
+
+	<dl>
+		<dt>Restroom</dt>
+		<dd>{{roomtype.restroomnumber}} shared by 
+		{{roomtype.restroomtype}} rooms. </dd>
+
+		<dt>Shower</dt>
+		<dd>{{roomtype.showernumber}} shared by
+		{{roomtype.showertype}} rooms. </dd>
+
+		<dt>Kitchen</dt> <dd>shared by
+		{{roomtype.kitchen}} rooms. </dd>
+
+		<dt>Livingroom</dt> <dd> shared by
+		{{roomtype.livingroom}} rooms. </dd>
+	</dl>
+
+	
+</div>
+
+
+{% endblock %}

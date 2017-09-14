@@ -64,13 +64,8 @@
 	}
 
 	.smallimagebar {
-		display: table;
-		width: 100%;
-		text-align: center;
-	}
-
-	.smallimagebar > img {
-		display: table-cell;
+		white-space: nowrap;
+		overflow-x: auto;
 	}
 
 
@@ -152,10 +147,12 @@
 		</div>
 
 		<div class="mt-2 bg-faded smallimagebar">
-		<img src="{% if apart.iconpic %}{{apart.iconpic.url}}{% endif %}" alt="{{ apart.title }} icon image" class="smallimagicon" width="100px">
+		<div style="display: table-row;">
+		<img src="{% if apart.iconpic %}{{apart.iconpic.url}}{% endif %}" alt="{{ apart.title }} icon image" class="img-thumbnail" width="100px">
 		{% for apartimage in apart.apartimage_set.all %}
-			<img src="{% if apartimage.thumbnail %}{{apartimage.thumbnail.url}} {% else %} {% static 'img/logo_thumb.jpg' %} {% endif %}" class="smallimagicon" width="100px">
+			<img src="{% if apartimage.thumbnail %}{{apartimage.thumbnail.url}} {% else %} {% static 'img/logo_thumb.jpg' %} {% endif %}" class="img-thumbnail" width="100px">
 		{% endfor %}
+		</div>
 		</div>
 	</div>
 	<div class="col-md-4 bg-faded sticky-top" id="contact">
@@ -182,7 +179,10 @@
 				<dt class="col-sm-4 p-1 my-1"> Uplimit of hosting: </dt>
 				<dd class="col-sm-8 p-1 my-1"> {{ apart.numberofstudents}}</dd>
 				<dt class="col-sm-4 p-1 my-1"> Type of rooms</dt>
-				<dd class="col-sm-8 p-1 my-1"> {{apart.NumberOfPeoplePerRoom}}</dd>
+				{% for roomtype in apart.roomtype.all %}
+				<dd class="col-sm-3 p-1 my-1" title="{{roomtype.description}}
+				"> {{roomtype}} <a href="{% url 'roomtypedetail' roomtype.pk %}">>></a></dd>
+				{% endfor %}
 			</dl>
 			
 		</div>
@@ -323,7 +323,7 @@
     	var marker = new google.maps.Marker({
     		position: location,
     		map: map,
-    		icon: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
+    		icon: 'https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=civic-building|16a765',
     		title: title,
     		label: label,
     	})

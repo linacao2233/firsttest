@@ -320,6 +320,18 @@ def ContactPage(request, slug):
 	return render(request, template, context)	
 
 
+def roomtypedetail(request, pk):
+	template = 'main/roomtypedetail.html'
+	roomtype = RoomType.objects.get(pk=pk)
+	print(roomtype)
+
+	context = {
+	'roomtype': roomtype,
+	}
+
+	return render(request, template, context)
+
+
 
 
 
