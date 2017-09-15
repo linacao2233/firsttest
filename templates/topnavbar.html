@@ -52,6 +52,7 @@
           <a class="dropdown-item" href="{% provider_login_url 'google' %}"> <i class="fa fa-google-plus"></i> Google</a>
 
         {% else %}
+          <a  class="dropdown-item" href="{% url 'userprofile' %}">Profile</a>
           <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
 
         {% endif %}

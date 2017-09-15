@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', mainviews.index, name='home'),
     url(r'^list/$', mainviews.list2, name='list'),
+    url(r'^filterapart/$', mainviews.list, name='filterapart'),
     url(r'^help/$', mainviews.helppage, name='helppage'),
 
     # testing views
@@ -33,6 +34,7 @@ urlpatterns = [
 
     url(r'^contact/(?P<slug>[-\w]+)/$', mainviews.ContactPage, name='contact'),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^profile/$', mainviews.userProfile, name='userprofile'),
 
 
     url(r'^newpart/$', mainviews.CreateApart, name='create'),
@@ -46,6 +48,12 @@ urlpatterns = [
 
     url(r'^ajax/apart/(?P<pk>[0-9]+)/$', ajaxviews.ApartDetail.as_view()),
     url(r'^roomtypes/(?P<pk>[0-9]+)/$', mainviews.roomtypedetail, name="roomtypedetail"),
+
+    # ajax thumbs up down share views
+    url(r'^ajax/thumbsup/(?P<pk>[0-9]+)/$', ajaxviews.thumbsup, name="thumbsup"),
+    url(r'^ajax/thumbsdown/(?P<pk>[0-9]+)/$', ajaxviews.thumbsdown, name="thumbsdown"),
+    url(r'^ajax/shareaparts/(?P<pk>[0-9]+)/$', ajaxviews.shareaparts, name="shareaparts"),
+
 ]
 
 if settings.DEBUG:

@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics
+from django.http import JsonResponse
+
 
 
 # @csrf_exempt
@@ -43,10 +45,12 @@ class apartlist(generics.ListCreateAPIView):
 	serializer_class = ApartSerializer
 
 	#lookup_url_kwarg= "university"
+	
+	#ordering = ('-rating',)
 
 	def get_queryset(self):
 		if 'university' in self.request.GET:
-			print('university inside')
+			#print('university inside')
 			universityname = self.request.GET.get('university').split(',')[0]
 			university = University.objects.get(title=universityname)
 
@@ -63,7 +67,7 @@ class apartlist(generics.ListCreateAPIView):
 
 			apartlist = Apart.objects.filter(location2__distance_lte=
 			(universitygate.location, 5000)).filter(
-			gender__in=genders).order_by('starlevel')
+			gender__in=genders).order_by('-starlevel')
 		else:
 			apartlist = Apart.objects.all()
 
@@ -75,6 +79,7 @@ class visitedApart(generics.ListAPIView):
 	def get_queryset(self):
 		try:
 			visited = self.request.session['visited']
+			print(visited)
 			apartlist = Apart.objects.filter(slug__in=visited)
 		except:
 			apartlist = []
@@ -82,8 +87,85 @@ class visitedApart(generics.ListAPIView):
 		return apartlist
 
 
-
-
 class ApartDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Apart.objects.all()
 	serializer_class = ApartSerializer
+
+
+def thumbsup(request, pk):
+	apart = Apart.objects.get(pk=pk)
+
+	if request.user.is_authenticated:
+		if request.user not in apart.likedby.all():
+			apart.likedby.add(request.user)
+			apart.thumbsup += 1
+			apart.save()
+			return JsonResponse({'content':'you liked this', 'data': apart.thumbsup})
+
+		else:
+			return JsonResponse({'content':'this is already on your like list', 
+				'data': apart.thumbsup})
+
+	else:
+		if request.session.get('thumbsup'+pk, False):
+			return JsonResponse({'content':'you have alreadly liked this', 
+				'data': apart.thumbsup})
+		else:
+			apart.thumbsup += 1
+			apart.save()
+			request.session['thumbsup'+pk] = True
+			return JsonResponse({'content':'thanks for liking this', 
+				'data': apart.thumbsup})
+
+
+def thumbsdown(request, pk):
+	apart = Apart.objects.get(pk=pk)
+
+	if request.user.is_authenticated:
+		if request.user not in apart.dislikedby.all():
+			apart.dislikedby.add(request.user)
+			apart.thumbsdown += 1
+			apart.save()
+			return JsonResponse({'content':'you disliked this', 'data': apart.thumbsdown})
+
+		else:
+			return JsonResponse({'content':'this is already on your dislike list', 
+				'data': apart.thumbsdown})
+
+	else:
+		if request.session.get('thumbsdown'+pk, False):
+			return JsonResponse({'content':'you have alreadly disliked this', 
+				'data': apart.thumbsdown})
+		else:
+			apart.thumbsdown += 1
+			apart.save()
+			request.session['thumbsdown'+pk] = True
+			return JsonResponse({'content':'you disliked this', 
+				'data': apart.thumbsdown})
+
+def shareaparts(request, pk):
+	apart = Apart.objects.get(pk=pk)
+
+	if request.user.is_authenticated:
+		apart.sharedby.add(request.user)
+
+	apart.sharenumbers += 1
+	apart.save()
+	return JsonResponse({'content':'Thanks for sharing this', 'data': apart.sharenumbers})
+
+	# else:
+	# 	if 'thumbsup' in request.session:
+	# 		return JsonResponse({'content':'you have already clicked this', 
+	# 			'data': apart.thumbsup})
+	# 	else:
+	# 		apart.thumbsup += 1
+	# 		request.session['thumbsup'] = True
+
+	# 		return JsonResponse({'content':'you liked this', 
+	# 				'data': apart.thumbsup})
+
+
+
+
+
+

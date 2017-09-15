@@ -85,7 +85,26 @@ class Apart(models.Model):
 	pricelow = models.FloatField(blank=True,null=True)
 	pricehigh = models.FloatField(blank=True,null=True)
 
+	# favorite session like or not
+	#--------------------------------
+
 	starlevel = models.FloatField(default=0)
+	thumbsup = models.PositiveIntegerField(default=0)
+	thumbsdown = models.PositiveIntegerField(default=0)
+	sharenumbers = models.PositiveIntegerField(default=0)
+	#---------------------------------
+
+	likedby = models.ManyToManyField(User, related_name='likedaparts',
+		blank=True, editable=False)
+	dislikedby = models.ManyToManyField(User, 
+		related_name='dislikedaparts',blank=True, editable=False)
+	visitedby = models.ManyToManyField(User, 
+		related_name='visitedaparts',blank=True, editable=False)
+	sharedby = models.ManyToManyField(User, 
+		related_name='sharedaparts', blank=True, editable=False)
+	ownedby = models.ForeignKey(User, related_name='apart', blank=True, null=True)
+
+	#--------------------------------------
 
 	#features 
 	# male or female

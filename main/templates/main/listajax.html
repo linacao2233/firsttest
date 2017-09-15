@@ -43,12 +43,6 @@ h1 {
 {% universitysearchform %}
 
 <div class="container" id="vueapartlist">
-    <div class="row my-3" id="pagenav">
-        <div class="col-12 bg-faded text-small">
-            <a href="{% url 'home' %}">Home</a> > <a href="{% url 'list' %} ">{{gatelist.0.university.city}}</a> > <a href="#">{{gatelist.0.university.title}}</a>
-        </div>
-    </div>
-
 
     <section class="row">
 
@@ -58,23 +52,29 @@ h1 {
 
             {% verbatim %}
             <div v-if=loading>{{ loading }}</div>
-            <div v-else>  {{ count }}  aparts are found, {{ apartlist.length }} aparts are loaded.
+            <div v-else>  {{ count }}  aparts are found, {{ apartlist.length }} aparts are loaded. 
+            <span v-if="next">
+                <button class="btn btn-secondary loadbutton" @click="loadmore">Load More</button>
+            </span>
             Click <i class='fa fa-heart-o'></i> to add to comparison. 
             {% endverbatim %}</div>
 
-            <div v-if="next">
-                <button class="btn btn-secondary loadbutton" @click="loadmore">Load More</button>
-            </div>
-
+            
 
 
         </div>
 
+        <div class="col-12">
+            <div class="pull-right">
+            {% include 'searchapart.html' %}
+            </div>
+        </div>
 
-        <div id="map-canvas" class="col-md-6" style="height: 80vh;"></div>
+
+        <div id="map-canvas" class="col-md-6" style="height: 70vh;"></div>
 
 
-        <div class="col-md-6" style="overflow: auto; height: 80vh;">
+        <div class="col-md-6" style="overflow: auto; height: 70vh;">
 
 
             <apartlistvue v-for="(apart, index) in apartlist" :index=index :apart=apart
@@ -335,7 +335,7 @@ h1 {
     var bounds = new google.maps.LatLngBounds();
 
     getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1));
-    getvisitedlist("{% url 'ajaxvisitedlist' %}")
+    getvisitedlist();
     $(function(){
         initialize();
     })
@@ -388,9 +388,9 @@ h1 {
 
     }
 
-    function getvisitedlist(ajaxurl) {
+    function getvisitedlist() {
         $.ajax({
-            url: ajaxurl,
+            url: "{% url 'ajaxvisitedlist' %}",
             success: function(data){
                 apartvue.visitedlist = data.results;
             },

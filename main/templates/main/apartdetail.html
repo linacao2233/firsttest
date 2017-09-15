@@ -78,35 +78,36 @@
 {% universitysearchform %}
 <div class='container'> 
 
-	<div class="row my-3" id="pagenav">
-		<div class="col-12 bg-faded text-small">
-			<a href="{% url 'home' %}">Home</a> > <a href="{% url 'list' %} ">List</a> > <a href="#">{{apart.title}}</a>
-		</div>
-	</div>
-
 	<h1> {{apart.title}}</h1> 
 
-	{% for _ in rating %}
-	<i class="fa fa-star" style="color: orange;"></i>
-	{% endfor %}
-	{% for _ in norating %}
-	<i class="fa fa-star-o" style="color: orange;"></i>
-	{% endfor %}
+	<div class="row" id="configurebuttons">
+		<div class="col-12">
+		<button class="btn btn-secondary" title="I like it" onclick="thumbsup()"><i class="fa fa-thumbs-up"></i> <span id="thumbsupnumber">{{ apart.thumbsup }}</span></button>
+		<button class="btn btn-secondary" title="I don't like it" onclick="thumbsdown({{apart.pk}})"><i class="fa fa-thumbs-down"></i> <span id="thumbsdownnumber"> {{apart.thumbsdown}}</span></button>
+		<button class="btn btn-secondary" title="Share" onclick="shareapart({{apart.pk}})"><i class="fa fa-share"></i> Share <span id="sharenumber">{{apart.sharenumbers}}</span></button>
+	</div></div>
 
-	{{apart.starlevel}}/5.0 ({{apart.comment_set|length}} comments) <br>
-	<ul class="fa-ul">
-		<li><i class="fa-li fa fa-globe"></i> <a href="{{apart.officalweblink}}">{{apart.officalweblink|truncatechars:40}}</a> 
-		{% if apart.facebookaddress %}
-		<a href="{{apart.facebooklink}}"><i class="fa fa-facebook"></i></a>
-		{% else %}
-		<i class="fa fa-facebook"></i>
-		{% endif %}
-		</li>
-		<li><i class="fa-li fa fa-envelope-open"></i> <a href="mailto:{{apart.email}}">{{apart.email}} </a></li>
-		<li><i class="fa-li fa fa-phone"></i> <a href="tel:{{apart.mainphonenumber}}">{{apart.mainphonenumber}} </a></li>
-		<li><i class="fa-li fa fa-map-marker"></i>{{apart.address}} <a href="#map">Map</a></li>
-		
-	</ul>
+		{% for _ in rating %}
+		<i class="fa fa-star" style="color: orange;"></i>
+		{% endfor %}
+		{% for _ in norating %}
+		<i class="fa fa-star-o" style="color: orange;"></i>
+		{% endfor %}
+
+		{{apart.starlevel}}/5.0 ({{apart.comment_set|length}} comments) <br>
+		<ul class="fa-ul">
+			<li><i class="fa-li fa fa-globe"></i> <a href="{{apart.officalweblink}}">{{apart.officalweblink|truncatechars:40}}</a> 
+			{% if apart.facebookaddress %}
+			<a href="{{apart.facebooklink}}"><i class="fa fa-facebook"></i></a>
+			{% else %}
+			<i class="fa fa-facebook"></i>
+			{% endif %}
+			</li>
+			<li><i class="fa-li fa fa-envelope-open"></i> <a href="mailto:{{apart.email}}">{{apart.email}} </a></li>
+			<li><i class="fa-li fa fa-phone"></i> <a href="tel:{{apart.mainphonenumber}}">{{apart.mainphonenumber}} </a></li>
+			<li><i class="fa-li fa fa-map-marker"></i>{{apart.address}} <a href="#map">Map</a></li>
+			
+		</ul>
 
 <div class="row">
 	<div id="imagesession" class="col-md-8">
@@ -306,6 +307,59 @@
 
 <script type="text/javascript">
 	{% block script %}
+// social buttons configuration
+	function thumbsup(){
+		$.ajax({
+			url: "{% url 'thumbsup' apart.pk %}",
+			method: "POST",
+			success: function(data) {
+				console.log(data);
+				$('#thumbsupnumber').text(data.data);
+			},
+			error: function(xhl) {
+				console.log(xhl);
+			},
+
+		})
+	}
+
+	function thumbsdown(){
+		$.ajax({
+			url: "{% url 'thumbsdown' apart.pk %}",
+			method: "POST",
+			success: function(data) {
+				console.log(data);
+				$('#thumbsdownnumber').text(data.data);
+			},
+			error: function(xhl) {
+				console.log(xhl);
+			},
+
+		})
+	}
+
+	function shareapart(){
+		$.ajax({
+			url: "{% url 'shareaparts' apart.pk %}",
+			method: "POST",
+			success: function(data) {
+				console.log(data);
+				$('#sharenumber').text(data.data);
+			},
+			error: function(xhl) {
+				console.log(xhl);
+			},
+
+		})
+		currenturl = window.location.href;
+		newurl = "https://www.facebook.com/sharer.php?u="+currenturl;
+		window.location.assign(newurl);
+
+	}
+
+
+
+
 
 	var position = new google.maps.LatLng({{apart.location2.y}}, {{apart.location2.x}});
 	var map = new google.maps.Map(document.getElementById('map'), {
