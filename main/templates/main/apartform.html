@@ -5,9 +5,14 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-<form method="POST" action="">{% csrf_token %}
+<div class="container">
+<form method="POST" action="">
     {{ form.media }}
-    {{ form.as_p }}
+    {% crispy form %}
+    {{imageform.management_form}}
+    {% crispy imageform imageformhelper %}
+    <button class="btn btn-secondary" type="submit"> submit </button>
 </form>
+</div>
 
 {% endblock %}

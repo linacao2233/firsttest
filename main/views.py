@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from .models import *
-from .forms import ApartForm, CommentForm, MainSearchForm,ContactForm,ContactApartOwnerForm
+from .forms import ApartForm,ImageFormHelper, CommentForm, MainSearchForm,ContactForm, ContactApartOwnerForm, ImageFormSet
 
 from django.conf import settings
 from django.utils import timezone
@@ -9,6 +9,8 @@ from django.http import JsonResponse
 
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 
 # Create your views here.
@@ -93,6 +95,8 @@ def list2(request):
 
 	return render(request, template, context)
 
+# apart create, update, detail, delete pages
+
 def CreateApart(request):
 	template = 'main/apartform.html'
 
@@ -105,6 +109,37 @@ def CreateApart(request):
 	'form': form,
 	}
 	return render(request, template, context)
+
+class ApartCreateView(CreateView):
+	model = Apart
+	form_class = ApartForm
+	template_name = 'main/apartform.html'
+
+	def get_context_data(self, **kwargs):
+		"""
+		Add formset to context_data
+		"""
+		ctxdata = super(ApartCreateView,self).get_context_data(**kwargs)
+		ctxdata['imageform'] = ImageFormSet()
+		ctxdata['imageformhelper'] = ImageFormHelper
+
+		return ctxdata
+
+	def form_valid(self,form):
+		form.instance.ownedby = self.request.user
+		form.save()
+		return super(ApartCreateView, self).form_valid(form)
+
+
+class ApartUpdateView(UpdateView):
+	model = Apart
+	form_class = ApartForm
+	template_name = 'main/apartform.html'
+
+
+
+
+
 
 
 def ApartDetail(request, slug):

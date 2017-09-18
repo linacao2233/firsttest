@@ -36,8 +36,14 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^profile/$', mainviews.userProfile, name='userprofile'),
 
-
+# apart create, update, detail, delete views
     url(r'^newpart/$', mainviews.CreateApart, name='create'),
+    url(r'^createapart/$', mainviews.ApartCreateView.as_view(), 
+        name='createview'),    
+    url(r'^updateapart/(?P<slug>[-\w]+)/$', mainviews.ApartUpdateView.as_view(), 
+        name='updateview'),
+
+
     url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),
 
     url(r'^ajax/commentsave/$', mainviews.commentsSave, name='commentsave'),

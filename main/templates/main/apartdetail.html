@@ -78,14 +78,32 @@
 {% universitysearchform %}
 <div class='container'> 
 
-	<h1> {{apart.title}}</h1> 
+	<h1> {{apart.title}} 
+		<div class="pull-right">
+			<div class="btn btn-success" data-toggle="tooltip" title="requirements of verification">
+				<i class="fa fa-check"> </i> Verified </div>
+			<div class="btn btn-danger"><i class="fa fa-times"></i> Non-verified</div>
+		</div>
+
+	</h1> 
+	{% if request.user is apart.ownedby or request.user.is_staff %}
+		<a href="{% url 'updateview' apart.slug %}"> Edit </a>
+
+	{% endif %}
 
 	<div class="row" id="configurebuttons">
 		<div class="col-12">
 		<button class="btn btn-secondary" title="I like it" onclick="thumbsup()"><i class="fa fa-thumbs-up"></i> <span id="thumbsupnumber">{{ apart.thumbsup }}</span></button>
 		<button class="btn btn-secondary" title="I don't like it" onclick="thumbsdown({{apart.pk}})"><i class="fa fa-thumbs-down"></i> <span id="thumbsdownnumber"> {{apart.thumbsdown}}</span></button>
 		<button class="btn btn-secondary" title="Share" onclick="shareapart({{apart.pk}})"><i class="fa fa-share"></i> Share <span id="sharenumber">{{apart.sharenumbers}}</span></button>
-	</div></div>
+		<div class="pull-right">
+		<a class="btn btn-secondary" href="{% url 'contact' 'me' %}" data-toggle="tooltip" title="To claim you own this apart for verification"> Claim</a>
+		<a class="btn btn-secondary" href="{% url 'contact' 'me' %}" data-toggle="tooltip" title="report one problem of this page"> Report</a>
+			
+		</div>
+		</div>
+	</div>
+
 
 		{% for _ in rating %}
 		<i class="fa fa-star" style="color: orange;"></i>
@@ -156,7 +174,7 @@
 		</div>
 		</div>
 	</div>
-	<div class="col-md-4 bg-faded sticky-top" id="contact">
+	<div class="col-md-4 bg-faded" id="contact">
 		{% if message %}
 		<p> {{ message }} </p>
 		{% endif %}
@@ -221,7 +239,9 @@
 			<dd class="col-sm-10">
 						<ul class="list-inline">
 			{% for feature in otherfeatures %}
+				{% if apart|has_feature:feature %}
 				<li class="list-inline-item yesfeature p-2 my-2"><i class="fa fa-check"></i> {{ feature.name }}</li>
+				{% endif %}
 		    {% endfor %}	
 		</ul>
 			</dd>
@@ -308,6 +328,10 @@
 <script type="text/javascript">
 	{% block script %}
 // social buttons configuration
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 	function thumbsup(){
 		$.ajax({
 			url: "{% url 'thumbsup' apart.pk %}",
