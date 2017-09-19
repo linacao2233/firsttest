@@ -37,11 +37,13 @@ urlpatterns = [
     url(r'^profile/$', mainviews.userProfile, name='userprofile'),
 
 # apart create, update, detail, delete views
-    url(r'^newpart/$', mainviews.CreateApart, name='create'),
+    url(r'^newapart/$', mainviews.CreateApart, name='create'),
     url(r'^createapart/$', mainviews.ApartCreateView.as_view(), 
-        name='createview'),    
+        name='createapart'),    
     url(r'^updateapart/(?P<slug>[-\w]+)/$', mainviews.ApartUpdateView.as_view(), 
         name='updateview'),
+    url(r'^uploadimage/(?P<slug>[-\w]+)/$', mainviews.uploadapartpic, 
+        name='uploadpic'),
 
 
     url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),

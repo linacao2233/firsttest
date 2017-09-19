@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load extra %}
+{% load i18n %}
 
 {% block title%}
 Comparison page
@@ -35,7 +36,7 @@ Comparison page
 {% block content %}
 {% include 'topnavbar.html' %}
 {% universitysearchform %}
-<h1>Comparison page</h1>
+<h1>{% trans 'Comparison page' %}</h1>
 
 <div class="container">
     <div class="row">
@@ -47,7 +48,7 @@ Comparison page
     <table class="table table-hover table-bordered table-responsive">
       <thead>
         <tr>
-          <th> Apart </th>
+          <th> {% trans 'Property' %} </th>
           {% for apart in apartlist %}
           <th class="imagecell">
           {% if apart.iconpic %}

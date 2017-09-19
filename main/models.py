@@ -11,6 +11,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.core.files.storage import default_storage as storage
 
 from django.urls import reverse_lazy
+from django.utils.translation import ugettext as _
+
 
 #from django_google_maps import fields as map_fields
 #from djgeojson.fields import PointField
@@ -19,7 +21,7 @@ from django.urls import reverse_lazy
 class ApartFeatures(models.Model):
 	name = models.CharField(max_length=50)
 	priority = models.PositiveSmallIntegerField(choices=[(1,1),(2,2),(3,3)],
-		help_text="1 is the highest (most important)", default=1)
+		help_text=_("1 is the highest (most important)"), default=1)
 	note = models.CharField(max_length=50, null=True, blank=True)
 	category = models.CharField(max_length=10,
 		choices=[('room','oda'),('floor','kat'),('building','bina')],
@@ -36,20 +38,20 @@ class RoomType(models.Model):
 	numberOfPeoplePerRoom = models.PositiveSmallIntegerField(default=2)
 	restroomnumber = models.PositiveIntegerField(default=2)
 	restroomtype = models.CharField(max_length=20,
-		choices=[('1','In room'),('2','2 rooms share'),('3','3 rooms share'),
-		('4', '> 3 rooms share')], default='3')
+		choices=[('1',_('In room')),('2',_('2 rooms share')),('3',_('3 rooms share')),
+		('4', _('> 3 rooms share'))], default='3')
 	showernumber = models.PositiveSmallIntegerField(default=1)
 	showertype = models.CharField(max_length=20,
-		choices=[('1','In room'),('2','2 rooms share'),('3','3 rooms share'),
-		('4', '3 to 6 rooms share'), ('5', '>6 rooms share')], 
+		choices=[('1',_('In room')),('2',_('2 rooms share')),('3',_('3 rooms share')),
+		('4', _('3 to 6 rooms share')), ('5', _('>6 rooms share'))], 
 		default='3')
 	kitchen = models.CharField(max_length=20,
-		choices=[('0', 'no kitchen'),('1','In room'),('2','2 rooms share'),('3','3 rooms share'),
-		('4', '> 3 rooms share')], 
+		choices=[('0', _('no kitchen')),('1',_('In room')),('2',_('2 rooms share')),('3',_('3 rooms share')),
+		('4', _('> 3 rooms share'))], 
 		default='3')
 	livingroom = models.CharField(max_length=2,
-		choices=[('0', 'no livingroom'),('1','In room'),('2','2 rooms share'),('3','3 rooms share'),
-		('4', '> 3 rooms share')],
+		choices=[('0', _('no livingroom')),('1',_('In room')),('2',_('2 rooms share')),('3',_('3 rooms share')),
+		('4', _('> 3 rooms share'))],
 		default='3')
 
 	def __str__(self):
@@ -109,12 +111,12 @@ class Apart(models.Model):
 	#features 
 	# male or female
 	gender = models.CharField(max_length=2,
-		choices=[('m','Erkek'),('f','Kiz'), ('mf', 'Erkek and Kiz'),
-		('n', 'Not Sure')],
+		choices=[('m',_('Boy')),('f',_('Girl')), ('mf', _('Both Girl and Boy')),
+		('n', _('Not Sure'))],
 		default='n',
 		)
 	numberOfPeoplePerRoom = models.CharField(max_length=50,null=True,
-		blank=True, help_text="enter in this format: 1,2,3")
+		blank=True, help_text=_("enter in this format: 1,2,3"))
 
 	#StudyDesk = models.BooleanField(help_text='study desk for each person?')
 
@@ -123,12 +125,12 @@ class Apart(models.Model):
 
 
 	numberofrooms = models.PositiveSmallIntegerField(null=True, blank=True, 
-		help_text='how many rooms do you have in total?')
+		help_text=_('how many rooms do you have in total?'))
 
 	roomtype = models.ManyToManyField(RoomType, blank=True, null=True)
 
 	numberofstudents = models.PositiveSmallIntegerField(null=True, blank=True,
-		help_text='how many students can you host in total?')
+		help_text=_('how many students can you host in total?'))
 
 
 	apartfeatures = models.ManyToManyField(ApartFeatures, 
@@ -136,7 +138,7 @@ class Apart(models.Model):
 
 
 	allowcomments = models.BooleanField(default=True, 
-		help_text='allow to be commented or not?')
+		help_text=_('allow to be commented or not?'))
 
 	def __str__(self):
 		return self.title

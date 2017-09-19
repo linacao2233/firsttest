@@ -11,6 +11,9 @@ from mapwidgets.widgets import GooglePointFieldWidget
 
 from .widgets import extendMultiInputCheckboxWidget
 
+from django.utils.translation import ugettext as _
+
+
 
 
 class ApartForm(forms.ModelForm):
@@ -28,7 +31,11 @@ class ApartForm(forms.ModelForm):
 		'roomtype': extendMultiInputCheckboxWidget,
 		}
 		labels = {
-		'location2': 'location',
+		'location2': _('Location'),
+		'officalweblink': '<i class="fa fa-globe"></i> ' +_('Web address'),
+		'facebooklink': '<i class="fa fa-facebook"></i> '+_('Facebook Link'),
+		'email': '<i class="fa fa-envelope-o"></i> '+ _('Email'),
+		'mainphonenumber': '<i class="fa fa-phone"></i> '+_('Phone Number'),
 		}
 
 	def __init__(self,*args, **kwargs):
@@ -45,7 +52,7 @@ class ApartForm(forms.ModelForm):
 				css_class="form-group col-sm-12",),
 				Div(Field("description",css_class='form-control'),
 				css_class='form-group col-sm-12'),
-				Div(Field('address', css_class='form-control', placeholder="address"),
+				Div(Field('address', css_class='form-control'),
 				css_class='form-group col-sm-12'),
 				Div(Field('location2', css_class='form-control'),
 					css_class='form-group col-sm-12'),
@@ -63,12 +70,11 @@ class ApartForm(forms.ModelForm):
 				css_class='form-group col-sm-12 col-md-6'),
 				Div(Field("numberofstudents",css_class='form-control'),
 				css_class='form-group col-sm-12 col-md-6'),
-				Div(Field("roomtype"),
-				css_class='col-sm-12 '),
-				Div(Field("apartfeatures"),
-				css_class='col-sm-12'),
 			css_class='row',
 			),
+			Div(Field("roomtype"),
+				Field("apartfeatures"),
+				css_class='row'),
 		)
 
 class ImageFormHelper(FormHelper):
@@ -84,8 +90,8 @@ ImageFormSet = inlineformset_factory(
 	Apart,
 	ApartImage,
 	fields=('image',),
-	extra=2,
-	can_delete=False,)
+	extra=1,
+	can_delete=True,)
 
 
 class CommentForm(forms.ModelForm):
@@ -110,9 +116,9 @@ class ContactForm(forms.ModelForm):
 		    "body",
 		]
 		labels = {
-		"subject" : "Subject",
-		"sender": "Email",
-		"body": "Questions",
+		"subject" : _("Subject"),
+		"sender": _("Email"),
+		"body": _("Questions"),
 		}
 
 	#def __init__(self):
@@ -126,7 +132,7 @@ class ContactForm(forms.ModelForm):
 
 		self.helper.layout = Layout(
 			HTML("""
-				<p> Fill this form to send me messages. </p>
+				<p>Fill this form to send me messages. </p>
 				"""),
 			Div(Div(Field("subject",css_class='form-control', placeholder="Subject"),
 				css_class="form-group col-sm-12",),

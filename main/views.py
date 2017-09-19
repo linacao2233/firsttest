@@ -5,13 +5,14 @@ from .forms import ApartForm,ImageFormHelper, CommentForm, MainSearchForm,Contac
 
 from django.conf import settings
 from django.utils import timezone
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+from django.utils.translation import ugettext as _
 
 # Create your views here.
 
@@ -102,33 +103,31 @@ def CreateApart(request):
 
 	if request.POST:
 		form = ApartForm(request.POST)
+		imageform = ImageFormSet(request.POST)
+
+		if form.is_valid() and imageform.is_valid():
+			form.save()
+			imageform.save()
+			print('saved')
 	else:
 		form = ApartForm(None)
+		imageform = ImageFormSet(None)
+	
+	imageformhelper = ImageFormHelper
 
 	context = {
 	'form': form,
+	'imageform': imageform,
+	'imageformhelper': imageformhelper,
 	}
 	return render(request, template, context)
+
 
 class ApartCreateView(CreateView):
 	model = Apart
 	form_class = ApartForm
 	template_name = 'main/apartform.html'
 
-	def get_context_data(self, **kwargs):
-		"""
-		Add formset to context_data
-		"""
-		ctxdata = super(ApartCreateView,self).get_context_data(**kwargs)
-		ctxdata['imageform'] = ImageFormSet()
-		ctxdata['imageformhelper'] = ImageFormHelper
-
-		return ctxdata
-
-	def form_valid(self,form):
-		form.instance.ownedby = self.request.user
-		form.save()
-		return super(ApartCreateView, self).form_valid(form)
 
 
 class ApartUpdateView(UpdateView):
@@ -137,7 +136,24 @@ class ApartUpdateView(UpdateView):
 	template_name = 'main/apartform.html'
 
 
+def uploadapartpic(request,slug):
+	apart = Apart.objects.get(slug=slug)
 
+	if request.POST:
+		form = ImageFormSet(request.POST, request.FILES, instance=apart)
+		if form.is_valid():
+			form.save()
+			#return HttpResponseRedirect(apart.get_absolute_url())
+	
+	form = ImageFormSet(instance = apart)
+
+	template='main/uploadpic.html'
+	context = {
+	'form':form,
+	'apart': apart,
+	}
+
+	return render(request, template, context)
 
 
 

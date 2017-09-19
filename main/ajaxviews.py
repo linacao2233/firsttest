@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import generics
 from django.http import JsonResponse
 
+from django.utils.translation import ugettext as _
+
 
 
 # @csrf_exempt
@@ -100,21 +102,21 @@ def thumbsup(request, pk):
 			apart.likedby.add(request.user)
 			apart.thumbsup += 1
 			apart.save()
-			return JsonResponse({'content':'you liked this', 'data': apart.thumbsup})
+			return JsonResponse({'content':_('you liked this'), 'data': apart.thumbsup})
 
 		else:
-			return JsonResponse({'content':'this is already on your like list', 
+			return JsonResponse({'content':_('this is already on your like list'),
 				'data': apart.thumbsup})
 
 	else:
 		if request.session.get('thumbsup'+pk, False):
-			return JsonResponse({'content':'you have alreadly liked this', 
+			return JsonResponse({'content':_('you have alreadly liked this'), 
 				'data': apart.thumbsup})
 		else:
 			apart.thumbsup += 1
 			apart.save()
 			request.session['thumbsup'+pk] = True
-			return JsonResponse({'content':'thanks for liking this', 
+			return JsonResponse({'content':_('thanks for liking this'), 
 				'data': apart.thumbsup})
 
 
@@ -126,21 +128,21 @@ def thumbsdown(request, pk):
 			apart.dislikedby.add(request.user)
 			apart.thumbsdown += 1
 			apart.save()
-			return JsonResponse({'content':'you disliked this', 'data': apart.thumbsdown})
+			return JsonResponse({'content':_('you disliked this'), 'data': apart.thumbsdown})
 
 		else:
-			return JsonResponse({'content':'this is already on your dislike list', 
+			return JsonResponse({'content':_('this is already on your dislike list'), 
 				'data': apart.thumbsdown})
 
 	else:
 		if request.session.get('thumbsdown'+pk, False):
-			return JsonResponse({'content':'you have alreadly disliked this', 
+			return JsonResponse({'content':_('you have alreadly disliked this'), 
 				'data': apart.thumbsdown})
 		else:
 			apart.thumbsdown += 1
 			apart.save()
 			request.session['thumbsdown'+pk] = True
-			return JsonResponse({'content':'you disliked this', 
+			return JsonResponse({'content':_('you disliked this'), 
 				'data': apart.thumbsdown})
 
 def shareaparts(request, pk):
@@ -151,7 +153,7 @@ def shareaparts(request, pk):
 
 	apart.sharenumbers += 1
 	apart.save()
-	return JsonResponse({'content':'Thanks for sharing this', 'data': apart.sharenumbers})
+	return JsonResponse({'content':_('Thanks for sharing this'), 'data': apart.sharenumbers})
 
 	# else:
 	# 	if 'thumbsup' in request.session:

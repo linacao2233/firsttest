@@ -3,6 +3,7 @@
 {% providers_media_js %}
 {% load static %}
 
+
 <nav class="navbar navbar-toggleable-sm navbar-light bg-faded" id="headerNav">
   <a class="navbar-brand" href="#">
     <img src="{% static 'img/logo_thumb.jpg'%}" height="45" alt="">
@@ -28,6 +29,10 @@
         <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{% url 'createapart' %}">{% trans 'List a property' %}</a>
+        
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'home' %}#aboutus">{% trans 'About Us' %}</a>
       </li>
       <li class="nav-item">
@@ -40,16 +45,18 @@
         <a class="nav-link" href="{% url 'contact' slug='me' %}">{% trans 'Contact Me' %}</a>
       </li> 
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if request.user.is_authenticated %} {% if request.user.first_name %}{{request.user.first_name}} {% else %} {{request.user.username}} {% endif %}
-       {% else %} Accounts 
+        <a class="nav-link dropdown-toggle btn btn-primary" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if request.user.is_authenticated %} 
+        {% if request.user.first_name %}{{request.user.first_name}} {% else %} {{request.user.username}} 
+        {% endif %}
+       {% else %}  Sign In 
        {% endif %}</a>
         <div class="dropdown-menu" aria-labelledby="dropdown02">
         {% if not request.user.is_authenticated %}
           <a class="dropdown-item" href="{% url 'account_signup' %}">Sign Up</a>
           <a class="dropdown-item" href="{% url 'account_login'%}">Login</a>
           <hr>
-          <a class="dropdown-item" href="{% provider_login_url 'facebook' %}"> <i class="fa fa-facebook"></i> facebook</a>
-          <a class="dropdown-item" href="{% provider_login_url 'google' %}"> <i class="fa fa-google-plus"></i> Google</a>
+          <a class="dropdown-item text-primary" href="{% provider_login_url 'facebook' %}"> <i class="fa fa-facebook"></i> facebook</a>
+          <a class="dropdown-item text-danger" href="{% provider_login_url 'google' %}"> <i class="fa fa-google-plus"></i> Google</a>
 
         {% else %}
           <a  class="dropdown-item" href="{% url 'userprofile' %}">Profile</a>
