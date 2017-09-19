@@ -169,9 +169,12 @@ class Comment(models.Model):
 
 		super(Comment,self).save(*args, **kwargs)
 
+def apartimagepath(instance, filename):
+	apartid = instance
+
 class ApartImage(models.Model):
 	apart = models.ForeignKey(Apart)
-	image = models.ImageField(upload_to='apartimage/%Y/%m/%d')
+	image = models.ImageField(upload_to=apartimagepath)
 	thumbnail = models.ImageField(upload_to='apartimage/%Y/%m/%d', null=True,
 		blank=True, editable=False)
 
