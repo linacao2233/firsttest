@@ -25,7 +25,6 @@ def index(request):
 	context = {
 	'universitylist': ulist,
 	'matchingpattern': pattern,
-
 	}
 
 	return render(request, template, context)

@@ -254,7 +254,10 @@ h1 {
             recommenedlist: [],
             comparelist: {},
             next: String,
-            count: Number,
+            count: {
+                type: Number,
+                default: 0,
+            },
         },
         computed: {
             sortedArray: function(){
