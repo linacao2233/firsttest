@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static extra %}
+{% load static extra i18n %}
 
 {% block content %}
 {% include 'topnavbar.html' %}
@@ -10,22 +10,22 @@
 	<p>{{ roomtype.description }}</p>
 
 	<dl class="row">
-		<dt class="col-sm-3"> Room </dt>
-		<dd class="col-sm-9"> {{roomtype.numberOfPeoplePerRoom}} people share </dd>
-		<dt class="col-sm-3">Restroom</dt>
+		<dt class="col-sm-3"> {% trans 'Room' %} </dt>
+		<dd class="col-sm-9"> {{roomtype.numberOfPeoplePerRoom}} {% trans 'people share' %} </dd>
+		<dt class="col-sm-3">{% trans 'Restroom' %}</dt>
 		<dd class="col-sm-3">{{roomtype.get_restroomtype_display}} </dd>
 
 		<dd class="col-sm-6">{{roomtype.restroomnumber}} </dd>
 
-		<dt class="col-sm-3">Shower</dt>
+		<dt class="col-sm-3">{% trans 'Shower' %}</dt>
 		<dd class="col-sm-3">{{roomtype.get_showertype_display }} </dd>
 		<dd class="col-sm-6">{{roomtype.showernumber}}</dd>
 
-		<dt class="col-sm-3">Kitchen</dt> 
+		<dt class="col-sm-3">{% trans 'Kitchen' %}</dt> 
 		<dd class="col-sm-9">
 		{{roomtype.get_kitchen_display }} </dd>
 
-		<dt class="col-sm-3">Livingroom</dt> 
+		<dt class="col-sm-3">{% trans 'Livingroom' %}</dt> 
 		<dd class="col-sm-9">
 		{{roomtype.get_livingroom_display}}</dd>
 	</dl>

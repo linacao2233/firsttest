@@ -10,7 +10,7 @@
 {% block content %}
 
 
-{% include 'navbar.html' %}
+{% include 'topnavbar.html' %}
 
 
 {% get_providers as socialaccount_providers %}
@@ -29,9 +29,9 @@
         <a class="btn btn-link button secondaryAction" roll='button' href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
         <button class="btn btn-secondary" type="submit">{% trans "Sign In" %}</button>
       </form>
-      <a class="btn btn-primary" href="{% provider_login_url 'facebook' %}"> login with facebook</a>
-      <a class="btn btn-primary" href="{% provider_login_url 'google' %}"> login with google</a>
-      <a href="{{ signup_url }}">sign up</a>
+      <a class="btn btn-primary" href="{% provider_login_url 'facebook' %}"> {% trans 'login with facebook' %}</a>
+      <a class="btn btn-primary" href="{% provider_login_url 'google' %}"> {% trans 'login with google' %}</a>
+      <a href="{{ signup_url }}">{% trans 'Sign Up' %}</a>
 
 </div></div></div>
 

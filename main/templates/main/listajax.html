@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 {% load extra %}
 <style type="text/css">
 {% block style%}
@@ -45,19 +45,17 @@ h1 {
 <div class="container" id="vueapartlist">
 
     <section class="row">
-
         <h1>{{gatelist.0.university.title}}, {{gatelist.0.university.city}}</h1>
-
         <div class="col-12 my-3">
 
             {% verbatim %}
             <div v-if=loading>{{ loading }}</div>
-            <div v-else>  {{ count }}  aparts are found, {{ apartlist.length }} aparts are loaded. 
+            <div v-else>  {{ count }} {% endverbatim %} {% trans 'aparts are found' %}, {% verbatim %} {{ apartlist.length }}{% endverbatim %} {% trans 'aparts are loaded' %}. 
             <span v-if="next">
-                <button class="btn btn-secondary loadbutton" @click="loadmore">Load More</button>
+                <button class="btn btn-secondary loadbutton" @click="loadmore">{% trans 'Load More' %}</button>
             </span>
-            Click <i class='fa fa-heart-o'></i> to add to comparison. 
-            {% endverbatim %}</div>
+            {% trans "Click <i class='fa fa-heart-o'></i> to add to comparison." %} 
+            </div>
 
             
 
@@ -83,14 +81,14 @@ h1 {
                 @addtocompare="addtocompare(index)"
                 @removefromcompare="removefromcompare(index)"></apartlistvue>
 
-            <button v-if="next" class="btn btn-secondary loadbutton" @click="loadmore">Load More</button>
+            <button v-if="next" class="btn btn-secondary loadbutton" @click="loadmore">{% trans 'Load More' %}</button>
 
         </div>
 
 
 
         <div v-if="Object.keys(comparelist).length" class="col-12">
-            <h3> added to comparison </h3> 
+            <h3> {% trans 'added to comparison' %} </h3> 
         </div>
 
             <apartcomparevue v-for="(apart, key) in comparelist" :apart="apart"
@@ -102,20 +100,20 @@ h1 {
         <div v-if="Object.keys(comparelist).length" class="col-12">
 
             <button id="comparebutton" class="btn btn-primary pull-right" 
-                @click="compareaparts">Compare details</button>
+                @click="compareaparts">{% trans 'Compare details' %}</button>
         </div>
             
 
     </section>
 
     <section v-if="visitedlist.length" class="row">
-        <h2 class="col-12">Recent Visited</h2>
+        <h2 class="col-12">{% trans 'Recent Visited' %}</h2>
 
         <apartsquarevue v-for="apart in visitedlist" :apart=apart> </apartsquarevue>
     </section>
     
     <section v-if="recommenedlist.length" class="row">
-        <h2 class="col-12">Recommended</h2>
+        <h2 class="col-12">{% trans 'Recommended' %}</h2>
 
         <apartsquarevue v-for="apart in recommenedlist" :apart=apart 
              > </apartsquarevue>
@@ -150,14 +148,14 @@ h1 {
                     <div class="col-6">           
                         <a :href="apart.url">{{ apart.title }}</a> <br>
                         <i v-for="n in Math.round(apart.rating)" class="fa fa-star" style="color: orange;"></i> 
-                        <i v-for="n in (5-Math.round(apart.rating))" class="fa fa-star-o" style="color: orange;"></i> {{apart.rating}}/5.0 ({{apart.numberofcomments}} comments)
+                        <i v-for="n in (5-Math.round(apart.rating))" class="fa fa-star-o" style="color: orange;"></i> {{apart.rating}}/5.0 ({{apart.numberofcomments}} {% endverbatim %} {% trans 'comments' %})
                         </div>
 
                         <div class="col-1">
 
-                        <i v-if="addedtocompare" class="fa fa-heart" title="added to comparison, click to remove"
+                        <i v-if="addedtocompare" class="fa fa-heart" title="{% trans 'added to comparison, click to remove' %}"
                         @click="removefromcompare"></i>
-                        <i v-else class="fa fa-heart-o" title="click to add to comparison" 
+                        <i v-else class="fa fa-heart-o" title="{% trans 'click to add to comparison' %}" 
                         @click="addtocompare"></i>
                         </div>
                
@@ -169,8 +167,7 @@ h1 {
     <template id='apartsquaretemplate'>
         <div class="col-sm-6 col-md-4 col-lg-3 card" >
                 <img class="card-img-top" v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%" height="100%">
-               {% endverbatim %}
-                        <img v-else src="{% static 'img/logo.png' %}" width="100%">
+                <img v-else src="{% static 'img/logo.png' %}" width="100%">
                         {% verbatim %}
             <div class="card-block">
                  <a :href="apart.url">{{ apart.title }}</a>
@@ -186,19 +183,20 @@ h1 {
                 @mouseleave="mouseleave">
                 <img class="card-img-top" v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%" height="100%">
                                {% endverbatim %}
-                        <img v-else src="{% static 'img/logo.png' %}" width="100%">
+                <img v-else src="{% static 'img/logo.png' %}" width="100%">
                         {% verbatim %}
             <div class="card-block">
                  <a :href="apart.url">{{ apart.title }}</a>
             </div>
-            <button class="btn btn-secondary" @click="removefromcompare"> Remove </button>
+                {% endverbatim %} 
+            <button class="btn btn-secondary" @click="removefromcompare"> {% trans 'Remove' %} </button>
 
             
         </div>
         
     </template>
 
-    {% endverbatim %} 
+
 
 
 {% endblock %}

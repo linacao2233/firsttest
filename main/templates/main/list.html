@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static extra %}
+{% load static extra i18n %}
 <style type="text/css">
 {% block style%}
 .listapart .fa {
@@ -34,14 +34,14 @@ h1 {
 
 <div class="container">
 {% if apartlist %}
-<h1>Aparts found</h1>
+<h1>{% trans 'Aparts found' %}</h1>
 <section class="row">
 
 <div id="map-canvas" class="col-md-6" style="height: 60vh;"></div>
 
 
 <div class="col-md-6" style="overflow: auto; height: 60vh;">
-    <p class="card-header" > Click <i class='fa fa-heart-o'></i> for comparison. <small>{{apartlist|length}} found.</small></p>
+    <p class="card-header" > {% trans 'Click <i class='fa fa-heart-o'></i> for comparison.' %} <small>{{apartlist|length}} {% trans 'found' %}.</small></p>
     {% for apart in apartlist %}
 
     <div class="listapart py-2" style="background: {% cycle '#f7f7f9' '#ddd'%}">
@@ -68,12 +68,12 @@ h1 {
 
 </div>
 <div class="col-12">
-<button id="comparebutton" class="btn btn-primary pull-right">Compare details</button>
+<button id="comparebutton" class="btn btn-primary pull-right">{% trans 'Compare details' %}</button>
 </div>
 </section>
 {% else %}
 
-<h2>No aparts found </h2>
+<h2>{% trans 'No aparts found' %} </h2>
 
 {% endif %}
 

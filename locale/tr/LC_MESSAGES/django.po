@@ -1,0 +1,552 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-20 12:38+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: main/ajaxviews.py:105
+msgid "you liked this"
+msgstr ""
+
+#: main/ajaxviews.py:108
+msgid "this is already on your like list"
+msgstr ""
+
+#: main/ajaxviews.py:113
+msgid "you have alreadly liked this"
+msgstr ""
+
+#: main/ajaxviews.py:119
+msgid "thanks for liking this"
+msgstr ""
+
+#: main/ajaxviews.py:131 main/ajaxviews.py:145
+msgid "you disliked this"
+msgstr ""
+
+#: main/ajaxviews.py:134
+msgid "this is already on your dislike list"
+msgstr ""
+
+#: main/ajaxviews.py:139
+msgid "you have alreadly disliked this"
+msgstr ""
+
+#: main/ajaxviews.py:156
+msgid "Thanks for sharing this"
+msgstr ""
+
+#: main/forms.py:34
+msgid "Location"
+msgstr ""
+
+#: main/forms.py:35
+msgid "Web address"
+msgstr ""
+
+#: main/forms.py:36
+msgid "Facebook Link"
+msgstr ""
+
+#: main/forms.py:37 main/forms.py:120 main/templates/main/userprofile.html:32
+msgid "Email"
+msgstr ""
+
+#: main/forms.py:38
+msgid "Phone Number"
+msgstr ""
+
+#: main/forms.py:119
+msgid "Subject"
+msgstr ""
+
+#: main/forms.py:121
+msgid "Questions"
+msgstr ""
+
+#: main/models.py:24
+msgid "1 is the highest (most important)"
+msgstr ""
+
+#: main/models.py:41 main/models.py:45 main/models.py:49 main/models.py:53
+msgid "In room"
+msgstr ""
+
+#: main/models.py:41 main/models.py:45 main/models.py:49 main/models.py:53
+msgid "2 rooms share"
+msgstr ""
+
+#: main/models.py:41 main/models.py:45 main/models.py:49 main/models.py:53
+msgid "3 rooms share"
+msgstr ""
+
+#: main/models.py:42 main/models.py:50 main/models.py:54
+msgid "> 3 rooms share"
+msgstr ""
+
+#: main/models.py:46
+msgid "3 to 6 rooms share"
+msgstr ""
+
+#: main/models.py:46
+msgid ">6 rooms share"
+msgstr ""
+
+#: main/models.py:49
+msgid "no kitchen"
+msgstr ""
+
+#: main/models.py:53
+msgid "no livingroom"
+msgstr ""
+
+#: main/models.py:114 main/templates/main/index.html:35
+msgid "Boy"
+msgstr ""
+
+#: main/models.py:114 main/templates/main/index.html:33
+msgid "Girl"
+msgstr ""
+
+#: main/models.py:114
+msgid "Both Girl and Boy"
+msgstr ""
+
+#: main/models.py:115
+msgid "Not Sure"
+msgstr ""
+
+#: main/models.py:119
+msgid "enter in this format: 1,2,3"
+msgstr ""
+
+#: main/models.py:128
+msgid "how many rooms do you have in total?"
+msgstr ""
+
+#: main/models.py:133
+msgid "how many students can you host in total?"
+msgstr ""
+
+#: main/models.py:141
+msgid "allow to be commented or not?"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:87
+msgid "Edit"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:88
+msgid "Upload Pictures"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:95
+msgid "Share"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:99
+msgid "Claim"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:102
+msgid "Report"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:127
+msgid "Map"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:181
+msgid "Contact Owner"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:198
+msgid "Price"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:200
+msgid "Totoal number of rooms"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:202
+msgid "Uplimit of hosting"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:204
+msgid "Type of rooms"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:215
+msgid "Features"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:219
+msgid "Feature exists"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:220
+msgid "not known"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:241
+msgid "extra features"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:259
+msgid "Address"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:267
+msgid "Comments"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:271
+msgid "Add Comment:"
+msgstr ""
+
+#: main/templates/main/apartdetail.html:287
+msgid "ago"
+msgstr ""
+
+#: main/templates/main/apartform.html:13
+msgid "SAVE"
+msgstr ""
+
+#: main/templates/main/comparison.html:39
+msgid "Comparison page"
+msgstr ""
+
+#: main/templates/main/comparison.html:51 templates/searchapart.html:5
+msgid "Property"
+msgstr ""
+
+#: main/templates/main/helppage.html:8
+msgid "Frequently asked questions"
+msgstr ""
+
+#: main/templates/main/index.html:23
+msgid "Find the apartment perfect for you!"
+msgstr ""
+
+#: main/templates/main/index.html:46
+msgid "Check out real comments"
+msgstr ""
+
+#: main/templates/main/index.html:47
+msgid "Check the comments from real students"
+msgstr ""
+
+#: main/templates/main/index.html:48
+msgid "Find out more!"
+msgstr ""
+
+#: main/templates/main/index.html:56
+msgid "Compare different Apartments"
+msgstr ""
+
+#: main/templates/main/index.html:57
+msgid "Select the apartments you are interested in to compare."
+msgstr ""
+
+#: main/templates/main/index.html:58
+msgid "Start"
+msgstr ""
+
+#: main/templates/main/index.html:67 templates/topnavbar.html:36
+msgid "About Us"
+msgstr ""
+
+#: main/templates/main/index.html:68
+msgid ""
+"Our goal is to reduce our students' anxiety in finding a suitable dorm by "
+"helping in evaluating the dorms first without leaving their homes as well as "
+"gathering the spoken comments about different dorms with the help of already "
+"accomodated students in those dorms."
+msgstr ""
+
+#: main/templates/main/index.html:70
+msgid ""
+"<p>To add a comment about a place that you used to live or currently living, "
+"you don't need to login. While you can login through registration or login "
+"via google or facebook login,  it's also possible to leave your comments "
+"through your facebook account. Anonymous commenting is also available if "
+"you'd like to share your experience without dısclosing your identity, "
+"however these comments can not be used in popularity through comments list.</"
+"p>"
+msgstr ""
+
+#: main/templates/main/index.html:72
+msgid ""
+"<p>You will have the option of comparing dorms without visiting in person.</"
+"p> <p>After login our website, you can configure your own important "
+"properties from the 'Dorm's properties' section. This way, your selection of "
+"important properties will be shown in the dorm page as well as during "
+"comparison of different dorms.</p>"
+msgstr ""
+
+#: main/templates/main/list.html:37
+msgid "Aparts found"
+msgstr ""
+
+#: main/templates/main/list.html:44
+msgid "Click <i class="
+msgstr ""
+
+#: main/templates/main/list.html:44
+msgid "found"
+msgstr ""
+
+#: main/templates/main/list.html:71 main/templates/main/listajax.html:103
+msgid "Compare details"
+msgstr ""
+
+#: main/templates/main/list.html:76
+msgid "No aparts found"
+msgstr ""
+
+#: main/templates/main/listajax.html:53
+msgid "aparts are found"
+msgstr ""
+
+#: main/templates/main/listajax.html:53
+msgid "aparts are loaded"
+msgstr ""
+
+#: main/templates/main/listajax.html:55 main/templates/main/listajax.html:84
+msgid "Load More"
+msgstr ""
+
+#: main/templates/main/listajax.html:57
+msgid "Click <i class='fa fa-heart-o'></i> to add to comparison."
+msgstr ""
+
+#: main/templates/main/listajax.html:91
+msgid "added to comparison"
+msgstr ""
+
+#: main/templates/main/listajax.html:110
+msgid "Recent Visited"
+msgstr ""
+
+#: main/templates/main/listajax.html:116
+msgid "Recommended"
+msgstr ""
+
+#: main/templates/main/listajax.html:151
+msgid "comments"
+msgstr ""
+
+#: main/templates/main/listajax.html:156
+msgid "added to comparison, click to remove"
+msgstr ""
+
+#: main/templates/main/listajax.html:158
+msgid "click to add to comparison"
+msgstr ""
+
+#: main/templates/main/listajax.html:192
+msgid "Remove"
+msgstr ""
+
+#: main/templates/main/roomtypedetail.html:13
+msgid "Room"
+msgstr ""
+
+#: main/templates/main/roomtypedetail.html:14
+msgid "people share"
+msgstr ""
+
+#: main/templates/main/roomtypedetail.html:15
+msgid "Restroom"
+msgstr ""
+
+#: main/templates/main/roomtypedetail.html:20
+msgid "Shower"
+msgstr ""
+
+#: main/templates/main/roomtypedetail.html:24
+msgid "Kitchen"
+msgstr ""
+
+#: main/templates/main/roomtypedetail.html:28
+msgid "Livingroom"
+msgstr ""
+
+#: main/templates/main/uploadpic.html:8
+msgid "Images"
+msgstr ""
+
+#: main/templates/main/uploadpic.html:11
+msgid "back"
+msgstr ""
+
+#: main/templates/main/uploadpic.html:27
+msgid "Submit"
+msgstr ""
+
+#: main/templates/main/userprofile.html:24 templates/topnavbar.html:62
+msgid "Profile"
+msgstr ""
+
+#: main/templates/main/userprofile.html:26
+msgid "Username"
+msgstr ""
+
+#: main/templates/main/userprofile.html:28
+msgid "First Name"
+msgstr ""
+
+#: main/templates/main/userprofile.html:30
+msgid "Last Name"
+msgstr ""
+
+#: main/templates/main/userprofile.html:33
+msgid "Change Email"
+msgstr ""
+
+#: main/templates/main/userprofile.html:35
+msgid "Password"
+msgstr ""
+
+#: main/templates/main/userprofile.html:37
+msgid "Change Password"
+msgstr ""
+
+#: main/templates/main/userprofile.html:38
+msgid "Reset Password"
+msgstr ""
+
+#: main/templates/main/userprofile.html:45
+msgid "liked properties"
+msgstr ""
+
+#: main/templates/main/userprofile.html:53
+msgid "disliked properties"
+msgstr ""
+
+#: main/templates/main/userprofile.html:60
+msgid "visited aparts"
+msgstr ""
+
+#: templates/404.html:5
+msgid "404 error"
+msgstr ""
+
+#: templates/404.html:6
+msgid "The page you are looking for is not found."
+msgstr ""
+
+#: templates/500.html:5
+msgid "500 server error"
+msgstr ""
+
+#: templates/500.html:6
+msgid " We are working to fix this problem. "
+msgstr ""
+
+#: templates/account/login.html:8 templates/account/login.html:21
+#: templates/account/login.html:30 templates/topnavbar.html:51
+msgid "Sign In"
+msgstr ""
+
+#: templates/account/login.html:29
+msgid "Forgot Password?"
+msgstr ""
+
+#: templates/account/login.html:32
+msgid "login with facebook"
+msgstr ""
+
+#: templates/account/login.html:33
+msgid "login with google"
+msgstr ""
+
+#: templates/account/login.html:34 templates/account/signup.html:14
+#: templates/account/signup.html:24 templates/topnavbar.html:55
+msgid "Sign Up"
+msgstr ""
+
+#: templates/account/logout.html:5 templates/account/logout.html:12
+#: templates/account/logout.html:21
+msgid "Sign Out"
+msgstr ""
+
+#: templates/account/logout.html:14
+msgid "Are you sure you want to sign out?"
+msgstr ""
+
+#: templates/account/signup.html:7
+msgid "Signup"
+msgstr ""
+
+#: templates/account/signup.html:16
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+
+#: templates/base.html:20
+msgid "Find and compare dorms | YurtKiyasla"
+msgstr ""
+
+#: templates/footer.html:6
+msgid "This website is made and maintained by"
+msgstr ""
+
+#: templates/footer.html:10 templates/topnavbar.html:29
+msgid "Home"
+msgstr ""
+
+#: templates/footer.html:11 templates/topnavbar.html:45
+msgid "Contact Me"
+msgstr ""
+
+#: templates/searchnavbar.html:10
+msgid "Kiz"
+msgstr ""
+
+#: templates/searchnavbar.html:13
+msgid "Erkek"
+msgstr ""
+
+#: templates/topnavbar.html:24
+msgid "Admin"
+msgstr ""
+
+#: templates/topnavbar.html:25
+msgid "List"
+msgstr ""
+
+#: templates/topnavbar.html:32
+msgid "List a property"
+msgstr ""
+
+#: templates/topnavbar.html:39
+msgid "Legal"
+msgstr ""
+
+#: templates/topnavbar.html:42
+msgid "Help"
+msgstr ""
+
+#: templates/topnavbar.html:56
+msgid "Login"
+msgstr ""
+
+#: templates/topnavbar.html:63
+msgid "Logout"
+msgstr ""

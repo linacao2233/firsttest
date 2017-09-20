@@ -5,10 +5,10 @@
 
 <div class="container">
 <div class="row">
-<h1>{{apart.title}} Images</h1>
+<h1>{{apart.title}} {% trans 'Images' %}</h1>
 </div>
 <div class="row">
-<a  class="btn btn-secondary" href="{% url 'detail' apart.slug %}"> back </a>
+<a  class="btn btn-secondary" href="{% url 'detail' apart.slug %}"> {% trans 'back' %} </a>
 </div>
 	
 
@@ -24,7 +24,7 @@
 
 	{% endfor %}
 </div>
-<button class="btn btn-secondary" type="submit"> submit</button>
+<button class="btn btn-secondary" type="submit"> {% trans 'Submit' %}</button>
 	
 </form>
 </div>

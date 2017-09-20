@@ -62,6 +62,9 @@ urlpatterns = [
     url(r'^ajax/thumbsdown/(?P<pk>[0-9]+)/$', ajaxviews.thumbsdown, name="thumbsdown"),
     url(r'^ajax/shareaparts/(?P<pk>[0-9]+)/$', ajaxviews.shareaparts, name="shareaparts"),
 
+# language setting
+    url(r'^i18n/', include('django.conf.urls.i18n')),
+
 ]
 
 if settings.DEBUG:

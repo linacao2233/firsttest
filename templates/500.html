@@ -1,2 +1,8 @@
-{% load static %}
-<h1>500 server error</h1>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans '500 server error' %}</h1>
+<p> {% trans ' We are working to fix this problem. ' %}</p>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 <style type="text/css">
 {% block style %}
@@ -20,28 +21,28 @@ h2 {
 
 	<h1>{{ user.username }}</h1>
 
-	<h2> Profile </h2>
+	<h2> {% trans 'Profile' %} </h2>
 		<dl class="row">
-			<dt class="col-3">Username</dt>
+			<dt class="col-3">{% trans 'Username' %}</dt>
 			<dd class="col-9">{{user.username}}</dd>
-			<dt class="col-3">First Name</dt>
+			<dt class="col-3">{% trans 'First Name' %}</dt>
 			<dd class="col-9">{{user.first_name}}</dd>
-			<dt class="col-3">Last Name</dt>
+			<dt class="col-3">{% trans 'Last Name' %}</dt>
 			<dd class="col-9">{{user.last_name}}</dd>
-			<dt class="col-3">Email</dt>
-			<dd class="col-9">{{user.email}} <a class="btn btn-secondary" href="{% url 'account_email'%}">change email</a>
+			<dt class="col-3">{% trans 'Email' %}</dt>
+			<dd class="col-9">{{user.email}} <a class="btn btn-secondary" href="{% url 'account_email'%}">{% trans 'Change Email' %}</a>
 			</dd>
-			<dt class="col-3">Password</dt>
+			<dt class="col-3">{% trans 'Password' %}</dt>
 			<dd class="col-9">
-			<a class="btn btn-secondary" href="{% url 'account_change_password' %}"> change password</a>
-			<a class="btn btn-secondary" href="{% url 'account_reset_password' %}"> Forgot password</a>
+			<a class="btn btn-secondary" href="{% url 'account_change_password' %}"> {% trans 'Change Password' %}</a>
+			<a class="btn btn-secondary" href="{% url 'account_reset_password' %}"> {% trans 'Reset Password' %}</a>
 			</dd>
 		</dl>
 					
 
 
 
-	<h2> liked aparts </h2>
+	<h2> {% trans 'liked properties' %} </h2>
 
 	<ul>
 	{% for apart in user.likedaparts.all %}
@@ -49,14 +50,14 @@ h2 {
 	{% endfor %}
 	</ul>
 
-	<h2> disliked aparts </h2>
+	<h2> {% trans 'disliked properties' %} </h2>
 	<ul>
 	{% for apart in user.dislikedaparts.all %}
 			<li><a href="{% url 'detail' apart.slug %}">{{apart.title}}</a></li>
 	{% endfor %}
 	</ul>
 
-	<h2>visited aparts</h2>
+	<h2>{% trans 'visited aparts' %}</h2>
 		<ul>
 	{% for apart in user.visitedaparts.all %}
 				<li><a href="{% url 'detail' apart.slug %}">{{apart.title}}</a></li>
