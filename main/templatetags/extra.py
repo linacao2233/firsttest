@@ -23,3 +23,6 @@ def universitylist():
 	'matchingpattern': pattern,
 	}
 
+@register.filter(name='index')
+def index(apartlist, i):
+	return apartlist[int(i)]

@@ -96,6 +96,45 @@ def list2(request):
 
 	return render(request, template, context)
 
+
+# list of aparts by clicking tree
+def apartlist(request, city, university):
+	"""
+	get the list of properties by the name of city and universities
+	input:
+	'city': name of city, string
+	'university': University slug, string
+	"""
+
+	template = 'main/apartlist.html'
+
+	if university == 'all':
+		university_list = University.objects.filter(city__icontains=city)
+	else:
+		university_list = University.objects.filter(slug=university)
+
+	apartlist = []
+
+	
+	for university in university_list:
+		gate = university.universitygate_set.all()
+		gate = gate[0]
+
+		apartlist1 = Apart.objects.filter(location2__distance_lte=
+			(gate.location, 5000))
+
+		apartlist.append(apartlist1)
+
+
+	context = {
+	'city': city,
+	'universities': university_list,
+	'apartlist': apartlist,
+	}
+
+
+	return render(request, template, context)
+
 # apart create, update, detail, delete pages
 
 def CreateApart(request):

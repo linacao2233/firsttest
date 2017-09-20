@@ -3,13 +3,13 @@
 {% load i18n %}
 
 {% block content %}
-{% include 'navbar.html' %}
+{% include 'topnavbar.html' %}
 <div class='container'>
 
 <h1> {{ title }} </h1>
 {% if message %}
 <p> {{ message }} </p>
-<a class="btn btn-primary" href="{% url 'contact' 'me' %}"> {% tran 'send again' %} </a>
+<a class="btn btn-primary" href="{% url 'contact' 'me' %}"> {% trans 'send again' %} </a>
 {% else %}
 
 <form method="POST" action=''>

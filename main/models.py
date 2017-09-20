@@ -263,7 +263,21 @@ class ApartImage(models.Model):
 
 class University(models.Model):
 	title = models.CharField(max_length=200)
+	slug = models.CharField(max_length=300, editable=False, null=True)
+
 	city = models.CharField(max_length = 200)
+
+	def save(self, *args, **kwargs):
+		if self.slug is None or self.slug == '':
+			self.slug = slugify(self.title)
+
+	    # check whether there is duplicate slugs
+		slug_count = University.objects.filter(slug__exact=
+	                self.slug).exclude(pk=self.pk)
+
+		if slug_count:
+			self.slug += self.pk
+
 
 	def __str__(self):
 		return self.title

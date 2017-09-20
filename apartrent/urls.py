@@ -45,6 +45,10 @@ urlpatterns = [
     url(r'^uploadimage/(?P<slug>[-\w]+)/$', mainviews.uploadapartpic, 
         name='uploadpic'),
 
+    # list views for searching perpose 
+    url(r'^apartlist/(?P<city>[-\w]+)/(?P<university>[-\w]+)/$',
+        mainviews.apartlist, name='apartlist'),
+
 
     url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),
 

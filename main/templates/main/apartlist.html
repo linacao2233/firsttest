@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load i18n extra %}
+
+{% block content %}
+<!-- small nav -->
+<div class="container">
+	<div class="row" id="smallnav">
+		<nav class="bg-faded"> 
+			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
+			<a href="{% url 'apartlist' city=city university='all'%}">{{city}}</a>	
+		</nav>
+	</div>
+
+	<div class="row">
+		<ul>
+
+		{% for university in universities %}
+		{% with forloop.counter0 as index %}
+	    <li> {{ university.title }}
+
+	    	<ol>
+	    		{% for apart in apartlist|index:index %}
+	    			<li>{{ apart }}</li>
+	    		{% endfor %}
+	    		
+	    	</ol>
+	    </li>
+	    {% endwith %}
+
+		{% endfor %}
+		</ul>
+		
+	</div>
+
+	<div class="row">
+		<ul>
+			{% for uapart in apartlist %}
+				{% for apart in uapart %}
+				<li>{{apart}}</li>
+				{% endfor %}
+
+			{% endfor %}
+		</ul>
+		
+	</div>
+
+</div>
+
+
+{% endblock %}
