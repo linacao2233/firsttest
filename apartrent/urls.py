@@ -46,7 +46,9 @@ urlpatterns = [
         name='uploadpic'),
 
     # list views for searching perpose 
-    url(r'^apartlist/(?P<city>[-\w]+)/(?P<university>[-\w]+)/$',
+    url(r'^propertylist/$', mainviews.propertylist, name='propertylist'),
+
+    url(r'^propertylist/(?P<city>[-\w]+)/(?P<university>[-\w]+)/$',
         mainviews.apartlist, name='apartlist'),
 
 

@@ -135,6 +135,17 @@ def apartlist(request, city, university):
 
 	return render(request, template, context)
 
+
+def propertylist(request):
+	template = 'main/propertylist.html'
+
+	cities = University.objects.values_list('city', flat=True).distinct().order_by('city')
+
+	context = {
+	'cities': cities,
+	}
+
+	return render(request, template, context)
 # apart create, update, detail, delete pages
 
 def CreateApart(request):

@@ -2,11 +2,14 @@
 {% load i18n extra %}
 
 {% block content %}
+{% include 'topnavbar.html' %}
+{% include 'searchnavbar.html' %}
 <!-- small nav -->
 <div class="container">
-	<div class="row" id="smallnav">
+	<div class="row my-4" id="smallnav">
 		<nav class="bg-faded"> 
 			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
+			<a href="{% url 'propertylist' %}">{% trans 'List' %}</a> >
 			<a href="{% url 'apartlist' city=city university='all'%}">{{city}}</a>	
 		</nav>
 	</div>
@@ -16,13 +19,11 @@
 
 		{% for university in universities %}
 		{% with forloop.counter0 as index %}
-	    <li> {{ university.title }}
-
-	    	<ol>
+	    <li> <a href="{% url 'list' %}?university={{university.title}}, {{university.city}}">{{ university.title }}</a> (<button class="universitylistshow btn btn-secondary">{{apartlist|index:index|length}} {% trans 'properties' %}</button>)
+	    	<ol style="display: none;">
 	    		{% for apart in apartlist|index:index %}
-	    			<li>{{ apart }}</li>
+	    			<li><a href="{% url 'detail' apart.slug %}">{{apart}}</a></li>
 	    		{% endfor %}
-	    		
 	    	</ol>
 	    </li>
 	    {% endwith %}
@@ -32,19 +33,22 @@
 		
 	</div>
 
-	<div class="row">
-		<ul>
-			{% for uapart in apartlist %}
-				{% for apart in uapart %}
-				<li>{{apart}}</li>
-				{% endfor %}
-
-			{% endfor %}
-		</ul>
-		
-	</div>
-
 </div>
 
 
 {% endblock %}
+
+<script type="text/javascript">
+	{% block script %}
+// $('.universitylistshow').each(function(){
+// 	$(this).next('ol').hide();
+// })
+$('.universitylistshow').click(function(){
+	$(this).next('ol').toggle();
+})
+
+
+
+	{% endblock %}
+
+</script>

@@ -64,8 +64,10 @@ class apartlist(generics.ListCreateAPIView):
 
 			if 'Kiz' in self.request.GET:
 				genders = ['f','mf', 'n']
-			else:
+			elif 'Erkek' in self.request.GET:
 				genders = ['m', 'mf', 'n']
+			else:
+				genders = ['f', 'm', 'mf', 'n']
 
 			apartlist = Apart.objects.filter(location2__distance_lte=
 			(universitygate.location, 5000)).filter(
