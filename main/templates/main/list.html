@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static extra i18n %}
 <style type="text/css">
 {% block style%}
 .listapart .fa {
@@ -30,24 +30,18 @@ h1 {
 {% block content %}
 
 {% include 'topnavbar.html' %}
-{% include 'searchnavbar.html' %}
+{% universitysearchform %}
 
 <div class="container">
-    <div class="row my-3" id="pagenav">
-        <div class="col-12 bg-faded text-small">
-            <a href="{% url 'home' %}">Home</a> > <a href="{% url 'list' %} ">{{gatelist.0.university.city}}</a> > <a href="#">{{gatelist.0.university.title}}</a>
-        </div>
-    </div>
-
-<h1>{{gatelist.0.university.title}}, {{gatelist.0.university.city}}</h1>
-
+{% if apartlist %}
+<h1>{% trans 'Aparts found' %}</h1>
 <section class="row">
 
 <div id="map-canvas" class="col-md-6" style="height: 60vh;"></div>
 
 
 <div class="col-md-6" style="overflow: auto; height: 60vh;">
-    <p class="card-header" > Click <i class='fa fa-heart-o'></i> for comparison. <small>{{apartlist|length}} found.</small></p>
+    <p class="card-header" > {% trans 'Click <i class='fa fa-heart-o'></i> for comparison.' %} <small>{{apartlist|length}} {% trans 'found' %}.</small></p>
     {% for apart in apartlist %}
 
     <div class="listapart py-2" style="background: {% cycle '#f7f7f9' '#ddd'%}">
@@ -74,29 +68,18 @@ h1 {
 
 </div>
 <div class="col-12">
-<button id="comparebutton" class="btn btn-primary pull-right">Compare details</button>
+<button id="comparebutton" class="btn btn-primary pull-right">{% trans 'Compare details' %}</button>
 </div>
 </section>
+{% else %}
 
-<section id="recommendation" class="row">
+<h2>{% trans 'No aparts found' %} </h2>
 
-<h2>Recommended</h2>
-{% for apart in recommenedlist %}
+{% endif %}
 
-{% endfor %}
-    
-</section>
-
-<section id="similars" class="row">
-<h2>Most Reviewed</h2>
-{% for apart in simiarlist %}
-
-{% endfor %}
-</section>
     
 </div>
 
-</div>
 
 
 <script src="https://maps.googleapis.com/maps/api/js?&key={{googleapikey}}"></script>

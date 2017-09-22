@@ -1,14 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import *
-from .forms import ApartForm, CommentForm, MainSearchForm,ContactForm,ContactApartOwnerForm
+from .forms import ApartForm,ImageFormHelper, CommentForm, MainSearchForm,ContactForm, ContactApartOwnerForm, ImageFormSet
 
 from django.conf import settings
 from django.utils import timezone
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+from django.utils.translation import ugettext as _
 
 # Create your views here.
 
@@ -34,32 +38,22 @@ def list(request):
 	template = 'main/list.html'
 
 	if request.GET:
-		universityname = request.GET.get('university').split(',')[0]
-		university = University.objects.get(title=universityname)
+		if 'apart' in request.GET:
+			apartname = request.GET.get('apart')
 
-		gatelist = university.universitygate_set.all()
+			apartlist = Apart.objects.filter(title__icontains=apartname)
 
-		universitygate = gatelist[0]
+			if apartlist.count() == 1 :
+				url = reverse_lazy('detail', kwargs={'slug':apartlist[0].slug})
+				return redirect(url)
 
-		#gender = request.GET.get('gender')
-
-		if 'Kiz' in request.GET:
-			genders = ['f','mf', 'n']
-		else:
-			genders = ['m', 'mf', 'n']
-
-		apartlist = Apart.objects.filter(location2__distance_lte=
-			(universitygate.location, 5000)).filter(
-			gender__in=genders)
 	else:
 		apartlist = Apart.objects.all()
-		gatelist = UniversityGate.objects.all()
 
 	apikey = settings.GOOGLE_MAPS_API_KEY
 
 	context = {
 	'apartlist': apartlist,
-	'gatelist': gatelist,
 	'googleapikey': apikey,
 	}
 
@@ -69,22 +63,23 @@ def list2(request):
 	template = 'main/listajax.html'
 
 	if request.GET:
-		universityname = request.GET.get('university').split(',')[0]
-		university = University.objects.get(title=universityname)
+		if 'university' in request.GET: 
+			universityname = request.GET.get('university').split(',')[0]
+			university = University.objects.get(title=universityname)
 
-		gatelist = university.universitygate_set.all()
+			gatelist = university.universitygate_set.all()
 
-		universitygate = gatelist[0]
+			universitygate = gatelist[0]
 
-		location = universitygate.location
-		print(location)
+			location = universitygate.location
+			print(location)
 
-		#gender = request.GET.get('gender')
+			#gender = request.GET.get('gender')
 
-		if 'Kiz' in request.GET:
-			genders = ['f','mf', 'n']
-		else:
-			genders = ['m', 'mf', 'n']
+			if 'Kiz' in request.GET:
+				genders = ['f','mf', 'n']
+			else:
+				genders = ['m', 'mf', 'n']
 
 	else:
 		gatelist = UniversityGate.objects.all()
@@ -100,18 +95,116 @@ def list2(request):
 
 	return render(request, template, context)
 
+
+# list of aparts by clicking tree
+def apartlist(request, city, university):
+	"""
+	get the list of properties by the name of city and universities
+	input:
+	'city': name of city, string
+	'university': University slug, string
+	"""
+
+	template = 'main/apartlist.html'
+
+	if university == 'all':
+		university_list = University.objects.filter(city__icontains=city)
+	else:
+		university_list = University.objects.filter(slug=university)
+
+	apartlist = []
+
+	
+	for university in university_list:
+		gate = university.universitygate_set.all()
+		gate = gate[0]
+
+		apartlist1 = Apart.objects.filter(location2__distance_lte=
+			(gate.location, 5000))
+
+		apartlist.append(apartlist1)
+
+
+	context = {
+	'city': city,
+	'universities': university_list,
+	'apartlist': apartlist,
+	}
+
+
+	return render(request, template, context)
+
+
+def propertylist(request):
+	template = 'main/propertylist.html'
+
+	cities = University.objects.values_list('city', flat=True).distinct().order_by('city')
+
+	context = {
+	'cities': cities,
+	}
+
+	return render(request, template, context)
+# apart create, update, detail, delete pages
+
 def CreateApart(request):
 	template = 'main/apartform.html'
 
 	if request.POST:
 		form = ApartForm(request.POST)
+		imageform = ImageFormSet(request.POST)
+
+		if form.is_valid() and imageform.is_valid():
+			form.save()
+			imageform.save()
+			print('saved')
 	else:
 		form = ApartForm(None)
+		imageform = ImageFormSet(None)
+	
+	imageformhelper = ImageFormHelper
 
 	context = {
 	'form': form,
+	'imageform': imageform,
+	'imageformhelper': imageformhelper,
 	}
 	return render(request, template, context)
+
+
+class ApartCreateView(CreateView):
+	model = Apart
+	form_class = ApartForm
+	template_name = 'main/apartform.html'
+
+
+
+class ApartUpdateView(UpdateView):
+	model = Apart
+	form_class = ApartForm
+	template_name = 'main/apartform.html'
+
+
+def uploadapartpic(request,slug):
+	apart = Apart.objects.get(slug=slug)
+
+	if request.POST:
+		form = ImageFormSet(request.POST, request.FILES, instance=apart)
+		if form.is_valid():
+			form.save()
+			#return HttpResponseRedirect(apart.get_absolute_url())
+	
+	form = ImageFormSet(instance = apart)
+
+	template='main/uploadpic.html'
+	context = {
+	'form':form,
+	'apart': apart,
+	}
+
+	return render(request, template, context)
+
+
 
 
 def ApartDetail(request, slug):
@@ -146,12 +239,18 @@ def ApartDetail(request, slug):
 
 	# add to visited history
 	if request.user.is_authenticated: 
-		pass
+		request.user.visitedaparts.add(apart)
 
 	try:
-		request.session['visited'].append(apart.slug)
+		sessionvisitedlist = request.session['visited']
+		sessionvisitedlist.append(apart.slug)
 	except:
-		request.session['visited'] = [apart.slug]
+		sessionvisitedlist = [apart.slug]
+		#request.session['visited'] = apart.pk
+
+	request.session['visited'] = sessionvisitedlist
+	print(request.session['visited'])
+
 		
 
 	context = {
@@ -168,6 +267,7 @@ def ApartDetail(request, slug):
 	}
 
 	return render(request, template, context)
+
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -223,11 +323,12 @@ def ComparisonApart(request):
 	template = 'main/comparison.html'
 
 	if request.GET:
-		apartlist = request.GET.get('apartlist').split(',')
+		apartlist = request.GET.get('apartlist').split(',')[0:-1]
+		print(apartlist)
 	else:
 		apartlist = ''
 
-	apartToCompare = Apart.objects.filter(title__in=apartlist)
+	apartToCompare = Apart.objects.filter(pk__in=apartlist)
 	if apartToCompare:
 		gatelist = UniversityGate.objects.filter(location__distance_lte=(
 			apartToCompare[0].location2,10000))
@@ -316,6 +417,44 @@ def ContactPage(request, slug):
 	}
 
 	return render(request, template, context)	
+
+
+def roomtypedetail(request, pk):
+	template = 'main/roomtypedetail.html'
+	roomtype = RoomType.objects.get(pk=pk)
+	print(roomtype)
+
+	context = {
+	'roomtype': roomtype,
+	}
+
+	return render(request, template, context)
+
+
+
+def helppage(request):
+	template = 'main/helppage.html'
+	questions = FrequentlyAskedQuestions.objects.all()
+
+	context = {
+	'questions': questions,
+	}
+
+	return render(request, template, context)
+
+
+@login_required
+def userProfile(request):
+	user = request.user
+
+	template = 'main/userprofile.html'
+
+	context = {
+	'user': user,
+	}
+
+	return render(request, template, context)
+
 
 
 

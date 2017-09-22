@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+<style type="text/css">
+{% block style %}
+
+h2 {
+	line-height: 200%;
+	background: #f7f7f7;
+}
+
+{% endblock %}	
+</style>
+
+
+
+{% block content %}
+{% include 'topnavbar.html' %}
+
+<div class="container">
+
+	<h1>{{ user.username }}</h1>
+
+	<h2> {% trans 'Profile' %} </h2>
+		<dl class="row">
+			<dt class="col-3">{% trans 'Username' %}</dt>
+			<dd class="col-9">{{user.username}}</dd>
+			<dt class="col-3">{% trans 'First Name' %}</dt>
+			<dd class="col-9">{{user.first_name}}</dd>
+			<dt class="col-3">{% trans 'Last Name' %}</dt>
+			<dd class="col-9">{{user.last_name}}</dd>
+			<dt class="col-3">{% trans 'Email' %}</dt>
+			<dd class="col-9">{{user.email}} <a class="btn btn-secondary" href="{% url 'account_email'%}">{% trans 'Change Email' %}</a>
+			</dd>
+			<dt class="col-3">{% trans 'Password' %}</dt>
+			<dd class="col-9">
+			<a class="btn btn-secondary" href="{% url 'account_change_password' %}"> {% trans 'Change Password' %}</a>
+			<a class="btn btn-secondary" href="{% url 'account_reset_password' %}"> {% trans 'Reset Password' %}</a>
+			</dd>
+		</dl>
+					
+
+
+
+	<h2> {% trans 'liked properties' %} </h2>
+
+	<ul>
+	{% for apart in user.likedaparts.all %}
+		<li><a href="{% url 'detail' apart.slug %}">{{apart.title}}</a></li>
+	{% endfor %}
+	</ul>
+
+	<h2> {% trans 'disliked properties' %} </h2>
+	<ul>
+	{% for apart in user.dislikedaparts.all %}
+			<li><a href="{% url 'detail' apart.slug %}">{{apart.title}}</a></li>
+	{% endfor %}
+	</ul>
+
+	<h2>{% trans 'visited aparts' %}</h2>
+		<ul>
+	{% for apart in user.visitedaparts.all %}
+				<li><a href="{% url 'detail' apart.slug %}">{{apart.title}}</a></li>
+	{% endfor %}
+	</ul>
+
+
+	
+</div>
+
+{% endblock %}

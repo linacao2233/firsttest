@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load i18n extra %}
+
+{% block content %}
+{% include 'topnavbar.html' %}
+{% include 'searchnavbar.html' %}
+<!-- small nav -->
+<div class="container">
+	<div class="row my-4 bg-faded" id="smallnav">
+		<nav> 
+			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
+			<a href="{% url 'apartlist' %}">{% trans 'List' %}</a> >
+			<a href="{% url 'apartlist' city=city %}">{{city}}</a>	
+		</nav>
+	</div>
+
+	<div class="row">
+		<ul>
+
+		{% for university in universities %}
+		{% with forloop.counter0 as index %}
+	    <li> {{university.title}}
+	   ({{apartlist|index:index|length}} {% trans 'properties' %})
+	   <a href="{% url 'list'%}?university={{university.title}}, {{university.city}}">Map view</a> 
+	    <span class="universitylistshow btn-link" title='{% trans "show list" %}'>List</span>
+	    	<table class="table">
+	    		<tbody>
+	    			{% for apart in apartlist|index:index %}
+	    			<tr>
+	    			<th scope="row"> {{forloop.counter}}</th>
+					<td>{% include 'main/snippets/singleapartlist.html' with apart=apart %}</td>
+	    			</tr>
+	    			{% endfor %}
+	    		</tbody>
+	    	</table>
+	    	<ol style="display: none;">
+	    		{% for apart in apartlist|index:index %}
+	    			<li>
+						{% include 'main/snippets/singleapartlist.html' with apart=apart %}
+	    			</li>
+	    			<hr>
+	    		{% endfor %}
+	    	</ol>
+	    </li>
+	    {% endwith %}
+
+		{% endfor %}
+		</ul>
+		
+	</div>
+
+</div>
+
+
+{% endblock %}
+
+<script type="text/javascript">
+	{% block script %}
+// $('.universitylistshow').each(function(){
+// 	$(this).next('ol').hide();
+// })
+$('.universitylistshow').click(function(){
+	$(this).next('ol').toggle();
+})
+
+
+
+	{% endblock %}
+
+</script>

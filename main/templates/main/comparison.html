@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load extra %}
+{% load i18n %}
 
 {% block title%}
 Comparison page
@@ -34,85 +35,82 @@ Comparison page
 
 {% block content %}
 {% include 'topnavbar.html' %}
-{% include 'searchnavbar.html' %}
-<h1>Comparison page</h1>
+{% universitysearchform %}
+<h1>{% trans 'Comparison page' %}</h1>
 
 <div class="container">
-<div class="row">
-<div id="map-canvas" class = "col-12" style="height: 200px;" >	
-</div>
+    <div class="row">
+      <div id="map-canvas" class = "col-12 my-3" style="height: 200px;" >	
+      </div>
+    </div>
 
 
+    <table class="table table-hover table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th> {% trans 'Property' %} </th>
+          {% for apart in apartlist %}
+          <th class="imagecell">
+          {% if apart.iconpic %}
+            <img src="{{ apart.iconpic.url }}">  
+          {% else %}
+            <img src="{% static 'img/logo_thumb.jpg'%}">
+          {% endif %}
+          
+          <h4 class="card-title">{{forloop.counter}}, {{apart.title}} <a href="{% url 'detail' apart.slug %}"> >> </a></h4> 
 
-</div>
-
-
-<table class="table table-hover table-bordered table-responsive">
-  <thead>
-    <tr>
-      <th> </th>
-      {% for apart in apartlist %}
-      <th class="imagecell">
-      {% if apart.iconpic %}
-        <img src="{{ apart.iconpic.url }}">  
-      {% endif %}
-      
-      <h4 class="card-title">{{forloop.counter}}, {{apart.title}} <a href="{% url 'detail' apart.slug %}"> >> </a></h4> 
-
-      </th>
-      {% endfor %}
-    </tr>    
-  </thead>
-  <tbody id="vueapp">
-    <tr>
-      <th scope="row"> comments  contact</th>
-      {% for apart in apartlist %}
-        <td>
-        <ratingcomponent :rating="{{apart.starlevel}}"></ratingcomponent>
-
-          ({{apart.comment_set|length}} comments) <br>
-          <i class="fa fa-phone"></i>: {{apart.phonenumber}} <br>
-          <i class="fa fa-envelope"></i>: {{ apart.email}}
-
-        <a href="{{apart.officalweblink}}"><i class="fa fa-globe"></i></a>
-        <a href="{{apart.facebooklink}}"><i class="fa fa-facebook"></i></a>
-
-        </td>
-      {% endfor %}
-      </tr>
-
-    <tr>
-      <th scope="row"> Room properties</th>
-        {% for apart in apartlist %}
-          <td>
-              {{apart.NumberofPeoplePerRoom}}
-          </td>
-        {% endfor %}
-    </tr>
-
-    {% for features in featureslist %}
-      <tr>
-        <th scope="row"> {{features.category}}</th>
+          </th>
+          {% endfor %}
+        </tr>    
+      </thead>
+      <tbody id="vueapp">
+        <tr>
+          <th scope="row"> comments  contact</th>
           {% for apart in apartlist %}
             <td>
-              {% for feature in features.features %}
-                {% if apart|has_feature:feature %}
-                   <strong>{{ feature.name }}</strong>,
-                {% else %}
-                    <small><strike>{{ feature.name }}</strike></small>,
-                  {% endif %}
+            <ratingcomponent :rating="{{apart.starlevel}}"></ratingcomponent>
+              ({{apart.comment_set|length}} comments) <br>
+              <i class="fa fa-phone"></i>: {{apart.phonenumber}} <br>
+              <i class="fa fa-envelope"></i>: {{ apart.email}}
 
-               {% endfor %}
+            <a href="{{apart.officalweblink}}"><i class="fa fa-globe"></i></a>
+            <a href="{{apart.facebooklink}}"><i class="fa fa-facebook"></i></a>
 
             </td>
           {% endfor %}
-      </tr>
+          </tr>
 
-    {% endfor %}     
-  </tbody>
-  
-</table>
+        <tr>
+          <th scope="row"> Room properties</th>
+            {% for apart in apartlist %}
+              <td>
+                  {{apart.NumberofPeoplePerRoom}}
+              </td>
+            {% endfor %}
+        </tr>
 
+        {% for features in featureslist %}
+          <tr>
+            <th scope="row"> {{features.category}}</th>
+              {% for apart in apartlist %}
+                <td>
+                  {% for feature in features.features %}
+                    {% if apart|has_feature:feature %}
+                       <strong>{{ feature.name }}</strong>,
+                    {% else %}
+                        <small><strike>{{ feature.name }}</strike></small>,
+                      {% endif %}
+
+                   {% endfor %}
+
+                </td>
+              {% endfor %}
+          </tr>
+
+        {% endfor %}     
+      </tbody>
+      
+    </table>
 
 </div>
 
@@ -204,12 +202,12 @@ Comparison page
         {% for poi in apartlist %}
           apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description}}'
 
-            addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
+            addMarker(changenumberformat('{{ poi.location2.y }}'), changenumberformat('{{ poi.location2.x }}'), "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
 
         {% endfor %}
 
         {% for gate in gatelist %}
-            addGateMarker({{ gate.location.y }}, {{ gate.location.x }}, "{{ gate.title }}");
+            addGateMarker(changenumberformat('{{ gate.location.y }}'), changenumberformat('{{ gate.location.x }}'), "{{ gate.title }}");
         {% endfor %}
         map.fitBounds(bounds);
     }

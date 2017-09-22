@@ -1,0 +1,17 @@
+{% load static i18n %}
+
+<div class="container">
+    <div class="row">
+        <div style="width: 200px;">
+        {% if apart.iconpic %}
+            <img  src={{apart.iconpic.url}} alt={{apart.title}} width="100%">
+        {% else %}
+            <img src="{% static 'img/logo_thumb.jpg' %}" alt="logo image" width="100%">
+        {% endif %}
+        </div>
+        <div class="col-6">           
+            <a href="{% url 'detail' apart.slug %}">{{ apart.title }}</a> <br>
+             {{apart.starlevel}}/5.0 ({{apart.comment_set.all|length}}  {% trans 'comments' %})
+        </div>
+    </div>
+</div> 

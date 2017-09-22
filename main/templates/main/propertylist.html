@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load i18n extra %}
+
+<style type="text/css">
+{% block style %}
+
+body {
+	background: 
+}
+
+{% endblock %}	
+
+</style>
+
+{% block content %}
+{% include 'topnavbar.html' %}
+{% include 'searchnavbar.html' %}
+<!-- small nav -->
+<div class="container">
+	<div class="row my-4 bg-faded" id="smallnav">
+		<nav> 
+			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
+			<a href="{% url 'apartlist' %}">{% trans 'List' %}</a>
+
+		</nav>
+	</div>
+
+	<div class="row">
+		<ul>
+
+		{% for city in cities %}
+	    <li> <a href="{% url 'apartlist' city=city university='all' %}">{{city}}</a>
+	    </li>
+		{% endfor %}
+		</ul>
+		
+	</div>
+
+
+</div>
+
+
+{% endblock %}

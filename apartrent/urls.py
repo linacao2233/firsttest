@@ -26,14 +26,32 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', mainviews.index, name='home'),
     url(r'^list/$', mainviews.list2, name='list'),
+    url(r'^filterapart/$', mainviews.list, name='filterapart'),
+    url(r'^help/$', mainviews.helppage, name='helppage'),
+
     # testing views
     #url(r'^list2/$', mainviews.list2, name='list2'),
 
     url(r'^contact/(?P<slug>[-\w]+)/$', mainviews.ContactPage, name='contact'),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^profile/$', mainviews.userProfile, name='userprofile'),
+
+# apart create, update, detail, delete views
+    url(r'^newapart/$', mainviews.CreateApart, name='create'),
+    url(r'^createapart/$', mainviews.ApartCreateView.as_view(), 
+        name='createapart'),    
+    url(r'^updateapart/(?P<slug>[-\w]+)/$', mainviews.ApartUpdateView.as_view(), 
+        name='updateview'),
+    url(r'^uploadimage/(?P<slug>[-\w]+)/$', mainviews.uploadapartpic, 
+        name='uploadpic'),
+
+    # list views for searching perpose 
+    #url(r'^propertylist/$', mainviews.propertylist, name='propertylist'),
+
+    url(r'^propertylist(?:/(?P<city>[-\w]+))?(?:/(?P<university>[-\w]+))?/$',
+        mainviews.apartlist, name='apartlist'),
 
 
-    url(r'^newpart/$', mainviews.CreateApart, name='create'),
     url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),
 
     url(r'^ajax/commentsave/$', mainviews.commentsSave, name='commentsave'),
@@ -43,6 +61,16 @@ urlpatterns = [
     url(r'^ajax/visitedapartlist/$', ajaxviews.visitedApart.as_view(), name='ajaxvisitedlist'),
 
     url(r'^ajax/apart/(?P<pk>[0-9]+)/$', ajaxviews.ApartDetail.as_view()),
+    url(r'^roomtypes/(?P<pk>[0-9]+)/$', mainviews.roomtypedetail, name="roomtypedetail"),
+
+    # ajax thumbs up down share views
+    url(r'^ajax/thumbsup/(?P<pk>[0-9]+)/$', ajaxviews.thumbsup, name="thumbsup"),
+    url(r'^ajax/thumbsdown/(?P<pk>[0-9]+)/$', ajaxviews.thumbsdown, name="thumbsdown"),
+    url(r'^ajax/shareaparts/(?P<pk>[0-9]+)/$', ajaxviews.shareaparts, name="shareaparts"),
+
+# language setting
+    url(r'^i18n/', include('django.conf.urls.i18n')),
+
 ]
 
 if settings.DEBUG:
