@@ -50,9 +50,9 @@ h1 {
     <div class="row my-4 bg-faded" id="smallnav">
         <nav> 
             <a href="{% url 'home'%}">{% trans 'Home' %}</a> >
-            <a href="{% url 'propertylist' %}">{% trans 'List' %}</a> >
-            <a href="{% url 'apartlist' city=city university='all'%}">{{city}}</a> >
-            <a href="#">{{gatelist.0.university.title}}</a>
+            <a href="{% url 'apartlist' %}">{% trans 'List' %}</a> >
+            <a href="{% url 'apartlist' city=city %}">{{city}}</a> >
+            {{gatelist.0.university.title}} <a href="{% url 'apartlist' city=city university=university %}"><i class="fa fa-list-ul"></i></a>
 
         </nav>
     </div>

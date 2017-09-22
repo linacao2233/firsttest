@@ -10,22 +10,40 @@
 		<nav> 
 			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
 			<a href="{% url 'apartlist' %}">{% trans 'List' %}</a> >
-			<a href="{% url 'apartlist' city=city %}">{{city}}</a>	
+			{% if city %}
+			<a href="{% url 'apartlist' city=city %}">{{city}}</a> >
+			{% endif %}
+			{% if universityobject %}
+			{{universityobject.title}} 
+			<a href="{% url 'list' %}?university={{universityobject.title}}, {{universityobject.city}}" title="{% trans 'map view' %}"><i class="fa fa-map"></i></a>
+			{% endif %}
 		</nav>
 	</div>
 
 	<div class="row">
-		<ul>
 
-		{% for university in universities %}
-		{% with forloop.counter0 as index %}
-	    <li> {{university.title}}
-	   ({{apartlist|index:index|length}} {% trans 'properties' %})
-	   <a href="{% url 'list'%}?university={{university.title}}, {{university.city}}">Map view</a> 
-	    <span class="universitylistshow btn-link" title='{% trans "show list" %}'>List</span>
-	    	<table class="table">
+		{% if cities %}
+		<ul>
+			{% for city in cities %}
+				<li class="col-12"><a href="{% url 'apartlist' city=city %}">{{city}}</a></li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+
+		{% if universities %}
+			<ul>
+			{% for university in universities %}
+				<li class="col-12"><a href="{% url 'apartlist' city=city university=university.slug %}">{{university.title}}</a></li>
+			{% endfor %}
+			</ul>
+
+		{% endif %}
+
+		{% if apartlist %}
+			<div class="col-md-10">
+			<table class="table table-striped">
 	    		<tbody>
-	    			{% for apart in apartlist|index:index %}
+	    			{% for apart in apartlist %}
 	    			<tr>
 	    			<th scope="row"> {{forloop.counter}}</th>
 					<td>{% include 'main/snippets/singleapartlist.html' with apart=apart %}</td>
@@ -33,19 +51,15 @@
 	    			{% endfor %}
 	    		</tbody>
 	    	</table>
-	    	<ol style="display: none;">
-	    		{% for apart in apartlist|index:index %}
-	    			<li>
-						{% include 'main/snippets/singleapartlist.html' with apart=apart %}
-	    			</li>
-	    			<hr>
-	    		{% endfor %}
-	    	</ol>
-	    </li>
-	    {% endwith %}
+	    	</div>
 
-		{% endfor %}
-		</ul>
+	    	<div class="col-md-2">
+	    		<a href="{% url 'list' %}?university={{universityobject.title}}, {{universityobject.city}}">Map View</a>
+	    		
+	    	</div>
+
+		{% endif %}
+
 		
 	</div>
 

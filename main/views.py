@@ -97,7 +97,7 @@ def list2(request):
 
 
 # list of aparts by clicking tree
-def apartlist(request, city, university):
+def apartlist(request, city=None, university=None):
 	"""
 	get the list of properties by the name of city and universities
 	input:
@@ -107,28 +107,30 @@ def apartlist(request, city, university):
 
 	template = 'main/apartlist.html'
 
-	if university == 'all':
-		university_list = University.objects.filter(city__icontains=city)
+	apartlist = None
+	cities = None
+	universities = None
+	universityobject = None
+
+	if university:
+		universityobject = University.objects.get(slug=university)
+		gate = universityobject.universitygate_set.all()[:1].get()
+		apartlist = Apart.objects.filter(location2__distance_lte=
+				(gate.location,5000)).order_by('-starlevel')
+		city = universityobject.city
 	else:
-		university_list = University.objects.filter(slug=university)
-
-	apartlist = []
-
-	
-	for university in university_list:
-		gate = university.universitygate_set.all()
-		gate = gate[0]
-
-		apartlist1 = Apart.objects.filter(location2__distance_lte=
-			(gate.location, 5000))
-
-		apartlist.append(apartlist1)
-
+		if city:
+			universities = University.objects.filter(city__icontains=city).order_by('title')
+		else:
+			cities = University.objects.values_list('city', 
+					flat=True).distinct().order_by('city')
 
 	context = {
-	'city': city,
-	'universities': university_list,
 	'apartlist': apartlist,
+	'cities': cities,
+	'universities': universities,
+	'city': city,
+	'universityobject': universityobject,
 	}
 
 

@@ -277,6 +277,9 @@ class University(models.Model):
 
 		if slug_count:
 			self.slug += self.pk
+		
+		super(University, self).save(*args, **kwargs)
+
 
 
 	def __str__(self):
