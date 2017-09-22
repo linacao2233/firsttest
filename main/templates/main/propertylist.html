@@ -1,15 +1,26 @@
 {% extends 'base.html' %}
 {% load i18n extra %}
 
+<style type="text/css">
+{% block style %}
+
+body {
+	background: 
+}
+
+{% endblock %}	
+
+</style>
+
 {% block content %}
 {% include 'topnavbar.html' %}
 {% include 'searchnavbar.html' %}
 <!-- small nav -->
 <div class="container">
-	<div class="row my-4" id="smallnav">
-		<nav class="bg-faded"> 
+	<div class="row my-4 bg-faded" id="smallnav">
+		<nav> 
 			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
-			<a href="{% url 'propertylist' %}">{% trans 'List' %}</a>
+			<a href="{% url 'apartlist' %}">{% trans 'List' %}</a>
 
 		</nav>
 	</div>

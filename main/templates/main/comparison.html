@@ -202,12 +202,12 @@ Comparison page
         {% for poi in apartlist %}
           apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description}}'
 
-            addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
+            addMarker(changenumberformat('{{ poi.location2.y }}'), changenumberformat('{{ poi.location2.x }}'), "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
 
         {% endfor %}
 
         {% for gate in gatelist %}
-            addGateMarker({{ gate.location.y }}, {{ gate.location.x }}, "{{ gate.title }}");
+            addGateMarker(changenumberformat('{{ gate.location.y }}'), changenumberformat('{{ gate.location.x }}'), "{{ gate.title }}");
         {% endfor %}
         map.fitBounds(bounds);
     }

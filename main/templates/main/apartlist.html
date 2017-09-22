@@ -6,11 +6,11 @@
 {% include 'searchnavbar.html' %}
 <!-- small nav -->
 <div class="container">
-	<div class="row my-4" id="smallnav">
-		<nav class="bg-faded"> 
+	<div class="row my-4 bg-faded" id="smallnav">
+		<nav> 
 			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
-			<a href="{% url 'propertylist' %}">{% trans 'List' %}</a> >
-			<a href="{% url 'apartlist' city=city university='all'%}">{{city}}</a>	
+			<a href="{% url 'apartlist' %}">{% trans 'List' %}</a> >
+			<a href="{% url 'apartlist' city=city %}">{{city}}</a>	
 		</nav>
 	</div>
 
@@ -19,10 +19,26 @@
 
 		{% for university in universities %}
 		{% with forloop.counter0 as index %}
-	    <li> <a href="{% url 'list' %}?university={{university.title}}, {{university.city}}">{{ university.title }}</a> (<button class="universitylistshow btn btn-secondary">{{apartlist|index:index|length}} {% trans 'properties' %}</button>)
+	    <li> {{university.title}}
+	   ({{apartlist|index:index|length}} {% trans 'properties' %})
+	   <a href="{% url 'list'%}?university={{university.title}}, {{university.city}}">Map view</a> 
+	    <span class="universitylistshow btn-link" title='{% trans "show list" %}'>List</span>
+	    	<table class="table">
+	    		<tbody>
+	    			{% for apart in apartlist|index:index %}
+	    			<tr>
+	    			<th scope="row"> {{forloop.counter}}</th>
+					<td>{% include 'main/snippets/singleapartlist.html' with apart=apart %}</td>
+	    			</tr>
+	    			{% endfor %}
+	    		</tbody>
+	    	</table>
 	    	<ol style="display: none;">
 	    		{% for apart in apartlist|index:index %}
-	    			<li><a href="{% url 'detail' apart.slug %}">{{apart}}</a></li>
+	    			<li>
+						{% include 'main/snippets/singleapartlist.html' with apart=apart %}
+	    			</li>
+	    			<hr>
 	    		{% endfor %}
 	    	</ol>
 	    </li>

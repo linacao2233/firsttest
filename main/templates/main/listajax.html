@@ -44,28 +44,37 @@ h1 {
 
 <div class="container" id="vueapartlist">
 
-    <section class="row">
-        <h1>{{gatelist.0.university.title}}, {{gatelist.0.university.city}}</h1>
-        <div class="col-12 my-3">
+{% with gatelist.0.university.slug as university %}
+{% with gatelist.0.university.city as city %}
 
+    <div class="row my-4 bg-faded" id="smallnav">
+        <nav> 
+            <a href="{% url 'home'%}">{% trans 'Home' %}</a> >
+            <a href="{% url 'propertylist' %}">{% trans 'List' %}</a> >
+            <a href="{% url 'apartlist' city=city university='all'%}">{{city}}</a> >
+            <a href="#">{{gatelist.0.university.title}}</a>
+
+        </nav>
+    </div>
+{% endwith %}
+{% endwith %}
+
+    <section class="row">
+
+        <h1 class="col-12">{{gatelist.0.university.title}}, {{gatelist.0.university.city}}</h1>
+        <div class="col-12 my-3">
             {% verbatim %}
-            <div v-if=loading>{{ loading }}</div>
-            <div v-else>  {{ count }} {% endverbatim %} {% trans 'aparts are found' %}, {% verbatim %} {{ apartlist.length }}{% endverbatim %} {% trans 'aparts are loaded' %}. 
+            <div v-if=loading>{{ loading }}<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></div>
+            <div v-else>  {{ count }} {% endverbatim %} {% trans 'properties are found' %}, {% verbatim %} {{ apartlist.length }}{% endverbatim %} {% trans 'properties are loaded' %}. 
             <span v-if="next">
                 <button class="btn btn-secondary loadbutton" @click="loadmore">{% trans 'Load More' %}</button>
             </span>
-            {% trans "Click <i class='fa fa-heart-o'></i> to add to comparison." %} 
             </div>
-
-            
-
-
+        <div class="col-12 text-right">
+            {% trans "Click" %} <i class='fa fa-heart-o'></i> {% trans "to add to comparison." %} 
         </div>
 
-        <div class="col-12">
-            <div class="pull-right">
-            {% include 'searchapart.html' %}
-            </div>
+
         </div>
 
 
@@ -125,7 +134,9 @@ h1 {
 
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?&key={{googleapikey}}"></script>
+    {% get_current_language as LANGUAGE_CODE %}
+
+<script src="https://maps.googleapis.com/maps/api/js?&key={{googleapikey}}&language={{LANGUAGE_CODE}}"></script>
 
 {% include 'footer.html' %}
 
@@ -264,7 +275,7 @@ h1 {
             comparelist: {},
             next: '/',
             count: 0,
-            loading: 'loading',
+            loading: "{% trans 'loading' %}",
         },
         computed: {
             sortedArray: function(){
@@ -325,7 +336,8 @@ h1 {
     var startlocation = new google.maps.LatLng()
     var map = new google.maps.Map(document.getElementById('map-canvas'),{
         gestureHandling: 'auto',
-        center: {lat: {{location.y}}, lng: {{location.x}}},
+        center: {lat: changenumberformat('{{location.y}}'), 
+                lng: changenumberformat("{{location.x}}")},
         zoom: 13,
 
     });

@@ -322,8 +322,9 @@
 {% endverbatim %} 
 
 </div>
+    {% get_current_language as LANGUAGE_CODE %}
 
-<script src="https://maps.googleapis.com/maps/api/js?&key={{apikey}}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?&key={{apikey}}&language={{LANGUAGE_CODE}}"></script>
 
 
 {% endblock %}
@@ -385,11 +386,8 @@ $(function () {
 
 	}
 
+	var position = {lat:changenumberformat('{{apart.location2.y}}'), lng: changenumberformat('{{apart.location2.x}}')};
 
-
-
-
-	var position = new google.maps.LatLng({{apart.location2.y}}, {{apart.location2.x}});
 	var map = new google.maps.Map(document.getElementById('map'), {
         	gestureHandling: 'cooperative',
         	zoom: 14,
@@ -413,7 +411,7 @@ $(function () {
 
     {% for gate in gatelist %}
 
-    AddGate({{gate.location.y}}, {{gate.location.x}}, '{{gate.title}}', '');
+    AddGate(changenumberformat('{{gate.location.y}}'), changenumberformat('{{gate.location.x}}'), '{{gate.title}}', '');
 
     {% endfor %}
 

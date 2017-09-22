@@ -20,35 +20,35 @@ msgstr ""
 
 #: main/ajaxviews.py:105
 msgid "you liked this"
-msgstr "Bunu be?endiniz"
+msgstr "Bunu beğendiniz"
 
 #: main/ajaxviews.py:108
 msgid "this is already on your like list"
-msgstr "Bu zaten be?endiklerim listenizde"
+msgstr "Bu zaten beğendiklerim listenizde"
 
 #: main/ajaxviews.py:113
 msgid "you have alreadly liked this"
-msgstr "Daha önce be?endi?inizi belirttiniz"
+msgstr "Daha önce beğendiğinizi belirttiniz"
 
 #: main/ajaxviews.py:119
 msgid "thanks for liking this"
-msgstr "Be?endi?iniz için te?ekkür ederiz"
+msgstr "Beğendiğiniz için teşekkür ederiz"
 
 #: main/ajaxviews.py:131 main/ajaxviews.py:145
 msgid "you disliked this"
-msgstr "Bundan ho?lanmad?n?z"
+msgstr "Bundan hoşlanmadınız"
 
 #: main/ajaxviews.py:134
 msgid "this is already on your dislike list"
-msgstr "Bu zaten sizin ho?lanmad?klar?m listenizde"
+msgstr "Bu zaten sizin hoşlanmadıklarım listenizde"
 
 #: main/ajaxviews.py:139
 msgid "you have alreadly disliked this"
-msgstr "Daha önce ho?lanmad???n?z? belirttiniz"
+msgstr "Daha önce hoşlanmadığınızı belirttiniz"
 
 #: main/ajaxviews.py:156
 msgid "Thanks for sharing this"
-msgstr "Payla?t???n?z için te?ekkür ederiz"
+msgstr "Paylaştığınız için teşekkür ederiz"
 
 #: main/forms.py:34
 msgid "Location"
@@ -88,23 +88,23 @@ msgstr "Oda içinde"
 
 #: main/models.py:41 main/models.py:45 main/models.py:49 main/models.py:53
 msgid "2 rooms share"
-msgstr "2 oda ortak kullan?r"
+msgstr "2 oda ortak kullanır"
 
 #: main/models.py:41 main/models.py:45 main/models.py:49 main/models.py:53
 msgid "3 rooms share"
-msgstr "3 oda ortak kullan?r"
+msgstr "3 oda ortak kullanır"
 
 #: main/models.py:42 main/models.py:50 main/models.py:54
 msgid "> 3 rooms share"
-msgstr "3'den fazla oda ortak kullan?r"
+msgstr "3'den fazla oda ortak kullanır"
 
 #: main/models.py:46
 msgid "3 to 6 rooms share"
-msgstr "3-6 oda ortak kullan?r"
+msgstr "3-6 oda ortak kullanır"
 
 #: main/models.py:46
 msgid ">6 rooms share"
-msgstr "6'dan fazla oda ortak kullan?r"
+msgstr "6'dan fazla oda ortak kullanır"
 
 #: main/models.py:49
 msgid "no kitchen"
@@ -112,7 +112,7 @@ msgstr "Mutfak yok"
 
 #: main/models.py:53
 msgid "no livingroom"
-msgstr "Oturma odas? yok"
+msgstr "Oturma odası yok"
 
 #: main/models.py:114 main/templates/main/index.html:35
 msgid "Boy"
@@ -124,15 +124,15 @@ msgstr "Bayan"
 
 #: main/models.py:114
 msgid "Both Girl and Boy"
-msgstr "Erkek ve bayan kar???k"
+msgstr "Erkek ve bayan karışık"
 
 #: main/models.py:115
 msgid "Not Sure"
-msgstr "Belirtilmemi?"
+msgstr "Belirtilmemiş"
 
 #: main/models.py:119
 msgid "enter in this format: 1,2,3"
-msgstr "Yanda gösterildi?i ?ekliyle girin: 1,2,3"
+msgstr "Yanda gösterildiği şekliyle girin: 1,2,3"
 
 #: main/models.py:128
 msgid "how many rooms do you have in total?"
@@ -140,11 +140,11 @@ msgstr "Toplamda kaç odan var?"
 
 #: main/models.py:133
 msgid "how many students can you host in total?"
-msgstr "Toplamda kaç ö?renci kalabilir?"
+msgstr "Toplamda kaç öğrenci kalabilir?"
 
 #: main/models.py:141
 msgid "allow to be commented or not?"
-msgstr "Yorum yap?lmas?na izin veriyor musunuz?"
+msgstr "Yorum yapılmasına izin veriyor musunuz?"
 
 #: main/templates/main/apartdetail.html:87
 msgid "Edit"
@@ -152,11 +152,11 @@ msgstr "Düzenle"
 
 #: main/templates/main/apartdetail.html:88
 msgid "Upload Pictures"
-msgstr "Foto?ran Yükle"
+msgstr "Fotoğraf Yükle"
 
 #: main/templates/main/apartdetail.html:95
 msgid "Share"
-msgstr "Payla?"
+msgstr "Paylaş"
 
 #: main/templates/main/apartdetail.html:99
 msgid "Claim"
@@ -164,7 +164,7 @@ msgstr "Talep"
 
 #: main/templates/main/apartdetail.html:102
 msgid "Report"
-msgstr "?stek/?ikayet!"
+msgstr "İstek/Şikayet!"
 
 #: main/templates/main/apartdetail.html:127
 msgid "Map"
@@ -172,7 +172,7 @@ msgstr "Harita"
 
 #: main/templates/main/apartdetail.html:181
 msgid "Contact Owner"
-msgstr "Sahibiyle Görü?"
+msgstr "Sahibiyle Görüş"
 
 #: main/templates/main/apartdetail.html:198
 msgid "Price"
@@ -180,15 +180,15 @@ msgstr "Fiyat"
 
 #: main/templates/main/apartdetail.html:200
 msgid "Totoal number of rooms"
-msgstr "Toplamda Oda Say?s?"
+msgstr "Toplamda Oda Sayısı"
 
 #: main/templates/main/apartdetail.html:202
 msgid "Uplimit of hosting"
-msgstr "En fazla kalabilecek ki?i say?s?"
+msgstr "En fazla kalabilecek kişi sayısı"
 
 #: main/templates/main/apartdetail.html:204
 msgid "Type of rooms"
-msgstr "Oda Çe?itleri"
+msgstr "Oda Çeşitleri"
 
 #: main/templates/main/apartdetail.html:215
 msgid "Features"
@@ -204,7 +204,7 @@ msgstr "Bilinmiyor!"
 
 #: main/templates/main/apartdetail.html:241
 msgid "extra features"
-msgstr "Di?er Özellikler"
+msgstr "Diğer Özellikler"
 
 #: main/templates/main/apartdetail.html:259
 msgid "Address"
@@ -228,7 +228,7 @@ msgstr "Kaydet"
 
 #: main/templates/main/comparison.html:39
 msgid "Comparison page"
-msgstr "K?yaslama sayfas?"
+msgstr "Kıyaslama sayfası"
 
 #: main/templates/main/comparison.html:51 templates/searchapart.html:5
 msgid "Property"
@@ -236,39 +236,39 @@ msgstr "Özellik"
 
 #: main/templates/main/helppage.html:8
 msgid "Frequently asked questions"
-msgstr "S?kça Sorular Sorular"
+msgstr "Sıkça Sorular Sorular"
 
 #: main/templates/main/index.html:23
 msgid "Find the apartment perfect for you!"
-msgstr "Sana uyacak en güzel kalacak yeri bulal?m"
+msgstr "Sana uyacak en güzel kalacak yeri bulalım"
 
 #: main/templates/main/index.html:46
 msgid "Check out real comments"
-msgstr "Gerçek kapsaml? yorumlar"
+msgstr "Gerçek kapsamlı yorumlar"
 
 #: main/templates/main/index.html:47
 msgid "Check the comments from real students"
-msgstr "Gerçek ö?rencilerden yorumlar"
+msgstr "Gerçek öğrencilerden yorumlar"
 
 #: main/templates/main/index.html:48
 msgid "Find out more!"
-msgstr "Daha fazlas? ... "
+msgstr "Daha fazlası ... "
 
 #: main/templates/main/index.html:56
 msgid "Compare different Apartments"
-msgstr "Farkl? yerleri k?yasla"
+msgstr "Farklı yerleri kıyasla"
 
 #: main/templates/main/index.html:57
 msgid "Select the apartments you are interested in to compare."
-msgstr "Kar??la?t?rma için ilgilendi?iniz apartmanlar? seçin"
+msgstr "Karşılaştırma için ilgilendiğiniz apartmanları seçin"
 
 #: main/templates/main/index.html:58
 msgid "Start"
-msgstr "Ba?la"
+msgstr "Başla"
 
 #: main/templates/main/index.html:67 templates/topnavbar.html:36
 msgid "About Us"
-msgstr "Hakk?m?zda"
+msgstr "Hakkımızda"
 
 #: main/templates/main/index.html:68
 msgid ""
@@ -276,7 +276,7 @@ msgid ""
 "helping in evaluating the dorms first without leaving their homes as well as "
 "gathering the spoken comments about different dorms with the help of already "
 "accomodated students in those dorms."
-msgstr "Amac?m?z siz ö?rencilerin kalacak yer bulma konusundaki s?k?nt?lar?n?z? biraz olsun azaltmak, kalacak yerler aras?ndaki farklar? müesseselere gitmeden evden kontrol etmenize yard?m etmek ve a??zdan a??za kal?nacak yerler hakk?ndaki bilgi payla??m?n? bir çat? alt?nda toplamakt?r."
+msgstr "Amacımız siz öğrencilerin kalacak yer bulma konusundaki sıkıntılarınızı biraz olsun azaltmak, kalacak yerler arasındaki farkları müesseselere gitmeden evden kontrol etmenize yardım etmek ve ağızdan ağıza kalınacak yerler hakkındaki bilgi paylaşımını bir çatı altında toplamaktır."
 
 #: main/templates/main/index.html:70
 msgid ""
@@ -287,7 +287,7 @@ msgid ""
 "you'd like to share your experience without dÄ±sclosing your identity, "
 "however these comments can not be used in popularity through comments list.</"
 "p>"
-msgstr "<p>Daha önce kald???n?z/ hala kalmakta oldu?unuz bir yer hakk?nda yorum eklemek isterseniz sitemize kay?t olman?z zorunlu de?ildir. Yorumunuz sitemize kay?t olarak ya da google veya facebook üzerinden sitemiz girerek yapabildi?iniz gibi sitemize giri? yapmadan facebook hesab?n?z üzerinden de direkt yorum eklemeniz mümkündür. Anonim olarak da giri? yapmadan yorum yapma imkan?na sahipsiniz fakat bu yorumlar be?enilen yurt listelenmesinde kullan?lmayacakt?r.</p>"
+msgstr "<p>Daha önce kaldığınız/ hala kalmakta olduğunuz bir yer hakkında yorum eklemek isterseniz sitemize kayıt olmanız zorunlu değildir. Yorumunuz sitemize kayıt olarak ya da google veya facebook üzerinden sitemiz girerek yapabildiğiniz gibi sitemize giriş yapmadan facebook hesabınız üzerinden de direkt yorum eklemeniz mümkündür. Anonim olarak da giriş yapmadan yorum yapma imkanına sahipsiniz fakat bu yorumlar beğenilen yurt listelenmesinde kullanılmayacaktır.</p>"
 
 #: main/templates/main/index.html:72
 msgid ""
@@ -296,7 +296,7 @@ msgid ""
 "properties from the 'Dorm's properties' section. This way, your selection of "
 "important properties will be shown in the dorm page as well as during "
 "comparison of different dorms.</p>"
-msgstr "<p>Sitemizde yurtlar?n özelliklerini yurtlar? ziyaret etmeden birebir kar??la?t?rma ?ans?na sahip olacaks?n?z.</p> <p>Sitemize giri? yapt?ktan sonra Yurt Özelliklerinin detaylar? kendiniz ayarlayarak size göre önemli özellikleri seçebilirsiniz. Bu sayede yurtlar aras?ndaki kar??la?t?rmalarda yapt???n?z seçimler gözükecektir.</p>"
+msgstr "<p>Sitemizde yurtların özelliklerini yurtları ziyaret etmeden birebir karşılaştırma şansına sahip olacaksınız.</p> <p>Sitemize giriş yaptıktan sonra ‘Yurt Özellikleri’ ‘nin detaylarını kendiniz ayarlayarak size göre önemli özellikleri seçebilirsiniz. Bu sayede yurtlar arasındaki karşılaştırmalarda yaptığınız seçimler gözükecektir.</p>"
 
 #: main/templates/main/list.html:37
 msgid "Aparts found"
@@ -304,7 +304,7 @@ msgstr "Apart Bulundu"
 
 #: main/templates/main/list.html:44
 msgid "Click <i class="
-msgstr "T?klay?n <i class="
+msgstr "Tıklayın <i class="
 
 #: main/templates/main/list.html:44
 msgid "found"
@@ -312,11 +312,11 @@ msgstr "Bulundu"
 
 #: main/templates/main/list.html:71 main/templates/main/listajax.html:103
 msgid "Compare details"
-msgstr "Özellikleri k?yasla"
+msgstr "Özellikleri kıyasla"
 
 #: main/templates/main/list.html:76
 msgid "No aparts found"
-msgstr "Apart bulunamad?"
+msgstr "Apart bulunamadı"
 
 #: main/templates/main/listajax.html:53
 msgid "aparts are found"
@@ -332,11 +332,11 @@ msgstr "Daha fazla yükle"
 
 #: main/templates/main/listajax.html:57
 msgid "Click <i class='fa fa-heart-o'></i> to add to comparison."
-msgstr "T?klay?n <i class='fa fa-heart-o'></i> k?yaslama eklemek için"
+msgstr "Tıklayın <i class='fa fa-heart-o'></i> kıyaslama eklemek için"
 
 #: main/templates/main/listajax.html:91
 msgid "added to comparison"
-msgstr "K?yaslanacaklar listesine eklendi"
+msgstr "Kıyaslanacaklar listesine eklendi"
 
 #: main/templates/main/listajax.html:110
 msgid "Recent Visited"
@@ -352,11 +352,11 @@ msgstr "Yorumlar"
 
 #: main/templates/main/listajax.html:156
 msgid "added to comparison, click to remove"
-msgstr "K?yaslanacaklar listesine eklendi, listeden ç?karmak için Sil'i t?klay?n"
+msgstr "Kıyaslanacaklar listesine eklendi, listeden çıkarmak için Sil'i tıklayın"
 
 #: main/templates/main/listajax.html:158
 msgid "click to add to comparison"
-msgstr "K?yaslanacaklar listesine eklemek için t?klay?n"
+msgstr "Kıyaslanacaklar listesine eklemek için tıklayın"
 
 #: main/templates/main/listajax.html:192
 msgid "Remove"
@@ -368,7 +368,7 @@ msgstr "Oda"
 
 #: main/templates/main/roomtypedetail.html:14
 msgid "people share"
-msgstr "Oday? payla?an:"
+msgstr "Odayı paylaşan:"
 
 #: main/templates/main/roomtypedetail.html:15
 msgid "Restroom"
@@ -384,11 +384,11 @@ msgstr "Mutfak"
 
 #: main/templates/main/roomtypedetail.html:28
 msgid "Livingroom"
-msgstr "Oturma Odas?"
+msgstr "Oturma Odası"
 
 #: main/templates/main/uploadpic.html:8
 msgid "Images"
-msgstr "Foto?raflar"
+msgstr "Fotoğraflar"
 
 #: main/templates/main/uploadpic.html:11
 msgid "back"
@@ -400,15 +400,15 @@ msgstr "Gönder"
 
 #: main/templates/main/userprofile.html:24 templates/topnavbar.html:62
 msgid "Profile"
-msgstr "Ki?isel bilgi"
+msgstr "Kişisel bilgi"
 
 #: main/templates/main/userprofile.html:26
 msgid "Username"
-msgstr "Kullan?c? Ad?"
+msgstr "Kullanıcı Adı"
 
 #: main/templates/main/userprofile.html:28
 msgid "First Name"
-msgstr "?siö"
+msgstr "İsim"
 
 #: main/templates/main/userprofile.html:30
 msgid "Last Name"
@@ -416,31 +416,31 @@ msgstr "Soyad"
 
 #: main/templates/main/userprofile.html:33
 msgid "Change Email"
-msgstr "Email De?i?tir"
+msgstr "Email Değiştir"
 
 #: main/templates/main/userprofile.html:35
 msgid "Password"
-msgstr "?ifre"
+msgstr "Şifre"
 
 #: main/templates/main/userprofile.html:37
 msgid "Change Password"
-msgstr "?ifre De?i?tir"
+msgstr "Şifre Değiştir"
 
 #: main/templates/main/userprofile.html:38
 msgid "Reset Password"
-msgstr "?ifreyi S?f?rla"
+msgstr "Şifreyi Sıfırla"
 
 #: main/templates/main/userprofile.html:45
 msgid "liked properties"
-msgstr "Be?enilen Özellikler"
+msgstr "Beğenilen Özellikler"
 
 #: main/templates/main/userprofile.html:53
 msgid "disliked properties"
-msgstr "Ho?lan?lmayan Özellikler"
+msgstr "Hoşlanılmayan Özellikler"
 
 #: main/templates/main/userprofile.html:60
 msgid "visited aparts"
-msgstr "Ziyaret edilmi? apartlar"
+msgstr "Ziyaret edilmiş apartlar"
 
 #: templates/404.html:5
 msgid "404 error"
@@ -448,7 +448,7 @@ msgstr "404 HATASI"
 
 #: templates/404.html:6
 msgid "The page you are looking for is not found."
-msgstr "Arad???n?z sayfa bulunamad?!!"
+msgstr "Aradığınız sayfa bulunamadı!!"
 
 #: templates/500.html:5
 msgid "500 server error"
@@ -456,7 +456,7 @@ msgstr "500 SUNUCU HATASI"
 
 #: templates/500.html:6
 msgid " We are working to fix this problem. "
-msgstr "Problemi çözmek için çal???yoruz"
+msgstr "Problemi çözmek için çalışıyoruz"
 
 #: templates/account/login.html:8 templates/account/login.html:21
 #: templates/account/login.html:30 templates/topnavbar.html:51
@@ -465,7 +465,7 @@ msgstr "Oturum Aç"
 
 #: templates/account/login.html:29
 msgid "Forgot Password?"
-msgstr "?ifreni mi Unuttun?"
+msgstr "Şifreni mi Unuttun?"
 
 #: templates/account/login.html:32
 msgid "login with facebook"
@@ -487,7 +487,7 @@ msgstr "Oturumu Kapat"
 
 #: templates/account/logout.html:14
 msgid "Are you sure you want to sign out?"
-msgstr "Oturumu kapatmak istedi?inizden emin misiniz?"
+msgstr "Oturumu kapatmak istediğinizden emin misiniz?"
 
 #: templates/account/signup.html:7
 msgid "Signup"
@@ -497,15 +497,15 @@ msgstr "Kaydol"
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
-msgstr "Zaten bir hesab?n var m?? O zaman Lütfen <a href=\"%(login_url)s\"> Oturum Aç</a>."
+msgstr "Zaten bir hesabın var mı? O zaman Lütfen <a href=\"%(login_url)s\"> Oturum Aç</a>."
 
 #: templates/base.html:20
 msgid "Find and compare dorms | YurtKiyasla"
-msgstr "Kalacak yerleri bul ve kar??la?t?r | YurtKiyasla"
+msgstr "Kalacak yerleri bul ve karşılaştır | YurtKiyasla"
 
 #: templates/footer.html:6
 msgid "This website is made and maintained by"
-msgstr "Bu websitesinin yap?m? ve bak?m?n? yapan:"
+msgstr "Bu websitesinin yapımı ve bakımını yapan:"
 
 #: templates/footer.html:10 templates/topnavbar.html:29
 msgid "Home"
@@ -513,11 +513,11 @@ msgstr "AnaSayfa"
 
 #: templates/footer.html:11 templates/topnavbar.html:45
 msgid "Contact Me"
-msgstr "?leti?im"
+msgstr "İletişim"
 
 #: templates/searchnavbar.html:10
 msgid "Kiz"
-msgstr "K?z"
+msgstr "Kız"
 
 #: templates/searchnavbar.html:13
 msgid "Erkek"
@@ -541,7 +541,7 @@ msgstr "Yasal"
 
 #: templates/topnavbar.html:42
 msgid "Help"
-msgstr "Yard?m"
+msgstr "Yardım"
 
 #: templates/topnavbar.html:56
 msgid "Login"
@@ -549,4 +549,4 @@ msgstr "Oturum Aç"
 
 #: templates/topnavbar.html:63
 msgid "Logout"
-msgstr "Oturumu Kapat"
+msgstr "Çıkış"
