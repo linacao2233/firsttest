@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     
     'mapwidgets',
     'rest_framework',
+    'django_filters',
 
     # self-written apps
     'main',
@@ -258,5 +259,6 @@ MAP_WIDGETS = {
 }
 
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }

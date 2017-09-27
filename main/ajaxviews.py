@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework import filters
+#from rest_framework.filters import DjangoFilterBackend, OrderingFilter
 from django.http import JsonResponse
 
 from django.utils.translation import ugettext as _
@@ -43,12 +45,28 @@ from django.utils.translation import ugettext as _
 
 # 		return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class apartlist(generics.ListCreateAPIView):
+# class ApartFilter(filters.FilterSet):
+# 	class Meta:
+# 		model = Apart
+# 		fields = ['starlevel','title']
+
+#class ApartOrder()
+
+
+class apartlist(generics.ListAPIView):
 	serializer_class = ApartSerializer
+	queryset = Apart.objects.all()
+	# filterbackends=(filters.OrderingFilter,)
+
+	#filter_fields = ('starlevel', 'title')
+	#search_fields = ('title')
+	#filter_class = ApartFilter
 
 	#lookup_url_kwarg= "university"
 	
 	#ordering = ('-rating',)
+	# ordering_fields = ('starlevel', 'title', 'pricelow')
+	# ordering = ('-starlevel')
 
 	def get_queryset(self):
 		if 'university' in self.request.GET:
@@ -75,7 +93,16 @@ class apartlist(generics.ListCreateAPIView):
 		else:
 			apartlist = Apart.objects.all()
 
+		if 'sortby' in self.request.GET:
+			sortpara = self.request.GET('sortby')
+			try: 
+				apartlist = apartlist.order_by(sortpara)
+			except:
+				pass
+
 		return apartlist
+
+		
 
 class visitedApart(generics.ListAPIView):
 	serializer_class = ApartSerializer

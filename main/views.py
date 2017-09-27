@@ -112,11 +112,17 @@ def apartlist(request, city=None, university=None):
 	universities = None
 	universityobject = None
 
+	#if request.GET:
+	if 'sortby' in request.GET:
+		sortpara = request.GET.get('sortby')
+	else:
+		sortpara = '-starlevel'
+
 	if university:
 		universityobject = University.objects.get(slug=university)
 		gate = universityobject.universitygate_set.all()[:1].get()
 		apartlist = Apart.objects.filter(location2__distance_lte=
-				(gate.location,5000)).order_by('-starlevel')
+				(gate.location,5000)).order_by(sortpara)
 		city = universityobject.city
 	else:
 		if city:

@@ -41,6 +41,10 @@
 
 		{% if apartlist %}
 			<div class="col-md-10">
+			<form method="GET" action="">
+			{% include 'main/snippets/sortbyform.html' %}
+			</form>
+
 			<table class="table table-striped">
 	    		<tbody>
 	    			{% for apart in apartlist %}

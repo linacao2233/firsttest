@@ -7,6 +7,7 @@ class ApartSerializer(serializers.ModelSerializer):
 		model = Apart
 		fields = ('id','url','title','description','iconpic', 
 			'location','rating','numberofcomments')
+		ordering = ['-rating',]
 
 	location = serializers.ReadOnlyField(source='location2.tuple')
 	url = serializers.ReadOnlyField(source="get_absolute_url")
