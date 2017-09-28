@@ -67,6 +67,10 @@ def icon_image_url(instance,filename):
 	return 'apartimage/{0}/{1}'.format(fileurl,savefilename)
 
 class Apart(models.Model):
+
+	class Meta:
+		ordering = ['-starlevel']
+		
 	title = models.CharField(max_length=200)
 	slug = models.CharField(max_length=300, editable=False)
 

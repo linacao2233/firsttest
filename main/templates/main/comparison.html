@@ -36,7 +36,7 @@ Comparison page
 {% block content %}
 {% include 'topnavbar.html' %}
 {% universitysearchform %}
-<h1>{% trans 'Comparison page' %}</h1>
+<h1 class="text-center">{% trans 'Comparison page' %}</h1>
 
 <div class="container">
     <div class="row">
@@ -67,8 +67,9 @@ Comparison page
         <tr>
           <th scope="row"> comments  contact</th>
           {% for apart in apartlist %}
-            <td>
-            <ratingcomponent :rating="{{apart.starlevel}}"></ratingcomponent>
+            <td>            
+              {{apart.starlevel|ratingstar|safe}}
+
               ({{apart.comment_set|length}} comments) <br>
               <i class="fa fa-phone"></i>: {{apart.phonenumber}} <br>
               <i class="fa fa-envelope"></i>: {{ apart.email}}
@@ -119,17 +120,7 @@ Comparison page
 
 {% include 'footer.html' %}
 
-{% verbatim %}
 
-<template id="ratingtemplate">
-	<div>
-	  <i v-for="n in cutrating" class="fa fa-star" style="color: orange;"></i>
-	  <i v-for="n in norating" class="fa fa-star-o" style="color: orange;"></i>
-      {{ rating }}/5.0
-	</div>
-</template>
-
-{% endverbatim %} 
 	
 {% endblock %}
 
@@ -137,27 +128,6 @@ Comparison page
 	{% block script %}
 
     var apartmarkers=[];
-
-	Vue.component('star-rating', VueStarRating.default);
-	Vue.component('ratingcomponent', {
-		props: ['rating'],
-		template: '#ratingtemplate',
-		computed: {
-			cutrating: function(){
-				return Math.round(this.rating);
-			},
-			norating: function(){
-				return 5-this.cutrating;
-			},
-
-		}
-	})
-
-	var starapp = new Vue({
-		el: "#vueapp",
-		data: {
-		},
-	})
 
     function initialize() {
         var map = new google.maps.Map(document.getElementById('map-canvas'), {

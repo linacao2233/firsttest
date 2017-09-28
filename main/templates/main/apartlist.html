@@ -22,7 +22,11 @@
 
 	<div class="row">
 
+	<div class="col-12">
+
 		{% if cities %}
+		<h2>{% trans 'cities' %}</h2>
+
 		<ul>
 			{% for city in cities %}
 				<li class="col-12"><a href="{% url 'apartlist' city=city %}">{{city}}</a></li>
@@ -30,20 +34,42 @@
 		</ul>
 		{% endif %}
 
-		{% if universities %}
-			<ul>
-			{% for university in universities %}
-				<li class="col-12"><a href="{% url 'apartlist' city=city university=university.slug %}">{{university.title}}</a></li>
-			{% endfor %}
-			</ul>
+	</div>
 
+		{% if universities %}
+			<div class="col-12">
+			<h2>{% trans 'universities' %}</h2>
+						<ul>
+					{% for university in universities %}
+						<li class="col-12"><a href="{% url 'apartlist' city=university.city university=university.slug %}">{{university.title}}</a></li>
+					{% endfor %}
+					</ul>
+				
+			</div>
 		{% endif %}
 
 		{% if apartlist %}
 			<div class="col-md-10">
-			<form method="GET" action="">
-			{% include 'main/snippets/sortbyform.html' %}
+			<h2>{% trans 'properties' %}</h2>
+			{% if not request.GET.q %}
+			<form id="sorbyform" method="GET" action="">
+				<div class="input-group">
+					<select id="sortbyselect" name='sortby' class="form-control">
+						<option selected hidden> {% trans 'Sort By'%}</option>
+						<option value='starlevel'>{% trans 'rating' %} &#8593</option>
+						<option value="-starlevel">{% trans 'rating' %} &#8595</option>
+						<option value="title">{% trans 'name' %} &#8593</option>
+						<option value='-title'>{% trans 'name' %} &#8595</option>
+					</select>
+				</div>
 			</form>
+			<script type="text/javascript">
+				$('#sortbyselect').change(function(){
+					$("#sorbyform").submit();
+				})
+			</script>
+			{% endif %}
+
 
 			<table class="table table-striped">
 	    		<tbody>

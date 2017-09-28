@@ -1,0 +1,12 @@
+{% load i18n %}
+<form class="form-inline" method="GET" action="{% url 'apartlist' %}">
+  <div class="input-group">
+    <span class="input-group-addon">
+    {% trans 'Property' %}
+    </span>
+      <input class="form-control" placeholder={% trans "yurt" %} name="q" value="{{ request.GET.q }}" required>
+      <span class="input-group-btn">
+       <button class='btn btn-secondary' type="submit"><i class="fa fa-search"></i></button>
+      </span>
+  </div>
+</form>

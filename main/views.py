@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 
 from .models import *
 from .forms import ApartForm,ImageFormHelper, CommentForm, MainSearchForm,ContactForm, ContactApartOwnerForm, ImageFormSet
@@ -112,21 +113,35 @@ def apartlist(request, city=None, university=None):
 	universities = None
 	universityobject = None
 
+	if 'q' in request.GET:
+		apartname = request.GET.get('q')
+		apartlist = Apart.objects.filter(title__icontains=apartname)
+		universities = University.objects.filter(
+			Q(city__icontains=apartname)|
+			Q(title__icontains=apartname)
+			)
+
+		if apartlist.count() == 1 and universities.count() == 0:
+			url = reverse_lazy('detail', kwargs={'slug':apartlist[0].slug})
+			return redirect(url)
+
 	#if request.GET:
 	if 'sortby' in request.GET:
 		sortpara = request.GET.get('sortby')
 	else:
 		sortpara = '-starlevel'
 
-	if university:
+	if university and university != 'None' :
 		universityobject = University.objects.get(slug=university)
 		gate = universityobject.universitygate_set.all()[:1].get()
 		apartlist = Apart.objects.filter(location2__distance_lte=
 				(gate.location,5000)).order_by(sortpara)
 		city = universityobject.city
 	else:
-		if city:
+		if city and city != 'None':
 			universities = University.objects.filter(city__icontains=city).order_by('title')
+		elif 'q' in request.GET:
+			pass
 		else:
 			cities = University.objects.values_list('city', 
 					flat=True).distinct().order_by('city')

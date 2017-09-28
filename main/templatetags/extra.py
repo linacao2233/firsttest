@@ -26,3 +26,13 @@ def universitylist():
 @register.filter(name='index')
 def index(apartlist, i):
 	return apartlist[int(i)]
+
+@register.filter(name="ratingstar")
+def ratingstar(rating):
+	ratingnumber = round(rating)
+	filledstar = '<i class="fa fa-star" style="color:orange;"></i>'
+	emptystar = '<i class="fa fa-star-o" style="color:orange;"></i>'
+
+	display = filledstar*ratingnumber + emptystar*(5-ratingnumber)
+
+	return display

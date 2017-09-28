@@ -91,10 +91,10 @@ class apartlist(generics.ListAPIView):
 			(universitygate.location, 5000)).filter(
 			gender__in=genders).order_by('-starlevel')
 		else:
-			apartlist = Apart.objects.all()
+			apartlist = Apart.objects.get_queryset().order_by('-starlevel')
 
 		if 'sortby' in self.request.GET:
-			sortpara = self.request.GET('sortby')
+			sortpara = self.request.GET.get('sortby')
 			try: 
 				apartlist = apartlist.order_by(sortpara)
 			except:
@@ -102,7 +102,7 @@ class apartlist(generics.ListAPIView):
 
 		return apartlist
 
-		
+
 
 class visitedApart(generics.ListAPIView):
 	serializer_class = ApartSerializer
