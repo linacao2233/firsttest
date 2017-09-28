@@ -25,7 +25,7 @@
     <h1 style="line-height: 5rem;">{% trans 'Find the apartment perfect for you!' %}</h1>
 
     <form method="GET" action="{% url 'list' %}">
-        <input class="form-control col-md-6 offset-md-3 my-3" list="universitylist" class="mt-4" placeholder="university, City" name="university" required pattern="{{matchingpattern}}">
+        <input class="form-control col-md-6 offset-md-3 my-3" list="universitylist" class="mt-4" placeholder='{% trans "University, City" %}' name="university" required pattern="{{matchingpattern}}">
         <datalist id="universitylist">
             	{% for university in universitylist %}
             	<option value="{{university.title}}, {{university.city}}">{{university.title}}, {{university.city}}</option>
@@ -55,8 +55,8 @@
         
         </div>
          <div class="col-md-6 text-center p-4">
-             <h2>{% trans 'Compare different Apartments' %}</h2>
-            <p> {% trans 'Select the apartments you are interested in to compare.' %}' </p>
+             <h2>{% trans 'Compare different properties' %}</h2>
+            <p> {% trans 'Select the properties you are interested in to compare them side by side.' %}' </p>
              <a href="#" class="btn btn-secondary"> {% trans 'Start' %} </a>
     <!-- <button onclick="#">Find out more!</button>
      -->    

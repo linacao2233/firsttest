@@ -65,12 +65,12 @@ Comparison page
       </thead>
       <tbody id="vueapp">
         <tr>
-          <th scope="row"> comments  contact</th>
+          <th scope="row"> {% trans 'comments  contact' %}</th>
           {% for apart in apartlist %}
             <td>            
               {{apart.starlevel|ratingstar|safe}}
 
-              ({{apart.comment_set|length}} comments) <br>
+              ({{apart.comment_set|length}} {% trans 'comments' %}) <br>
               <i class="fa fa-phone"></i>: {{apart.phonenumber}} <br>
               <i class="fa fa-envelope"></i>: {{ apart.email}}
 
@@ -82,10 +82,12 @@ Comparison page
           </tr>
 
         <tr>
-          <th scope="row"> Room properties</th>
+          <th scope="row"> {% trans 'Room types' %}</th>
             {% for apart in apartlist %}
               <td>
-                  {{apart.NumberofPeoplePerRoom}}
+                 {% for roomtype in apart.roomtype.all %}
+                  <a href="{% url 'roomtypedetail' roomtype.pk %}" title="{{roomtype.description}}">{{roomtype}}</a>, 
+                  {% endfor %}
               </td>
             {% endfor %}
         </tr>
@@ -165,7 +167,7 @@ Comparison page
                 map: map,
                 title: title,
                 //labelContent: '<i class="fa fa-camera-retro"></i>',
-                icon: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
+                icon: 'https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=civic-building|16a765',
             });
         }
         var apartcontent;

@@ -11,7 +11,7 @@ from mapwidgets.widgets import GooglePointFieldWidget
 
 from .widgets import extendMultiInputCheckboxWidget
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 
@@ -32,10 +32,18 @@ class ApartForm(forms.ModelForm):
 		}
 		labels = {
 		'location2': _('Location'),
-		'officalweblink': '<i class="fa fa-globe"></i> ' +_('Web address'),
-		'facebooklink': '<i class="fa fa-facebook"></i> '+_('Facebook Link'),
-		'email': '<i class="fa fa-envelope-o"></i> '+ _('Email'),
-		'mainphonenumber': '<i class="fa fa-phone"></i> '+_('Phone Number'),
+		'officalweblink': _('<i class="fa fa-globe"></i> Web address'),
+		'facebooklink': _('<i class="fa fa-facebook"></i> Facebook Link'),
+		'email': _('<i class="fa fa-envelope-o"></i> Email'),
+		'mainphonenumber': _('<i class="fa fa-phone"></i> Phone Number'),
+		'title': _('Property Name'),
+		'description': _('Description'),
+		'address': _('Address'),
+		'gender': _('Gender'),
+		'numberofrooms': _('Number of Rooms'),
+		'numberofstudents': _('Number of Students'),
+		'roomtype': _('Type of room'),
+		'apartfeatures': _('Amenities'),
 		}
 
 	def __init__(self,*args, **kwargs):
@@ -131,29 +139,29 @@ class ContactForm(forms.ModelForm):
 		self.helper.form_class = 'container'
 
 		self.helper.layout = Layout(
-			HTML("""
+			HTML(_("""
 				<p>Fill this form to send me messages. </p>
-				"""),
-			Div(Div(Field("subject",css_class='form-control', placeholder="Subject"),
+				""")),
+			Div(Div(Field("subject",css_class='form-control', placeholder=_("Subject")),
 				css_class="form-group col-sm-12",),
 			css_class = 'row',
 			),
-			Div(Div(Field("sender",css_class='form-control', placeholder="Your email or phone number for us to contact you."),
+			Div(Div(Field("sender",css_class='form-control', placeholder=_("Your email or phone number for us to contact you.")),
 				css_class='form-group col-sm-12'),
 			css_class = 'row'
 				),
-			Div(Div(Field('body', css_class='form-control', placeholder="Your questions?"),
+			Div(Div(Field('body', css_class='form-control', placeholder=_("Your questions?")),
 				css_class='form-group col-sm-12',
 				),
 			css_class='row',
 			),
 			ButtonHolder(
-				Submit('send','Send', css_class='btn btn-secondary'),
+				Submit('send',_('Send'), css_class='btn btn-secondary'),
 				),
-			HTML("""<p> You can also email me directly at: Email: <email>info@kalias.club</email> </p>
+			HTML(_("""<p> You can also email me directly at: Email: <email>info@kalias.club</email> </p>
 					<p> <address>Address: Electrical and Electronic department,
 					 Karadeniz Technical University, Trabzon, Turkey</address> </p>
-				"""),
+				""")),
 		)
 
 		

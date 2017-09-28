@@ -235,10 +235,6 @@ def ApartDetail(request, slug):
 
 	apart = Apart.objects.get(slug=slug)
 
-	rating =' ' *round(apart.starlevel)
-	norating = ' ' * (5-round(apart.starlevel))
-	
-
 	comments = Comment.objects.filter(apart=apart).order_by('modifiedTime')
 	gatelist = UniversityGate.objects.filter(location__distance_lte=(apart.location2,5000))
 
@@ -278,8 +274,6 @@ def ApartDetail(request, slug):
 
 	context = {
 	'apart': apart,
-	'rating': rating,
-	'norating': norating,
 	'comments': comments,
 	'form': form,
 	'contactform': contactform,
@@ -387,7 +381,7 @@ def ComparisonApart(request):
 def ContactPage(request, slug):
 	template='main/contact.html'
 
-	title = 'contact me'
+	title = _('contact me')
 	confirm_message = None
 	
 	if slug=='me':

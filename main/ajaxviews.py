@@ -9,7 +9,7 @@ from rest_framework import filters
 #from rest_framework.filters import DjangoFilterBackend, OrderingFilter
 from django.http import JsonResponse
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 
@@ -139,7 +139,7 @@ def thumbsup(request, pk):
 
 	else:
 		if request.session.get('thumbsup'+pk, False):
-			return JsonResponse({'content':_('you have alreadly liked this'), 
+			return JsonResponse({'content':_('you have already liked this'), 
 				'data': apart.thumbsup})
 		else:
 			apart.thumbsup += 1
@@ -165,7 +165,7 @@ def thumbsdown(request, pk):
 
 	else:
 		if request.session.get('thumbsdown'+pk, False):
-			return JsonResponse({'content':_('you have alreadly disliked this'), 
+			return JsonResponse({'content':_('you have already disliked this'), 
 				'data': apart.thumbsdown})
 		else:
 			apart.thumbsdown += 1
@@ -184,16 +184,6 @@ def shareaparts(request, pk):
 	apart.save()
 	return JsonResponse({'content':_('Thanks for sharing this'), 'data': apart.sharenumbers})
 
-	# else:
-	# 	if 'thumbsup' in request.session:
-	# 		return JsonResponse({'content':'you have already clicked this', 
-	# 			'data': apart.thumbsup})
-	# 	else:
-	# 		apart.thumbsup += 1
-	# 		request.session['thumbsup'] = True
-
-	# 		return JsonResponse({'content':'you liked this', 
-	# 				'data': apart.thumbsup})
 
 
 

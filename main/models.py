@@ -11,7 +11,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.core.files.storage import default_storage as storage
 
 from django.urls import reverse_lazy
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 #from django_google_maps import fields as map_fields

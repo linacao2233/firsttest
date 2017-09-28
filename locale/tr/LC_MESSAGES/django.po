@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-23 00:47+0300\n"
+"POT-Creation-Date: 2017-09-28 23:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,35 +18,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: main/ajaxviews.py:107
+#: main/ajaxviews.py:134
 msgid "you liked this"
 msgstr "Bunu beğendiniz"
 
-#: main/ajaxviews.py:110
+#: main/ajaxviews.py:137
 msgid "this is already on your like list"
 msgstr "Bu zaten beğendiklerim listenizde"
 
-#: main/ajaxviews.py:115
-msgid "you have alreadly liked this"
+#: main/ajaxviews.py:142
+msgid "you have already liked this"
 msgstr "Daha önce beğendiğinizi belirttiniz"
 
-#: main/ajaxviews.py:121
+#: main/ajaxviews.py:148
 msgid "thanks for liking this"
 msgstr "Beğendiğiniz için teşekkür ederiz"
 
-#: main/ajaxviews.py:133 main/ajaxviews.py:147
+#: main/ajaxviews.py:160 main/ajaxviews.py:174
 msgid "you disliked this"
 msgstr "Bundan hoşlanmadınız"
 
-#: main/ajaxviews.py:136
+#: main/ajaxviews.py:163
 msgid "this is already on your dislike list"
 msgstr "Bu zaten sizin hoşlanmadıklarım listenizde"
 
-#: main/ajaxviews.py:141
-msgid "you have alreadly disliked this"
+#: main/ajaxviews.py:168
+msgid "you have already disliked this"
 msgstr "Daha önce hoşlanmadığınızı belirttiniz"
 
-#: main/ajaxviews.py:158
+#: main/ajaxviews.py:185
 msgid "Thanks for sharing this"
 msgstr "Paylaştığınız için teşekkür ederiz"
 
@@ -55,28 +55,100 @@ msgid "Location"
 msgstr "Konum"
 
 #: main/forms.py:35
-msgid "Web address"
-msgstr "Web adresi"
+msgid "<i class=\"fa fa-globe\"></i> Web address"
+msgstr "<i class=\"fa fa-globe\"></i> Web adresi"
 
 #: main/forms.py:36
-msgid "Facebook Link"
-msgstr "Facebook Linki"
+msgid "<i class=\"fa fa-facebook\"></i> Facebook Link"
+msgstr "<i class=\"fa fa-facebook\"></i> Facebook Linki"
 
-#: main/forms.py:37 main/forms.py:120 main/templates/main/userprofile.html:32
-msgid "Email"
-msgstr "Email"
+#: main/forms.py:37
+msgid "<i class=\"fa fa-envelope-o\"></i> Email"
+msgstr "<i class=\"fa fa-envelope-o\"></i> Email"
 
 #: main/forms.py:38
-msgid "Phone Number"
-msgstr "Telefon No"
+msgid "<i class=\"fa fa-phone\"></i> Phone Number"
+msgstr "<i class=\"fa fa-phone\"></i> Telefon Numarası"
 
-#: main/forms.py:119
+#: main/forms.py:39
+msgid "Property Name"
+msgstr "Mülk Adı"
+
+#: main/forms.py:40
+msgid "Description"
+msgstr "Açıklama"
+
+#: main/forms.py:41 main/templates/main/apartdetail.html:257
+msgid "Address"
+msgstr "Adres"
+
+#: main/forms.py:42
+msgid "Gender"
+msgstr "Cinsiyet"
+
+#: main/forms.py:43
+msgid "Number of Rooms"
+msgstr "Oda Sayısı"
+
+#: main/forms.py:44
+msgid "Number of Students"
+msgstr "Öğrenci Sayısı"
+
+#: main/forms.py:45
+msgid "Type of room"
+msgstr "Oda Çeşitleri"
+
+#: main/forms.py:46
+msgid "Amenities"
+msgstr "İmkanlar"
+
+#: main/forms.py:127 main/forms.py:145
 msgid "Subject"
 msgstr "Konu"
 
-#: main/forms.py:121
+#: main/forms.py:128 main/templates/main/userprofile.html:32
+msgid "Email"
+msgstr "Email"
+
+#: main/forms.py:129
 msgid "Questions"
 msgstr "Sorular"
+
+#: main/forms.py:142
+msgid ""
+"\n"
+"\t\t\t\t<p>Fill this form to send me messages. </p>\n"
+"\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t<p>Mesaj göndermek için formu doldurun. </p>\n"
+"\t\t\t\t"
+
+#: main/forms.py:149
+msgid "Your email or phone number for us to contact you."
+msgstr "Size ulaşabileceğimiz e-mail adresiniz ya da telefon numaranız"
+
+#: main/forms.py:153
+msgid "Your questions?"
+msgstr "Sorularınız?"
+
+#: main/forms.py:159
+msgid "Send"
+msgstr "Gönder"
+
+#: main/forms.py:161
+msgid ""
+"<p> You can also email me directly at: Email: <email>info@kalias.club</"
+"email> </p>\n"
+"\t\t\t\t\t<p> <address>Address: Electrical and Electronic department,\n"
+"\t\t\t\t\t Karadeniz Technical University, Trabzon, Turkey</address> </p>\n"
+"\t\t\t\t"
+msgstr ""
+"<p> Bize  <email>info@kalias.club</email> </p>\n"
+" adresinden de emailatabilirsiniz\t\t\t\t\t<p> <address>Adres: Electrik and "
+"Electronik Müh. Böl. ,\n"
+"\t\t\t\t\t Karadeniz Teknik Universitesi, Trabzon, Turkiye</address> </p>\n"
+"\t\t\t\t"
 
 #: main/models.py:24
 msgid "1 is the highest (most important)"
@@ -84,7 +156,7 @@ msgstr "1 en yüksek olan (en önemli)"
 
 #: main/models.py:41 main/models.py:45 main/models.py:49 main/models.py:53
 msgid "In room"
-msgstr "Oda içinde"
+msgstr "Oda dahilinde"
 
 #: main/models.py:41 main/models.py:45 main/models.py:49 main/models.py:53
 msgid "2 rooms share"
@@ -114,111 +186,107 @@ msgstr "Mutfak yok"
 msgid "no livingroom"
 msgstr "Oturma odası yok"
 
-#: main/models.py:114 main/templates/main/index.html:37
+#: main/models.py:118 main/templates/main/index.html:37
 msgid "Boy"
 msgstr "Erkek"
 
-#: main/models.py:114 main/templates/main/index.html:35
+#: main/models.py:118 main/templates/main/index.html:35
 msgid "Girl"
 msgstr "Bayan"
 
-#: main/models.py:114
+#: main/models.py:118
 msgid "Both Girl and Boy"
 msgstr "Erkek ve bayan karışık"
 
-#: main/models.py:115
+#: main/models.py:119
 msgid "Not Sure"
 msgstr "Belirtilmemiş"
 
-#: main/models.py:119
+#: main/models.py:123
 msgid "enter in this format: 1,2,3"
-msgstr "Yanda gösterildiği şekliyle girin: 1,2,3"
+msgstr "Gösterildiği şekliyle girin: 1,2,3"
 
-#: main/models.py:128
+#: main/models.py:132
 msgid "how many rooms do you have in total?"
 msgstr "Toplamda kaç odan var?"
 
-#: main/models.py:133
+#: main/models.py:137
 msgid "how many students can you host in total?"
 msgstr "Toplamda kaç öğrenci kalabilir?"
 
-#: main/models.py:141
+#: main/models.py:145
 msgid "allow to be commented or not?"
 msgstr "Yorum yapılmasına izin veriyor musunuz?"
 
-#: main/templates/main/apartdetail.html:87
+#: main/templates/main/apartdetail.html:91
 msgid "Edit"
 msgstr "Düzenle"
 
-#: main/templates/main/apartdetail.html:88
+#: main/templates/main/apartdetail.html:92
 msgid "Upload Pictures"
 msgstr "Fotoğraf Yükle"
 
-#: main/templates/main/apartdetail.html:95
+#: main/templates/main/apartdetail.html:99
 msgid "Share"
 msgstr "Paylaş"
 
-#: main/templates/main/apartdetail.html:99
+#: main/templates/main/apartdetail.html:103
 msgid "Claim"
 msgstr "Talep"
 
-#: main/templates/main/apartdetail.html:102
+#: main/templates/main/apartdetail.html:106
 msgid "Report"
 msgstr "İstek/Şikayet!"
 
-#: main/templates/main/apartdetail.html:127
+#: main/templates/main/apartdetail.html:125
 msgid "Map"
 msgstr "Harita"
 
-#: main/templates/main/apartdetail.html:181
+#: main/templates/main/apartdetail.html:179
 msgid "Contact Owner"
 msgstr "Sahibiyle Görüş"
 
-#: main/templates/main/apartdetail.html:198
+#: main/templates/main/apartdetail.html:196
 msgid "Price"
 msgstr "Fiyat"
 
-#: main/templates/main/apartdetail.html:200
+#: main/templates/main/apartdetail.html:198
 msgid "Totoal number of rooms"
 msgstr "Toplamda Oda Sayısı"
 
-#: main/templates/main/apartdetail.html:202
+#: main/templates/main/apartdetail.html:200
 msgid "Uplimit of hosting"
 msgstr "En fazla kalabilecek kişi sayısı"
 
-#: main/templates/main/apartdetail.html:204
+#: main/templates/main/apartdetail.html:202
 msgid "Type of rooms"
 msgstr "Oda Çeşitleri"
 
-#: main/templates/main/apartdetail.html:215
+#: main/templates/main/apartdetail.html:213
 msgid "Features"
-msgstr "Özellikler"
+msgstr "İmkanlar"
 
-#: main/templates/main/apartdetail.html:219
+#: main/templates/main/apartdetail.html:217
 msgid "Feature exists"
 msgstr "Bu özellik var"
 
-#: main/templates/main/apartdetail.html:220
+#: main/templates/main/apartdetail.html:218
 msgid "not known"
 msgstr "Bilinmiyor!"
 
-#: main/templates/main/apartdetail.html:241
+#: main/templates/main/apartdetail.html:239
 msgid "extra features"
-msgstr "Diğer Özellikler"
+msgstr "Diğer İmkanlar"
 
-#: main/templates/main/apartdetail.html:259
-msgid "Address"
-msgstr "Adres"
-
-#: main/templates/main/apartdetail.html:267
+#: main/templates/main/apartdetail.html:265
 msgid "Comments"
 msgstr "Yorumlar"
 
-#: main/templates/main/apartdetail.html:271
+#: main/templates/main/apartdetail.html:269
 msgid "Add Comment:"
 msgstr "Yorum Ekle"
 
-#: main/templates/main/apartdetail.html:287
+#: main/templates/main/apartdetail.html:285
 msgid "ago"
 msgstr "önce"
 
@@ -239,19 +307,70 @@ msgstr "Listele"
 
 #: main/templates/main/apartlist.html:18
 msgid "map view"
-msgstr ""
+msgstr "Haritada göster"
+
+#: main/templates/main/apartlist.html:28
+msgid "cities"
+msgstr "Şehirler"
+
+#: main/templates/main/apartlist.html:41
+msgid "universities"
+msgstr "Üniversiteler"
+
+#: main/templates/main/apartlist.html:53
+msgid "properties"
+msgstr "Mülk"
+
+#: main/templates/main/apartlist.html:58 main/templates/main/listajax.html:77
+#: main/templates/main/snippets/sortbyform.html:4
+msgid "Sort By"
+msgstr "Sıralama Türü:"
+
+#: main/templates/main/apartlist.html:59 main/templates/main/apartlist.html:60
+#: main/templates/main/listajax.html:80 main/templates/main/listajax.html:81
+#: main/templates/main/snippets/sortbyform.html:5
+#: main/templates/main/snippets/sortbyform.html:6
+msgid "rating"
+msgstr "Değerlendirme"
+
+#: main/templates/main/apartlist.html:61 main/templates/main/apartlist.html:62
+#: main/templates/main/listajax.html:79 main/templates/main/listajax.html:82
+#: main/templates/main/snippets/sortbyform.html:7
+#: main/templates/main/snippets/sortbyform.html:8
+msgid "name"
+msgstr "Ad"
+
+#: main/templates/main/apartlist.html:87
+msgid "Map View"
+msgstr "Haritada Göster"
 
 #: main/templates/main/comparison.html:39
 msgid "Comparison page"
 msgstr "Kıyaslama sayfası"
 
-#: main/templates/main/comparison.html:51 templates/searchapart.html:5
+#: main/templates/main/comparison.html:51
+#: main/templates/main/snippets/mixedsearch.html:5 templates/searchapart.html:5
 msgid "Property"
-msgstr "Özellik"
+msgstr "Mülk"
+
+#: main/templates/main/comparison.html:68
+#, fuzzy
+#| msgid "comments"
+msgid "comments  contact"
+msgstr "Yorumlar"
+
+#: main/templates/main/comparison.html:73 main/templates/main/listajax.html:174
+#: main/templates/main/snippets/singleapartlist.html:15
+msgid "comments"
+msgstr "Yorumlar"
+
+#: main/templates/main/comparison.html:85
+msgid "Room types"
+msgstr "Oda Çeşitleri"
 
 #: main/templates/main/contact.html:12
 msgid "send again"
-msgstr ""
+msgstr "Tekrar Gönder"
 
 #: main/templates/main/helppage.html:8
 msgid "Frequently asked questions"
@@ -259,7 +378,11 @@ msgstr "Sıkça Sorular Sorular"
 
 #: main/templates/main/index.html:25
 msgid "Find the apartment perfect for you!"
-msgstr "Sana uyacak en güzel kalacak yeri bulalım"
+msgstr "Nerede kalmak istersin? Hadi Bulalım.!"
+
+#: main/templates/main/index.html:28
+msgid "University, City"
+msgstr "Üniversite, Şehir"
 
 #: main/templates/main/index.html:48
 msgid "Check out real comments"
@@ -274,12 +397,13 @@ msgid "Find out more!"
 msgstr "Daha fazlası ... "
 
 #: main/templates/main/index.html:58
-msgid "Compare different Apartments"
-msgstr "Farklı yerleri kıyasla"
+msgid "Compare different properties"
+msgstr "Farklı mülkleri kıyasla"
 
 #: main/templates/main/index.html:59
-msgid "Select the apartments you are interested in to compare."
-msgstr "Karşılaştırma için ilgilendiğiniz apartmanları seçin"
+msgid ""
+"Select the properties you are interested in to compare them side by side."
+msgstr "Yan yana karşılaştırma için ilgilendiğiniz mülkleri seçin"
 
 #: main/templates/main/index.html:60
 msgid "Start"
@@ -302,15 +426,6 @@ msgstr ""
 "yerler hakkındaki bilgi paylaşımını bir çatı altında toplamaktır."
 
 #: main/templates/main/index.html:72
-#, fuzzy
-#| msgid ""
-#| "<p>To add a comment about a place that you used to live or currently "
-#| "living, you don't need to login. While you can login through registration "
-#| "or login via google or facebook login,  it's also possible to leave your "
-#| "comments through your facebook account. Anonymous commenting is also "
-#| "available if you'd like to share your experience without dÄ±sclosing your "
-#| "identity, however these comments can not be used in popularity through "
-#| "comments list.</p>"
 msgid ""
 "<p>To add a comment about a place that you used to live or currently living, "
 "you don't need to login. While you can login through registration or login "
@@ -320,7 +435,7 @@ msgid ""
 "however these comments can not be used in popularity through comments list.</"
 "p>"
 msgstr ""
-"<p>Daha önce kaldığınız/ hala kalmakta olduğunuz bir yer hakkında yorum "
+"<p>Daha önce kaldığınız ya da hala kalmakta olduğunuz bir yer hakkında yorum "
 "eklemek isterseniz sitemize kayıt olmanız zorunlu değildir. Yorumunuz "
 "sitemize kayıt olarak ya da google veya facebook üzerinden sitemiz girerek "
 "yapabildiğiniz gibi sitemize giriş yapmadan facebook hesabınız üzerinden de "
@@ -344,7 +459,7 @@ msgstr ""
 
 #: main/templates/main/list.html:37
 msgid "Aparts found"
-msgstr "Apart Bulundu"
+msgstr "Mülk Bulundu"
 
 #: main/templates/main/list.html:44
 msgid "Click <i class="
@@ -354,73 +469,62 @@ msgstr "Tıklayın <i class="
 msgid "found"
 msgstr "Bulundu"
 
-#: main/templates/main/list.html:71 main/templates/main/listajax.html:112
+#: main/templates/main/list.html:71 main/templates/main/listajax.html:124
 msgid "Compare details"
 msgstr "Özellikleri kıyasla"
 
 #: main/templates/main/list.html:76
 msgid "No aparts found"
-msgstr "Apart bulunamadı"
+msgstr "Mülk bulunamadı"
 
-#: main/templates/main/listajax.html:68
-#, fuzzy
-#| msgid "aparts are found"
+#: main/templates/main/listajax.html:67
 msgid "properties are found"
-msgstr "Apart(lar) bulundu"
+msgstr "Mülk bulundu"
 
-#: main/templates/main/listajax.html:68
-#, fuzzy
-#| msgid "aparts are loaded"
+#: main/templates/main/listajax.html:67
 msgid "properties are loaded"
-msgstr "Apart(lar) yüklendi"
+msgstr "Mülk(ler) yüklendi"
 
-#: main/templates/main/listajax.html:70 main/templates/main/listajax.html:93
+#: main/templates/main/listajax.html:69 main/templates/main/listajax.html:105
 msgid "Load More"
 msgstr "Daha fazla yükle"
 
-#: main/templates/main/listajax.html:74
+#: main/templates/main/listajax.html:73
 msgid "Click"
-msgstr ""
+msgstr "Tıkla"
 
-#: main/templates/main/listajax.html:74
-#, fuzzy
-#| msgid "click to add to comparison"
+#: main/templates/main/listajax.html:73
 msgid "to add to comparison."
-msgstr "Kıyaslanacaklar listesine eklemek için tıklayın"
+msgstr "Kıyaslanacaklar listesine eklemek için"
 
-#: main/templates/main/listajax.html:100
+#: main/templates/main/listajax.html:112
 msgid "added to comparison"
 msgstr "Kıyaslanacaklar listesine eklendi"
 
-#: main/templates/main/listajax.html:119
+#: main/templates/main/listajax.html:131
 msgid "Recent Visited"
 msgstr "Daha önce ziyaret edilenler"
 
-#: main/templates/main/listajax.html:125
+#: main/templates/main/listajax.html:137
 msgid "Recommended"
 msgstr "Tavsiye edilenler"
 
-#: main/templates/main/listajax.html:162
-#: main/templates/main/snippets/singleapartlist.html:14
-msgid "comments"
-msgstr "Yorumlar"
-
-#: main/templates/main/listajax.html:167
+#: main/templates/main/listajax.html:179
 msgid "added to comparison, click to remove"
 msgstr ""
 "Kıyaslanacaklar listesine eklendi, listeden çıkarmak için Sil'i tıklayın"
 
-#: main/templates/main/listajax.html:169
+#: main/templates/main/listajax.html:181
 msgid "click to add to comparison"
 msgstr "Kıyaslanacaklar listesine eklemek için tıklayın"
 
-#: main/templates/main/listajax.html:203
+#: main/templates/main/listajax.html:215
 msgid "Remove"
 msgstr "Sil"
 
-#: main/templates/main/listajax.html:278
+#: main/templates/main/listajax.html:291
 msgid "loading"
-msgstr ""
+msgstr "Yükleniyooooo"
 
 #: main/templates/main/roomtypedetail.html:13
 msgid "Room"
@@ -446,15 +550,15 @@ msgstr "Mutfak"
 msgid "Livingroom"
 msgstr "Oturma Odası"
 
-#: main/templates/main/uploadpic.html:8
+#: main/templates/main/uploadpic.html:9
 msgid "Images"
 msgstr "Fotoğraflar"
 
-#: main/templates/main/uploadpic.html:11
+#: main/templates/main/uploadpic.html:12
 msgid "back"
 msgstr "geri"
 
-#: main/templates/main/uploadpic.html:27
+#: main/templates/main/uploadpic.html:28
 msgid "Submit"
 msgstr "Gönder"
 
@@ -501,6 +605,12 @@ msgstr "Hoşlanılmayan Özellikler"
 #: main/templates/main/userprofile.html:60
 msgid "visited aparts"
 msgstr "Ziyaret edilmiş apartlar"
+
+#: main/views.py:384
+#, fuzzy
+#| msgid "Contact Me"
+msgid "contact me"
+msgstr "İletişim"
 
 #: templates/404.html:5
 msgid "404 error"
@@ -591,7 +701,7 @@ msgstr "Müdür"
 
 #: templates/topnavbar.html:33
 msgid "List a property"
-msgstr "Yurdunu Kaydet"
+msgstr "Mülkünü Kaydet"
 
 #: templates/topnavbar.html:43
 msgid "Help"
@@ -604,6 +714,21 @@ msgstr "Oturum Aç"
 #: templates/topnavbar.html:64
 msgid "Logout"
 msgstr "Çıkış"
+
+#~ msgid "Name"
+#~ msgstr "Kurumunuzun İsmi"
+
+#~ msgid "Web address"
+#~ msgstr "Web adresi"
+
+#~ msgid "Facebook Link"
+#~ msgstr "Facebook Linki"
+
+#~ msgid "Phone Number"
+#~ msgstr "Telefon No"
+
+#~ msgid "address"
+#~ msgstr "Adres"
 
 #~ msgid "Click <i class='fa fa-heart-o'></i> to add to comparison."
 #~ msgstr "Tıklayın <i class='fa fa-heart-o'></i> kıyaslama eklemek için"

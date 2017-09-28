@@ -109,15 +109,9 @@
 		</div>
 	</div>
 
+		{{apart.starlevel|ratingstar|safe}}
 
-		{% for _ in rating %}
-		<i class="fa fa-star" style="color: orange;"></i>
-		{% endfor %}
-		{% for _ in norating %}
-		<i class="fa fa-star-o" style="color: orange;"></i>
-		{% endfor %}
-
-		{{apart.starlevel}}/5.0 ({{apart.comment_set|length}} comments) <br>
+		{{apart.starlevel}}/5 ({{apart.comment_set|length}} comments) <br>
 		<ul class="fa-ul">
 			<li><i class="fa-li fa fa-globe"></i> <a href="{{apart.officalweblink}}">{{apart.officalweblink|truncatechars:40}}</a> 
 			{% if apart.facebookaddress %}
