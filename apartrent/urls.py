@@ -58,6 +58,7 @@ urlpatterns = [
     url(r'^(?P<slug>[-\w]+)/$', mainviews.ApartDetail, name='detail'),
 
     url(r'^ajax/apartlist/$', ajaxviews.apartlist.as_view(), name='ajaxlist'),
+    url(r'^ajax/commentslist/$', ajaxviews.CommentList.as_view(), name='commentlist'),
     url(r'^ajax/visitedapartlist/$', ajaxviews.visitedApart.as_view(), name='ajaxvisitedlist'),
 
     url(r'^ajax/apart/(?P<pk>[0-9]+)/$', ajaxviews.ApartDetail.as_view()),

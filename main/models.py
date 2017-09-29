@@ -12,7 +12,7 @@ from django.core.files.storage import default_storage as storage
 
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-
+from django.template.defaultfilters import timesince
 
 #from django_google_maps import fields as map_fields
 #from djgeojson.fields import PointField
@@ -197,6 +197,16 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return self.owner.username+'-'+self.apartment.title
+
+	def modifiedtimesince(self):
+		return timesince(self.modifiedTime)
+
+	def starrating(self):
+		number = round(self.starlevel)
+		star = '<i class="fa fa-star" style="color:orange;"></i>'
+		staro = '<i class="fa fa-star-o" style="color:orange;"></i>'
+		return star*number + staro*(5-number)
+
 
 	def save(self, *args, **kwargs):
 		self.modifiedTime = timezone.now()

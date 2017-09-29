@@ -312,6 +312,8 @@ h1 {
                 }
                 // clearMarkers(this.apartmarkers);
                 this.apartmarkers = [];
+                //clear markercluster
+                markerCluster.clearMarkers();
 
                 getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1)+'&sortby='+newvalue);
             },
@@ -350,6 +352,7 @@ h1 {
                     $(this).attr('disabled',true);
                     $(this).text('loading');
                 })
+
                 getapartlist(this.next);
             }
 
@@ -366,11 +369,17 @@ h1 {
         zoom: 13,
 
     });
+
+
     var infowindow1 = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
     getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1)+'&sortby='+apartvue.sortby);
     getvisitedlist();
+
+    var markerCluster = new MarkerClusterer(map, apartvue.apartmarkers,
+        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+        maxZoom: 12,});
 
     $(function(){
         initialize();
@@ -454,6 +463,8 @@ h1 {
 
         bounds.extend(position);
         apartvue.apartmarkers.push(marker);
+
+        markerCluster.addMarker(marker, map);
             //marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
         }
 

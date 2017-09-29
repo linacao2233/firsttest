@@ -1,12 +1,12 @@
-from .models import Apart, University
-from .serializers import ApartSerializer
+from .models import Apart, University, Comment
+from .serializers import ApartSerializer, CommentSerializer
 
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import filters
-#from rest_framework.filters import DjangoFilterBackend, OrderingFilter
+from rest_framework.filters import DjangoFilterBackend, OrderingFilter
 from django.http import JsonResponse
 
 from django.utils.translation import ugettext_lazy as _
@@ -121,6 +121,17 @@ class visitedApart(generics.ListAPIView):
 class ApartDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Apart.objects.all()
 	serializer_class = ApartSerializer
+
+
+class CommentList(generics.ListCreateAPIView):
+	serializer_class = CommentSerializer
+
+	filterbackends=(filters.OrderingFilter, DjangoFilterBackend)
+
+	filter_fields = ('apart', 'starlevel')
+
+	queryset = Comment.objects.all()
+		
 
 
 def thumbsup(request, pk):

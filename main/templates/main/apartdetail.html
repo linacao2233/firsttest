@@ -59,7 +59,8 @@
 
 	h3 {
 		line-height: 200%;
-		background: orange;
+		margin-top: 2px;
+		background: #55a9e7;
 	}
 
 	.carousel-indicators li {
@@ -100,10 +101,10 @@
 		<div class="pull-right">
 		{% if apart.ownedby %}
 		{% else %}
-		<a class="btn btn-secondary" href="{% url 'contact' 'me' %}" data-toggle="tooltip" title="To claim you own this apart for verification"> {% trans 'Claim' %}</a>
+		<a class="btn btn-secondary" href="{% url 'contact' 'me' %}" data-toggle="tooltip" title='{% trans "To claim you own this apart for verification" %}''> {% trans 'Claim' %}</a>
 		{% endif %}
 
-		<a class="btn btn-secondary" href="{% url 'contact' 'me' %}" data-toggle="tooltip" title="report one problem of this page"> {% trans 'Report' %} </a>
+		<a class="btn btn-secondary" href="{% url 'contact' 'me' %}" data-toggle="tooltip" title='{% trans "report one problem of this page" %}'> {% trans 'Report' %} </a>
 			
 		</div>
 		</div>
@@ -140,17 +141,11 @@
 				<div class="carousel-item active">
 
 				<img src="{% if apart.iconpic %}{{apart.iconpic.url}} {% endif %}" class="img-responsive thumbnail" alt="{{apart.title}} icon image">
-<!-- 				<div class="carousel-caption">
-				Image 0 of {{apart.apartimage_set.all.count }}
-					
-				</div>	 -->			
+			
 				</div>
 				{% for apartimage in apart.apartimage_set.all %}
 				<div class="carousel-item">
 				<img src="{{apartimage.image.url}}" class="img-responsive thumbnail">
-<!-- 				<div class="carousel-caption">
-				Image {{ forloop.counter }} of {{apart.apartimage_set.all.count }}
-				</div> -->
 				</div>
 				{% endfor %}
 			</div>
@@ -193,7 +188,9 @@
 	<div class="col-md-8 mt-4" id="description">
 		<div class="container">
 			<dl class="row">
-				<dt class="col-sm-4 p-1 my-1"> {% trans 'Price' %}</dt>
+				<dt class="col-sm-4 p-1 my-1"> {% trans 'Description' %}:</dt>
+				<dd class="col-sm-8 p-1 my-1"> {{apart.description }}</dd>				
+				<dt class="col-sm-4 p-1 my-1"> {% trans 'Price' %}:</dt>
 				<dd class="col-sm-8 p-1 my-1"> <i class="fa fa-turkish-lira"></i> {{apart.pricelow }} - {{ apart.pricehigh }}</dd>
 				<dt class="col-sm-4 p-1 my-1"> {% trans 'Totoal number of rooms' %}: </dt>
 				<dd class="col-sm-8 p-1 my-1"> {{apart.numberofrooms}}</dd>
@@ -266,39 +263,36 @@
 
 		<div class="row">
 			<div class="form-group col-sm-12">
-			<div id="div_id_body" class="control-group"><label for="id_body" class="control-label "> {% trans 'Add Comment:' %}' </label> 
-			<div class="controls"><textarea v-model="newcomment" name="body" cols="40" rows="2" id="id_body" class="form-control textarea"></textarea></div>
-			</div>
+				
 			<star-rating v-model="rating"></star-rating>
+			<div class="controls">
+				<textarea v-model="newcomment" name="body" cols="40" rows="2" id="id_body" class="form-control textarea"></textarea>
+			</div>
 			</div>
 		</div>
-		<button class='btn btn-secondary' @click="addNewItem"> ADD </button>
+		<button class='btn btn-secondary' @click="addNewItem"> {% trans 'Add Comment:' %}</button>
 
 		<comment v-for="item in comments" :onecomment="item"></comment>
 
 
-		<div id='comments'>
+<!-- 		<div id='comments mt-2'>
 			{% for comment in comments %}
 			<div class="card-group row">
-				<div class='card col-md-2 mb-2'>
-					<div class="text-muted"> {{comment.created_by}} </div>
+				<div class='card col-md-3'>
+					<div class="text-muted"> {% if comment.created_by %}{{comment.created_by}} {% else %} {% trans 'Anonymous' %} {% endif %} </div>
 					<small class='text-muted'>{{comment.modifiedTime|timesince}} {% trans 'ago' %}</small>
 					<div class="pull-right">
-							{% with ''|center:comment.starlevel as range %}
-					{% for _ in range %}
-						<i class="fa fa-star"></i>
-					{% endfor %}
-					{% endwith %}
+						{{ comment.starlevel|ratingstar|safe }}
 					</div>
 				</div>
-				<div class='card col-md-10 mb-2'>
+				<div class='card col-md-9'>
 					<p class='card-text'>{{comment.body}},
 					</p>
 				</div>
 			</div>
 
 			{% endfor %}
-		</div>
+		</div> -->
 
 	</div>
 </div>
@@ -306,14 +300,25 @@
 {% verbatim %}
 
 <template id="commenttemplate">
-	<div class="card-group row">
-		<div class="card col-md-2 mb-2">
-			{{ onecomment.created_by }} <br>
-			<small>{{ onecomment.created_on }}</small>
-		</div>	
-		<div class='card col-md-10 mb-2'>
-			<p class='card-text'>{{onecomment.body}}</p>
-		</div>	
+	<div class="container-fluid">
+		<div class="row">
+				<div class="col-md-3">
+				<span v-if="onecomment.created_by">{{ onecomment.created_by }}</span>
+				{% endverbatim %}
+				<span v-else> {% trans "Anonymous" %}</span> 
+				{% verbatim %}
+				<br>
+			</div>	
+			<div class='col-md-9'>
+				<span v-html="onecomment.rating"></span>
+				<small>{{ onecomment.modifiedtimesince }}</small>
+
+
+				<p class='card-text'>{{onecomment.body}}</p>
+				<span class="pull-right" @click="likeup"><i class="fa fa-thumbs-up"></i> {{onecomment.likenumber}}</span>
+			</div>	
+			
+		</div>
 	</div>
 </template>
 
@@ -333,6 +338,21 @@
 // social buttons configuration
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
+
+  // get comments from backend
+
+  $.ajax({
+  	url: "{% url 'commentlist' %}?apart={{apart.pk}}",
+  	method: "GET",
+  	success: function(data) {
+  		commentapp.comments = data.results;
+  	},
+  	error: function(xhl) {
+  		console.log(xhl);
+  	},
+
+  })
+
 })
 
 	function thumbsup(){
@@ -391,6 +411,7 @@ $(function () {
         	zoom: 14,
         	center: position,
         });
+
     var marker = new google.maps.Marker({
                 position: position,
                 map: map,
@@ -426,7 +447,14 @@ $(function () {
 	Vue.component('comment', {
 		props: ['onecomment'],
 		template: '#commenttemplate',
+
+		method: {
+			likeup: function(){
+
+			},
+		}
 	})
+
 
 	var commentapp = new Vue ({
 		el: '#comments_session',
@@ -440,7 +468,7 @@ $(function () {
 				data={
 					body: this.newcomment,
 					created_by: "{{ request.user.username }}",
-					created_on: 'just now',
+					created_on: "{% trans 'just now' %}",
 					rating: this.rating,
 				};
 				this.comments.unshift(data);

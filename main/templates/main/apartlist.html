@@ -49,7 +49,7 @@
 		{% endif %}
 
 		{% if apartlist %}
-			<div class="col-md-10">
+			<div class="col-md-9">
 			<h2>{% trans 'properties' %}</h2>
 			{% if not request.GET.q %}
 			<form id="sorbyform" method="GET" action="">
@@ -83,10 +83,24 @@
 	    	</table>
 	    	</div>
 
-	    	<div class="col-md-2">
+	    	<div class="col-md-3">
+	    	
+	    		<div id="map" style="height: 200px"></div>
+
 	    		<a href="{% url 'list' %}?university={{universityobject.title}}, {{universityobject.city}}">{% trans 'Map View' %}</a>
 	    		
 	    	</div>
+			<script src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyCcdmdG9ePdOCuyTdjPH3U91mE7B6pUwdI&language={{LANGUAGE_CODE}}"></script>
+	    	<script type="text/javascript">
+				var position = {lat:changenumberformat('{{universityobject.universitygate_set.all.0.location.y}}'), lng: changenumberformat('{{universityobject.universitygate_set.all.0.location.x}}')};
+
+				var map = new google.maps.Map(document.getElementById('map'), {
+			        	gestureHandling: 'cooperative',
+			        	zoom: 14,
+			        	center: position,
+			        });
+				
+	    	</script>
 
 		{% endif %}
 
@@ -106,7 +120,6 @@
 $('.universitylistshow').click(function(){
 	$(this).next('ol').toggle();
 })
-
 
 
 	{% endblock %}
