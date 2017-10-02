@@ -54,7 +54,7 @@ urlpatterns = [
 
     url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),
 
-    url(r'^ajax/commentsave/$', mainviews.commentsSave, name='commentsave'),
+ #   url(r'^ajax/commentsave/$', mainviews.commentsSave, name='commentsave'),
     url(r'^(?P<slug>[-\w]+)/$', mainviews.ApartDetail, name='detail'),
 
     url(r'^ajax/apartlist/$', ajaxviews.apartlist.as_view(), name='ajaxlist'),
@@ -68,6 +68,9 @@ urlpatterns = [
     url(r'^ajax/thumbsup/(?P<pk>[0-9]+)/$', ajaxviews.thumbsup, name="thumbsup"),
     url(r'^ajax/thumbsdown/(?P<pk>[0-9]+)/$', ajaxviews.thumbsdown, name="thumbsdown"),
     url(r'^ajax/shareaparts/(?P<pk>[0-9]+)/$', ajaxviews.shareaparts, name="shareaparts"),
+    url(r'^ajax/likeup(?:/(?P<pk>[0-9]+))?/$', ajaxviews.commentLikeUp, name="likeup"),
+    url(r'^ajax/commentdetail/(?P<pk>[0-9]+)/$', ajaxviews.commentDetail.as_view(), 
+        name="commentupdate"),
 
 # language setting
     url(r'^i18n/', include('django.conf.urls.i18n')),

@@ -235,7 +235,7 @@ def ApartDetail(request, slug):
 
 	apart = Apart.objects.get(slug=slug)
 
-	comments = Comment.objects.filter(apart=apart).order_by('modifiedTime')
+	#comments = Comment.objects.filter(apart=apart).order_by('modifiedTime')
 	gatelist = UniversityGate.objects.filter(location__distance_lte=(apart.location2,5000))
 
 	form = CommentForm(None)
@@ -257,24 +257,25 @@ def ApartDetail(request, slug):
 	otherfeatures = ApartFeatures.objects.exclude(priority=1)
 
 	# add to visited history
-	if request.user.is_authenticated: 
-		request.user.visitedaparts.add(apart)
+	if request.user.is_authenticated:
+		if not apart in request.user.visitedaparts.all(): 
+			request.user.visitedaparts.add(apart)
+
 
 	try:
 		sessionvisitedlist = request.session['visited']
-		sessionvisitedlist.append(apart.slug)
+		if not apart.slug in sessionvisitedlist:
+			sessionvisitedlist.append(apart.slug)
 	except:
 		sessionvisitedlist = [apart.slug]
 		#request.session['visited'] = apart.pk
 
 	request.session['visited'] = sessionvisitedlist
-	print(request.session['visited'])
-
-		
+	#print(request.session['visited'])
 
 	context = {
 	'apart': apart,
-	'comments': comments,
+	#'comments': comments,
 	'form': form,
 	'contactform': contactform,
 	'apikey': settings.GOOGLE_MAPS_API_KEY,
@@ -294,44 +295,6 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-def commentsSave(request):
-	if request.method == 'POST':
-		body = request.POST['body']
-		rating = request.POST['rating']
-		print(body)
-		if body:
-			apart = Apart.objects.get(slug=request.POST['postid'])
-
-			if request.user.is_authenticated:
-				comment = Comment(
-					body=body, 
-					apart=apart,
-					created_by = request.user,
-					modifiedTime = timezone.now(),
-					starlevel=rating,
-					)
-			else:
-				ipaddress = get_client_ip(request)
-				comment = Comment(
-					body=body, 
-					apart=apart,
-					ipaddress = request.user,
-					modifiedTime = timezone.now(),
-					starlevel=rating,
-					)
-
-
-			comment.save()
-
-			returncomment = {
-			'body': body,
-			'created_by': request.user.username,
-			'created_on': 'now',
-			}
-
-			return JsonResponse(returncomment)
-	else:
-		return HttpResponse('no comments input')
 
 
 def ComparisonApart(request):

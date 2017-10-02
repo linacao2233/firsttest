@@ -19,11 +19,11 @@ class CommentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Comment
 
-		fields = ('created_by', 'rating', 'body', 'modifiedtimesince', 
+		fields = ('id','createdname', 'created_by','rating','starlevel', 'body', 'modifiedtimesince', 
 			'likenumber', 'apart')
 
 	rating = serializers.ReadOnlyField(source='starrating')
-	created_by = serializers.ReadOnlyField(source='created_by.username')
+	createdname = serializers.ReadOnlyField(source='created_by.username')
 
 
 

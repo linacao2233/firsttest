@@ -272,7 +272,7 @@
 		</div>
 		<button class='btn btn-secondary' @click="addNewItem"> {% trans 'Add Comment:' %}</button>
 
-		<comment v-for="item in comments" :onecomment="item"></comment>
+		<comment v-for="(item,index) in comments" :onecomment="item" @clikeup="addlikenumber(index)"></comment>
 
 
 <!-- 		<div id='comments mt-2'>
@@ -303,7 +303,7 @@
 	<div class="container-fluid">
 		<div class="row">
 				<div class="col-md-3">
-				<span v-if="onecomment.created_by">{{ onecomment.created_by }}</span>
+				<span v-if="onecomment.created_by">{{ onecomment.createdname }}</span>
 				{% endverbatim %}
 				<span v-else> {% trans "Anonymous" %}</span> 
 				{% verbatim %}
@@ -313,9 +313,8 @@
 				<span v-html="onecomment.rating"></span>
 				<small>{{ onecomment.modifiedtimesince }}</small>
 
-
 				<p class='card-text'>{{onecomment.body}}</p>
-				<span class="pull-right" @click="likeup"><i class="fa fa-thumbs-up"></i> {{onecomment.likenumber}}</span>
+				<span class="pull-right"><button class="btn-link" @click="likeup"><i class="fa fa-thumbs-up"></i> </button>{{onecomment.likenumber}}</span>
 			</div>	
 			
 		</div>
@@ -447,10 +446,9 @@ $(function () {
 	Vue.component('comment', {
 		props: ['onecomment'],
 		template: '#commenttemplate',
-
-		method: {
+		methods: {
 			likeup: function(){
-
+				this.$emit('clikeup');
 			},
 		}
 	})
@@ -465,30 +463,28 @@ $(function () {
 		},
 		methods: {
 			addNewItem: function() {
-				data={
-					body: this.newcomment,
-					created_by: "{{ request.user.username }}",
-					created_on: "{% trans 'just now' %}",
-					rating: this.rating,
-				};
-				this.comments.unshift(data);
 
 				senddata = {
 					body: this.newcomment,
-					postid: "{{ apart.slug }}",
-					rating: this.rating,
+					apart: {{ apart.pk }},
+					starlevel: this.rating,
+					//created_by: {{request.user.pk}},
 				};
 
+				if ("{{request.user.pk}}"!='None') {
+					senddata['created_by'] = {{request.user.pk}};
+				}
+
 				this.newcomment = '';
+				this.rating = 0;
 
 				$.ajax({
-					url: "{% url 'commentsave' %}",
+					url: "{% url 'commentlist' %}",
 					data: senddata,
 					method: "POST",
 
 					success: function(data){
-						console.log('vue success');
-
+						commentapp.comments.unshift(data);
 					},
 
 					error: function(xhr){
@@ -498,6 +494,21 @@ $(function () {
 				});
 
 			},
+			addlikenumber: function(commentid) {
+				console.log(this.comments[commentid].id);
+				var likeupurl = "{% url 'likeup' %}"+this.comments[commentid].id+'/';
+				$.ajax({
+					url: likeupurl,
+					method: "POST",
+					success: function(data) {
+						commentapp.comments[commentid].likenumber = data.number;
+					},
+					error: function(xhr) {
+						console.log(xhr);
+					},
+				})
+
+			}
 
 		},
 	});

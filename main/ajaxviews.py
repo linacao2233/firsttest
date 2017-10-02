@@ -129,8 +129,9 @@ class CommentList(generics.ListCreateAPIView):
 	filterbackends=(filters.OrderingFilter, DjangoFilterBackend)
 
 	filter_fields = ('apart', 'starlevel')
+	ordering = ('likenumber')
 
-	queryset = Comment.objects.all()
+	queryset = Comment.objects.all().order_by('-modifiedTime')
 		
 
 
@@ -195,8 +196,30 @@ def shareaparts(request, pk):
 	apart.save()
 	return JsonResponse({'content':_('Thanks for sharing this'), 'data': apart.sharenumbers})
 
+class commentDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset=Comment.objects.all()
+	serializer_class = CommentSerializer
 
 
+def commentLikeUp(request, pk):
+	if request.method=='POST':
+		try:
+			comment = Comment.objects.get(pk=pk)
+			if request.session.get('commentlikeup'+pk, False):
+				comment.likenumber -= 1
+				request.session['commentlikeup'+pk] = False
+				comment.save()
+				return JsonResponse({'number': comment.likenumber})
+			else:
+				request.session['commentlikeup'+pk] = True
+				comment.likenumber += 1
+				comment.save()
+				return JsonResponse({'number': comment.likenumber})
+			# session add or id add
+
+
+		except:
+			return HttpResponse("coudn't save input")
 
 
 
