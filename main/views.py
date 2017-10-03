@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 
 from .models import *
-from .forms import ApartForm,ImageFormHelper, CommentForm, MainSearchForm,ContactForm, ContactApartOwnerForm, ImageFormSet
+from .forms import ApartForm,ImageFormHelper, \
+          CommentForm, MainSearchForm,ContactForm, \
+          ContactApartOwnerForm, ImageFormSet, ContactFormClaim
 
 from django.conf import settings
 from django.utils import timezone
@@ -348,8 +350,8 @@ def ContactPage(request, slug):
 	confirm_message = None
 	
 	if slug=='me':
-		form = ContactForm(request.POST or None)
 
+		form = ContactForm(request.POST or None)
 
 		if form.is_valid():
 			subject = 'email from mysite:' + form.cleaned_data['subject']
@@ -376,10 +378,23 @@ def ContactPage(request, slug):
 		apart = Apart.objects.get(slug=slug)
 
 		if form.is_valid():
-			subject = 'email from yurtkayisla '
+			if 'subject' in request.GET:
+				if request.GET.get('subject') == 'Claim':
+					subject = 'Claim ownership: '+ apart.title
+				elif request.GET.get('subject') == 'Report':
+					subject = 'Report Problem: '+ apart.title
+				else:
+					subject = request.GET.get('subject') +': ' + apart.title
+
+				recipients = ['lncao6@gmail.com']
+
+			else:					
+				subject = 'email from yurtkayisla '
+				recipients = [apart.email]
+
 			confirm_message = 'thanks for the message'
 			sender = form.cleaned_data['sender']
-			recipients = [apart.email]
+			message = 'from:'+ form.cleaned_data['sender'] + '\n' + form.cleaned_data['body']
 			send_mail(subject, message, sender, recipients)
 
 			contactme = ContactMe(

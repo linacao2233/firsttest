@@ -101,10 +101,10 @@
 		<div class="pull-right">
 		{% if apart.ownedby %}
 		{% else %}
-		<a class="btn btn-secondary" href="{% url 'contact' 'me' %}" data-toggle="tooltip" title='{% trans "To claim you own this apart for verification" %}''> {% trans 'Claim' %}</a>
+		<a class="btn btn-secondary" href="{% url 'contact' apart.slug %}?subject=Claim" data-toggle="tooltip" title='{% trans "To claim you own this apart for verification" %}''> {% trans 'Claim' %}</a>
 		{% endif %}
 
-		<a class="btn btn-secondary" href="{% url 'contact' 'me' %}" data-toggle="tooltip" title='{% trans "report one problem of this page" %}'> {% trans 'Report' %} </a>
+		<a class="btn btn-secondary" href="{% url 'contact' apart.slug %}?subject=Report" data-toggle="tooltip" title='{% trans "report one problem of this page" %}'> {% trans 'Report' %} </a>
 			
 		</div>
 		</div>
@@ -112,7 +112,7 @@
 
 		{{apart.starlevel|ratingstar|safe}}
 
-		{{apart.starlevel}}/5 ({{apart.comment_set|length}} comments) <br>
+		{{apart.starlevel}}/5 (<a href="#comments_session">{{apart.comment_set|length}} {% trans 'comments' %}</a>) <br>
 		<ul class="fa-ul">
 			<li><i class="fa-li fa fa-globe"></i> <a href="{{apart.officalweblink}}">{{apart.officalweblink|truncatechars:40}}</a> 
 			{% if apart.facebookaddress %}

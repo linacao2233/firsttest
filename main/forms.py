@@ -129,6 +129,9 @@ class ContactForm(forms.ModelForm):
 		"body": _("Questions"),
 		}
 
+
+
+
 	#def __init__(self):
 	def __init__(self,*args, **kwargs):
 		super(ContactForm,self).__init__(*args,**kwargs)
@@ -164,6 +167,11 @@ class ContactForm(forms.ModelForm):
 				""")),
 		)
 
+class ContactFormClaim(ContactForm):
+	def __init__(self, *args, **kwargs):
+		super(ContactFormClaim, self).__init__(*args, **kwargs)
+
+		self.fields['subject'].initial = 'Claim'
 		
 class ContactApartOwnerForm(forms.ModelForm):
 	class Meta:
