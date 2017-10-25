@@ -22,7 +22,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 # 		'location': GeopositionWidget,
 # 		}
 
-class ImageIncline(admin.StackedInline):
+class ImageInline(admin.StackedInline):
 	model = ApartImage
 
 class ApartAdmin(admin.ModelAdmin):
@@ -31,7 +31,7 @@ class ApartAdmin(admin.ModelAdmin):
 	'iconpic',
 	'address',
 	'location_map',)
-	inlines = [ImageIncline]
+	inlines = [ImageInline]
 	filter_horizontal = ('apartfeatures','roomtype')
 	search_fields = ['title','description']
 

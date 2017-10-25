@@ -14,8 +14,6 @@ from .widgets import extendMultiInputCheckboxWidget
 from django.utils.translation import ugettext_lazy as _
 
 
-
-
 class ApartForm(forms.ModelForm):
 	class Meta:
 		model = Apart

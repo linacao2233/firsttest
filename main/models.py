@@ -201,12 +201,6 @@ class Comment(models.Model):
 	def modifiedtimesince(self):
 		return timesince(self.modifiedTime)
 
-	def starrating(self):
-		number = round(self.starlevel)
-		star = '<i class="fa fa-star" style="color:orange;"></i>'
-		staro = '<i class="fa fa-star-o" style="color:orange;"></i>'
-		return star*number + staro*(5-number)
-
 
 	def save(self, *args, **kwargs):
 		self.modifiedTime = timezone.now()

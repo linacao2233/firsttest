@@ -130,6 +130,7 @@ class CommentList(generics.ListCreateAPIView):
 
 	filter_fields = ('apart', 'starlevel')
 	ordering = ('likenumber')
+	ordering_fields = ('apart', 'starlevel', 'modifiedTime')
 
 	queryset = Comment.objects.all().order_by('-modifiedTime')
 		

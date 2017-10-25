@@ -112,7 +112,7 @@
 
 		{{apart.starlevel|ratingstar|safe}}
 
-		{{apart.starlevel}}/5 (<a href="#comments_session">{{apart.comment_set|length}} {% trans 'comments' %}</a>) <br>
+		{{apart.starlevel}}/5 (<a href="#comments_session">{{apart.comment_set.all|length}} {% trans 'comments' %}</a>) <br>
 		<ul class="fa-ul">
 			<li><i class="fa-li fa fa-globe"></i> <a href="{{apart.officalweblink}}">{{apart.officalweblink|truncatechars:40}}</a> 
 			{% if apart.facebookaddress %}
@@ -275,25 +275,6 @@
 		<comment v-for="(item,index) in comments" :onecomment="item" @clikeup="addlikenumber(index)"></comment>
 
 
-<!-- 		<div id='comments mt-2'>
-			{% for comment in comments %}
-			<div class="card-group row">
-				<div class='card col-md-3'>
-					<div class="text-muted"> {% if comment.created_by %}{{comment.created_by}} {% else %} {% trans 'Anonymous' %} {% endif %} </div>
-					<small class='text-muted'>{{comment.modifiedTime|timesince}} {% trans 'ago' %}</small>
-					<div class="pull-right">
-						{{ comment.starlevel|ratingstar|safe }}
-					</div>
-				</div>
-				<div class='card col-md-9'>
-					<p class='card-text'>{{comment.body}},
-					</p>
-				</div>
-			</div>
-
-			{% endfor %}
-		</div> -->
-
 	</div>
 </div>
 
@@ -310,7 +291,7 @@
 				<br>
 			</div>	
 			<div class='col-md-9'>
-				<span v-html="onecomment.rating"></span>
+				<span v-html="ratehtml"></span>
 				<small>{{ onecomment.modifiedtimesince }}</small>
 
 				<p class='card-text'>{{onecomment.body}}</p>
@@ -450,7 +431,16 @@ $(function () {
 			likeup: function(){
 				this.$emit('clikeup');
 			},
-		}
+		},
+		computed: {
+			ratehtml: function(){
+				var filledstar = '<i class="fa fa-star" style="color: orange;"></i>';
+				var emptystar = '<i class="fa fa-star-o" style="color:orange;"></i>';
+				var number = this.onecomment.starlevel;
+				return filledstar.repeat(number+0.5)+emptystar.repeat(5.5-number)
+
+			}
+		},
 	})
 
 
