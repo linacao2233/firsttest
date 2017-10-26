@@ -54,6 +54,8 @@ INSTALLED_APPS = [
 
     # self-written apps
     'main',
+    'dormrent',
+    'onlinelearning',
 
 ]
 

@@ -1,0 +1,537 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load extra %}
+<style type="text/css">
+{% block style%}
+
+.listapart{
+    overflow: hidden;
+    min-height: 100px;
+}
+
+.labelnumber {
+    position: absolute;
+    top: 0;
+    left: 20px;  
+}
+
+h1 {
+    line-height: 200%;
+}
+
+.color1 {
+    background: #f7f7f7;
+}
+
+.color2 {
+    background: #ddd;
+}
+
+
+{% endblock %}
+</style>
+
+{% block header %}
+<script src="https://unpkg.com/vue"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include 'topnavbar.html' %}
+{% universitysearchform %}
+
+<div class="container" id="vueapartlist">
+
+{% with gatelist.0.university.slug as university %}
+{% with gatelist.0.university.city as city %}
+
+    <div class="row my-4 bg-faded" id="smallnav">
+        <nav> 
+            <a href="{% url 'home'%}">{% trans 'Home' %}</a> >
+            <a href="{% url 'apartlist' %}">{% trans 'List' %}</a> >
+            <a href="{% url 'apartlist' city=city %}">{{city}}</a> >
+            {{gatelist.0.university.title}} <a href="{% url 'apartlist' city=city university=university %}"><i class="fa fa-list-ul"></i></a>
+        </nav>
+    </div>
+{% endwith %}
+{% endwith %}
+
+    <section class="row">
+
+        <h1 class="col-12">{{gatelist.0.university.title}}, {{gatelist.0.university.city}}</h1>
+        <div class="col-12 my-3">
+            {% verbatim %}
+            <div v-if=loading>{{ loading }}<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></div>
+            <div v-else>  {{ count }} {% endverbatim %} {% trans 'properties are found' %}, {% verbatim %} {{ apartlist.length }}{% endverbatim %} {% trans 'properties are loaded' %}. 
+            <span v-if="next">
+                <button class="btn btn-secondary loadbutton" @click="loadmore">{% trans 'Load More' %}</button>
+            </span>
+            </div>
+        <div class="col-12 text-right">
+            {% trans "Click" %} <i class='fa fa-heart-o'></i> {% trans "to add to comparison." %} 
+        </div>
+        <div class="col-4 pull-right">
+                <div class="input-group">
+                <span class="input-group-addon">{% trans 'Sort By' %}</span>
+                <select v-model='sortby' class="form-control">
+                    <option value="title">{% trans 'name' %} &#8593</option>
+                    <option value='starlevel'>{% trans 'rating' %} &#8593</option>
+                    <option value="-starlevel">{% trans 'rating' %} &#8595</option>
+                    <option value='-title'>{% trans 'name' %} &#8595</option>
+                </select>
+                </div>
+
+        </div>
+
+
+
+        </div>
+
+
+        <div id="map-canvas" class="col-md-6" style="height: 70vh;"></div>
+
+
+        <div class="col-md-6" style="overflow: auto; height: 70vh;">
+
+
+            <apartlistvue v-for="(apart, index) in apartlist" :index=index :apart=apart
+                @cmouseenter="hoveredindex(index)"
+                @cmouseleave="leftindex(index)"
+                @addtocompare="addtocompare(index)"
+                @removefromcompare="removefromcompare(index)"></apartlistvue>
+
+            <button v-if="next" class="btn btn-secondary loadbutton" @click="loadmore">{% trans 'Load More' %}</button>
+
+        </div>
+
+
+
+        <div v-if="Object.keys(comparelist).length" class="col-12">
+            <h3> {% trans 'added to comparison' %} </h3> 
+        </div>
+
+            <apartcomparevue v-for="(apart, key) in comparelist" :apart="apart"
+                    @cmouseenter="hoveredindex(key)"
+                    @cmouseleave="leftindex(key)"
+                    @removefromcompare="removefromcompare(key)">
+            </apartcomparevue>
+
+        <div v-if="Object.keys(comparelist).length" class="col-12">
+
+            <button id="comparebutton" class="btn btn-primary pull-right" 
+                @click="compareaparts">{% trans 'Compare details' %}</button>
+        </div>
+            
+
+    </section>
+
+    <section v-if="visitedlist.length" class="row">
+        <h2 class="col-12">{% trans 'Recent Visited' %}</h2>
+
+        <apartsquarevue v-for="apart in visitedlist" :apart=apart> </apartsquarevue>
+    </section>
+    
+    <section v-if="recommenedlist.length" class="row">
+        <h2 class="col-12">{% trans 'Recommended' %}</h2>
+
+        <apartsquarevue v-for="apart in recommenedlist" :apart=apart 
+             > </apartsquarevue>
+            
+    </section>
+
+
+</div>
+
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+
+    {% get_current_language as LANGUAGE_CODE %}
+
+<script src="https://maps.googleapis.com/maps/api/js?&key={{googleapikey}}&language={{LANGUAGE_CODE}}"></script>
+
+{% include 'footer.html' %}
+
+    {% verbatim %}
+
+    <template id="apartlisttemplate">
+        <div :class="{'color1': index % 2 ===0, 'color2': index %2 !==0 }" class="py-2 listapart" 
+        @mouseenter="mouseenter"
+        @mouseleave="mouseleave"
+        >
+            <div class="container" style="position: relative;top: 0;">
+                <div class="row">
+                    <span class="blocklabel">{{ index+1 }}.</span>
+                    <div class="col-4">
+                        <img v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%">
+                        {% endverbatim %}
+                        <img v-else src="{% static 'img/logo_thumb.jpg' %}" width="100%">
+                        {% verbatim %}
+                    </div>
+                    <div class="col-6">           
+                        <a :href="apart.url">{{ apart.title }}</a> <br>
+                        <i v-for="n in Math.round(apart.rating)" class="fa fa-star" style="color: orange;"></i> 
+                        <i v-for="n in (5-Math.round(apart.rating))" class="fa fa-star-o" style="color: orange;"></i> {{apart.rating}}/5.0 ({{apart.numberofcomments}} {% endverbatim %} {% trans 'comments' %})
+                        </div>
+
+                        <div class="col-1">
+
+                        <i v-if="addedtocompare" class="fa fa-heart" title="{% trans 'added to comparison, click to remove' %}"
+                        @click="removefromcompare"></i>
+                        <i v-else class="fa fa-heart-o" title="{% trans 'click to add to comparison' %}" 
+                        @click="addtocompare"></i>
+                        </div>
+               
+                </div>
+            </div>   
+        </div>
+    </template>
+
+    <template id='apartsquaretemplate'>
+        <div class="col-sm-6 col-md-4 col-lg-3 card" >
+                <img class="card-img-top" v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%" height="100%">
+                <img v-else src="{% static 'img/logo.png' %}" width="100%">
+                        {% verbatim %}
+            <div class="card-block">
+                 <a :href="apart.url">{{ apart.title }}</a>
+            </div>
+            
+        </div>
+        
+    </template>
+
+    <template id='apartcomparetemplate'>
+        <div class="col-sm-6 col-md-4 col-lg-3 card" 
+                @mouseenter="mouseenter"
+                @mouseleave="mouseleave">
+                <img class="card-img-top" v-if="apart.iconpic" :src="apart.iconpic" :alt="apart.title" width="100%" height="100%">
+                               {% endverbatim %}
+                <img v-else src="{% static 'img/logo.png' %}" width="100%">
+                        {% verbatim %}
+            <div class="card-block">
+                 <a :href="apart.url">{{ apart.title }}</a>
+            </div>
+                {% endverbatim %} 
+            <button class="btn btn-secondary" @click="removefromcompare"> {% trans 'Remove' %} </button>
+
+            
+        </div>
+        
+    </template>
+
+
+
+
+{% endblock %}
+
+<script type="text/javascript">
+	{% block script %}
+
+
+    Vue.component('apartlistvue', {
+        props: ['apart', 'index'],
+        template: '#apartlisttemplate',
+        data: function() {
+            return {
+                addedtocompare: false,
+            }
+        },
+        methods: {
+            mouseenter: function(){
+                this.$emit('cmouseenter');
+            },
+            mouseleave: function(){
+                this.$emit('cmouseleave');
+            },
+            addtocompare: function(){
+                this.addedtocompare = true;
+                this.$emit('addtocompare');
+            },
+            removefromcompare: function(){
+                this.addedtocompare = false;
+                this.$emit('removefromcompare');
+            },
+        }
+    })
+
+    Vue.component('apartsquarevue', {
+        props: ['apart'],
+        template: '#apartsquaretemplate',
+    })
+
+
+    Vue.component('apartcomparevue', {
+        props: ['apart'],
+        template: '#apartcomparetemplate',
+
+        methods: {
+            mouseenter: function(){
+                this.$emit('cmouseenter');
+            },
+            mouseleave: function(){
+                this.$emit('cmouseleave');
+            },
+            removefromcompare: function(){
+                this.$emit('removefromcompare');
+            },
+        },
+
+    })
+
+    var apartvue = new Vue({
+        el: '#vueapartlist',
+        data: {
+            apartlist: [],
+            visitedlist: [],
+            recommenedlist: [],
+            apartmarkers: [],
+            comparelist: {},
+            next: '/',
+            count: 0,
+            loading: "{% trans 'loading' %}",
+            sortby: 'starlevel',
+        },
+        computed: {
+            sortedArray: function(){
+                function rating(a,b) {
+                    if (a.starlevel < b.starlevel) return -1;
+                    if (a.starlevel > b.starlevel) return 1;
+                    return 0;
+                }
+
+                return this.apartlist.sort(rating);
+            }
+
+        },
+        watch: {
+            sortby: function(newvalue){
+                this.apartlist = []
+                // clear all markers on the map
+                for (var i=0;i<this.apartmarkers.length; i++) {
+                    this.apartmarkers[i].setMap();
+                }
+                // clearMarkers(this.apartmarkers);
+                this.apartmarkers = [];
+                //clear markercluster
+                markerCluster.clearMarkers();
+
+                getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1)+'&sortby='+newvalue);
+            },
+
+        },
+        methods: {
+            hoveredindex: function(index) {
+                this.apartmarkers[index].setAnimation(google.maps.Animation.BOUNCE);
+
+            },
+            leftindex: function(index) {
+                this.apartmarkers[index].setAnimation(null);
+
+            },
+            addtocompare: function(index) {
+                Vue.set(this.comparelist, index, this.apartlist[index]);
+                //this.comparelist[index] = this.apartlist[index];
+            },
+            removefromcompare: function(index) {
+                //delete this.comparelist[index];
+                Vue.delete(this.comparelist, index);
+            },
+            compareaparts: function(index) {
+                var hrefurl='{% url 'comparison' %}?apartlist='
+
+                console.log(this.comparelist);
+
+                for (var index in this.comparelist) {
+                    hrefurl += this.comparelist[index]['id'] +',';
+                } 
+                console.log(hrefurl);
+                window.location.href = hrefurl;
+            },
+            loadmore: function(event){
+                $('.loadbutton').each(function(){
+                    $(this).attr('disabled',true);
+                    $(this).text('loading');
+                })
+
+                getapartlist(this.next);
+            }
+
+        },
+
+    })
+
+    //original functions 
+    var startlocation = new google.maps.LatLng()
+    var map = new google.maps.Map(document.getElementById('map-canvas'),{
+        gestureHandling: 'auto',
+        center: {lat: changenumberformat('{{location.y}}'), 
+                lng: changenumberformat("{{location.x}}")},
+        zoom: 13,
+
+    });
+
+
+    var infowindow1 = new google.maps.InfoWindow();
+    var bounds = new google.maps.LatLngBounds();
+
+    getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1)+'&sortby='+apartvue.sortby);
+    getvisitedlist();
+
+    var markerCluster = new MarkerClusterer(map, apartvue.apartmarkers,
+        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+        maxZoom: 12,});
+
+    $(function(){
+        initialize();
+    })
+
+    // for (var i=apartmarkers.length; i< apartvue.apartlist.length; i++){
+    //     addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), '');
+    // }
+
+    //**********************************************************//
+
+
+    function getapartlist(ajaxurl) {
+        apartvue.loading = 'loading';
+
+        $.ajax({
+            //url: "{% url 'ajaxlist' %}",
+            url: ajaxurl,
+            success: function(data){
+                console.log('success');
+                apartvue.apartlist = apartvue.apartlist.concat(data.results);
+                apartvue.next = data.next;
+                apartvue.count = data.count;
+                apartvue.loading = '';
+
+                var markercontent = '';
+
+                for (var i=apartvue.apartmarkers.length; i< apartvue.apartlist.length; i++){
+                    markercontent = '<a href="' + apartvue.apartlist[i].url + '">' + 
+                     apartvue.apartlist[i].title + '</a>';
+                    addMarker(apartvue.apartlist[i].location[1], apartvue.apartlist[i].location[0], apartvue.apartlist[i].title, (i+1).toString(), markercontent);
+                }
+
+                // var markerCluster = new MarkerClusterer(map, apartvue.apartmarkers,
+                //         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+                //         maxZoom: 12,});
+
+                map.fitBounds(bounds);
+ 
+                $('.loadbutton').each(function(){
+                    $(this).attr('disabled',false);
+                    $(this).text('load more');
+                })
+
+            },
+
+            error: function(xhr){
+                console.log(xhr);
+            },
+        })
+
+    }
+
+    function getvisitedlist() {
+        $.ajax({
+            url: "{% url 'ajaxvisitedlist' %}",
+            success: function(data){
+                apartvue.visitedlist = data.results;
+            },
+            error: function(xhr){
+                console.log(xhr);
+            },
+        })
+    }
+
+
+
+    function addMarker(lat, lng, title, label, content) {
+        var position = new google.maps.LatLng(lat, lng);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: title,
+            label: label,
+        });
+
+        marker.addListener('click', function(){
+            infowindow1.setContent(content);
+            infowindow1.open(map,this);
+        })
+
+        bounds.extend(position);
+        apartvue.apartmarkers.push(marker);
+
+        markerCluster.addMarker(marker, map);
+            //marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+        }
+
+function initialize() {
+    function addGateMarker(lat,lng,title) {
+        var position = new google.maps.LatLng(lat, lng);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: title,
+            //labelContent: '<i class="fa fa-camera-retro"></i>',
+        });
+        //marker.setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png')
+        marker.setIcon('https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=civic-building|16a765'
+            )
+    }
+
+    {% for gate in gatelist %}
+        addGateMarker(changenumberformat("{{gate.location.y}}"), changenumberformat("{{ gate.location.x }}"), "{{ gate.title }}");
+    {% endfor %}
+    //map.fitBounds(bounds);
+
+}
+
+function loadMapFromcurrentBounds(){
+    var num;
+    //$('.listapart').hide();
+    for (var i=0; i< apartvue.apartmarkers.length; i++){
+        num = (i+1).toString();
+        if (map.getBounds().contains(apartvue.apartmarkers[i].getPosition())) {
+            //apartmarkers[i].setMap();
+            console.log(num);
+
+            $('.listapart:nth-child('+num+')').show();
+
+           // apartmarkers[i].setLabel(label.toString());
+
+        }
+        else {
+            $('.listapart:nth-child('+num+')').hide();
+        }
+    }
+}
+
+//google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addListener(map, 'idle', loadMapFromcurrentBounds);
+
+
+
+
+$('.listapart:visible').hover(
+    function() {
+        var idx = $(this).index()-1;
+        console.log(idx);
+        //apartmarkers[idx].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png');
+        apartvue.apartmarkers[idx].setAnimation(google.maps.Animation.BOUNCE);
+
+    },
+    function() {
+        var idx = $(this).index()-1;   
+             //apartmarkers[idx].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png');
+        apartvue.apartmarkers[idx].setAnimation(null);
+    }
+    )
+
+
+
+	{% endblock %}
+</script>
+

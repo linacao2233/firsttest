@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+   <input name="next" type="hidden" value="" />
+    {% get_current_language as LANGUAGE_CODE %}
+    {% get_available_languages as LANGUAGES %}
+    {% get_language_info_list for LANGUAGES as languages %}
+
+    {% for language in languages %}
+
+		<button class="btn btn-secondary" type="submit" name="language" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} disabled {% endif %}>{{ language.code }}</button>
+
+	{% endfor %}
+
+</form>
+
+
+<!-- <form class='form-inline my-2 my-lg-0' action="{% url 'set_language' %}" method="post">{% csrf_token %}
+    <input name="next" type="hidden" value="" />
+    <select name="language" class="form-control">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="s
+elected"{% endif %}>
+                {{ language.name_local }} ({{ language.code }})
+            </option>
+        {% endfor %}
+    </select>
+    <input id="languageselectbutton" class="btn btn-secondary my-2 my-sm-0" type="submit" value="Go" />
+</form>
+ -->

@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load static extra i18n %}
+<style type="text/css">
+{% block style%}
+.listapart .fa {
+    position: absolute;
+    top: 0;
+    right: 20px;
+}
+.listapart{
+    overflow: hidden;
+    min-height: 100px;
+}
+
+.labelnumber {
+    position: absolute;
+    top: 0;
+    left: 20px;  
+}
+
+h1 {
+    line-height: 200%;
+}
+
+
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+{% include 'topnavbar.html' %}
+{% universitysearchform %}
+
+<div class="container">
+{% if apartlist %}
+<h1>{% trans 'Aparts found' %}</h1>
+<section class="row">
+
+<div id="map-canvas" class="col-md-6" style="height: 60vh;"></div>
+
+
+<div class="col-md-6" style="overflow: auto; height: 60vh;">
+    <p class="card-header" > {% trans 'Click <i class='fa fa-heart-o'></i> for comparison.' %} <small>{{apartlist|length}} {% trans 'found' %}.</small></p>
+    {% for apart in apartlist %}
+
+    <div class="listapart py-2" style="background: {% cycle '#f7f7f9' '#ddd'%}">
+        <div class="container" style="position: relative;top: 0;">
+        <div class="row">
+            <span class="blocklabel">{{ forloop.counter }}.</span>
+
+            <div class="col-4">
+                <img src="{% if apart.iconpic %} {{apart.iconpic.url}} {% endif %}" width="100%">
+            </div>
+             
+            <div class="col-7">           
+                <a href="{% url 'detail' apart.slug %}">{{ apart.title }}</a>
+                <i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" data-original-title="click to add" ></i>
+            </div>
+           
+            </div>
+        </div>   
+    </div>
+
+    {% endfor %}
+            
+
+
+</div>
+<div class="col-12">
+<button id="comparebutton" class="btn btn-primary pull-right">{% trans 'Compare details' %}</button>
+</div>
+</section>
+{% else %}
+
+<h2>{% trans 'No aparts found' %} </h2>
+
+{% endif %}
+
+    
+</div>
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?&key={{googleapikey}}"></script>
+<script src="{% static 'js/fontawesome-markers.min.js' %}"></script>
+
+{% include 'footer.html' %}
+
+{% endblock %}
+
+<script type="text/javascript">
+	{% block script %}
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+var apartmarkers = [];
+var map = new google.maps.Map(document.getElementById('map-canvas'),{
+    gestureHandling: 'auto',
+
+});
+
+
+function initialize() {
+    var bounds = new google.maps.LatLngBounds();
+    var infowindow1 = new google.maps.InfoWindow();
+
+    function addMarker(lat, lng, title, label, content) {
+        var position = new google.maps.LatLng(lat, lng);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: title,
+            label: label,
+        });
+        var infowindow = new google.maps.InfoWindow({
+        	content: content,
+        	maxwidth: 20,
+        })
+        marker.addListener('click', function(){
+        	//infowindow.open(map,marker)
+        	infowindow1.setContent(content);
+        	//infowindow1.setPosition(position);
+        	infowindow1.open(map,this);
+        })
+        bounds.extend(position);
+        apartmarkers.push(marker);
+        //marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+    }
+
+    function addGateMarker(lat,lng,title) {
+        var position = new google.maps.LatLng(lat, lng);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: title,
+            //labelContent: '<i class="fa fa-camera-retro"></i>',
+        });
+        //marker.setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png')
+        marker.setIcon('http://labs.google.com/ridefinder/images/mm_20_green.png'
+            )
+    }
+
+    var apartcontent;
+    {% for poi in apartlist %}
+      apartcontent = '<a href="{{poi.officalweblink}}">{{ poi.title }}</a> <br>{{ poi.description|safe }}'
+
+        addMarker({{ poi.location2.y }}, {{ poi.location2.x }}, "{{ poi.title }}", "{{forloop.counter}}", apartcontent);
+
+    {% endfor %}
+
+
+    {% for gate in gatelist %}
+        addGateMarker({{ gate.location.y }}, {{ gate.location.x }}, "{{ gate.title }}");
+    {% endfor %}
+    map.fitBounds(bounds);
+
+    // function checking
+
+    // for (var i=0; i<apartmarkers.length; i++) {
+    //     apartmarkers[i].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png')
+}
+
+function loadMapFromcurrentBounds(){
+    var num;
+    //$('.listapart').hide();
+    for (var i=0; i< apartmarkers.length; i++){
+        num = (i+2).toString();
+        if (map.getBounds().contains(apartmarkers[i].getPosition())) {
+            //apartmarkers[i].setMap();
+            console.log(num);
+
+            $('.listapart:nth-child('+num+')').show();
+
+           // apartmarkers[i].setLabel(label.toString());
+
+        }
+        else {
+            $('.listapart:nth-child('+num+')').hide();
+        }
+    }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addListener(map, 'idle', loadMapFromcurrentBounds);
+
+
+
+
+$('.listapart:visible').hover(
+    function() {
+        var idx = $(this).index()-1;
+        console.log(idx);
+        //apartmarkers[idx].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png');
+        apartmarkers[idx].setAnimation(google.maps.Animation.BOUNCE);
+
+    },
+    function() {
+        var idx = $(this).index()-1;   
+             //apartmarkers[idx].setIcon('http://maps.google.com/mapfiles/kml/pal2/icon5.png');
+        apartmarkers[idx].setAnimation(null);
+    }
+    )
+
+// add aparts to compare
+$('.fa').click(function(){
+    $(this).toggleClass('fa-heart-o fa-heart');
+    console.log($(this).parents('.listapart').index());
+    $(this).attr('data-original-title', 
+        ($(this).attr('data-original-title')=='Click to drop'? 'Click to add' : 'Click to drop') )
+
+})
+
+
+$('#comparebutton').click(function(){
+    var selected = $('.fa-heart').map(function(){
+        return $(this).siblings('a').text();
+    }).get();
+    console.log(selected);
+    hrefurl='{% url 'comparison' %}?apartlist='
+    for (var i = 0; i< selected.length; i++) {
+        hrefurl += selected[i]+',';
+    }
+    console.log(hrefurl);
+    window.location.href = hrefurl;
+    
+})
+
+
+	{% endblock %}
+</script>
+

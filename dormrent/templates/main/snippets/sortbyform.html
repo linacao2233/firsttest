@@ -1,0 +1,10 @@
+{% load i18n %}
+<div class="input-group">
+	<select name='sortby' class="form-control">
+		<option selected hidden> {% trans 'Sort By'%}</option>
+		<option value='starlevel'>{% trans 'rating' %} &#8593</option>
+		<option value="-starlevel">{% trans 'rating' %} &#8595</option>
+		<option value="title">{% trans 'name' %} &#8593</option>
+		<option value='-title'>{% trans 'name' %} &#8595</option>
+	</select>
+</div>

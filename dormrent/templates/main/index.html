@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+<style type="text/css">
+{% block style%}
+.jumbotron {
+
+    height: 80vh;
+    background: url("{% static 'img/ayladraw.png' %}");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+{% include 'topnavbar.html' %}
+
+<div class="jumbotron text-center bg-info">
+
+    <h1 style="line-height: 5rem;">{% trans 'Find the apartment perfect for you!' %}</h1>
+
+    <form method="GET" action="{% url 'list' %}">
+        <input class="form-control col-md-6 offset-md-3 my-3" list="universitylist" class="mt-4" placeholder='{% trans "University, City" %}' name="university" required pattern="{{matchingpattern}}">
+        <datalist id="universitylist">
+            	{% for university in universitylist %}
+            	<option value="{{university.title}}, {{university.city}}">{{university.title}}, {{university.city}}</option>
+            	{% endfor %}
+        </datalist>
+
+            <button class='gender btn btn-danger' type="submit" name="Kiz">{% trans 'Girl' %}
+        </button>
+            <button class='gender btn btn-primary' type="submit" name="Erkek">{% trans 'Boy' %} </i>
+        </button>
+    </form>
+</div>
+
+<section id="features" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="" alt="image example" width="">
+        </div>
+        <div class="col-md-6 text-center p-4">
+            <h2>{% trans 'Check out real comments' %}</h2>
+            <p> {% trans 'Check the comments from real students' %}. </p>
+            <button class="btn btn-secondary">{% trans 'Find out more!' %}</button>    
+        </div>
+
+         <div class="col-md-6">
+            <img src="" alt="image example" width="" ="100%">
+        
+        </div>
+         <div class="col-md-6 text-center p-4">
+             <h2>{% trans 'Compare different properties' %}</h2>
+            <p> {% trans 'Select the properties you are interested in to compare them side by side.' %}' </p>
+             <a href="#" class="btn btn-secondary"> {% trans 'Start' %} </a>
+    <!-- <button onclick="#">Find out more!</button>
+     -->    
+         </div>  
+    </div>
+</section>
+
+<section id="aboutus" class="bg-faded">
+    <div class="container">
+    <h2 class="text-center">{% trans 'About Us' %}</h2><p>
+    {% trans "Our goal is to reduce our students' anxiety in finding a suitable dorm by helping in evaluating the dorms first without leaving their homes as well as gathering the spoken comments about different dorms with the help of already accomodated students in those dorms." %}</p>
+
+    {% trans "<p>To add a comment about a place that you used to live or currently living, you don't need to login. While you can login through registration or login via google or facebook login,  it's also possible to leave your comments through your facebook account. Anonymous commenting is also available if you'd like to share your experience without dısclosing your identity, however these comments can not be used in popularity through comments list.</p>" %}
+
+    {% trans "<p>You will have the option of comparing dorms without visiting in person.</p> <p>After login our website, you can configure your own important properties from the 'Dorm's properties' section. This way, your selection of important properties will be shown in the dorm page as well as during comparison of different dorms.</p>" %}
+        
+    </div>
+
+
+
+    
+</section>
+
+{% include 'footer.html' %}
+
+<script type="text/javascript" src="{% static 'js/datalist.polyfill.min.js' %}"></script>
+
+{% endblock %}
+
+<script type="text/javascript">
+{% block script %}
+
+// $('.gender').click(function (){
+// 	console.log('clicked');
+// 	var university = $('input').val();
+// 	if (university =='') {
+
+// 	}
+// 	else {
+// 	var gender = $(this).text();
+// 	window.location.href = "{% url 'list' %}?university="+university+'&gender='+gender;
+// 	}
+// 	//console.log(university)
+// 	//console.log(gender)
+// })
+
+{% endblock %}
+</script>
+
+
+

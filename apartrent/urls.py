@@ -20,57 +20,25 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from main import views as mainviews
-from main import ajaxviews as ajaxviews
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', mainviews.index, name='home'),
-    url(r'^list/$', mainviews.list2, name='list'),
-    url(r'^filterapart/$', mainviews.list, name='filterapart'),
+    url(r'^admin/', admin.site.urls),  # admin view
+
+# views from main app
+    url(r'^$', mainviews.index, name='home'), # home view
     url(r'^help/$', mainviews.helppage, name='helppage'),
-
-    # testing views
-    #url(r'^list2/$', mainviews.list2, name='list2'),
-
     url(r'^contact/(?P<slug>[-\w]+)/$', mainviews.ContactPage, name='contact'),
-    url(r'^accounts/', include('allauth.urls')),
     url(r'^profile/$', mainviews.userProfile, name='userprofile'),
 
-# apart create, update, detail, delete views
-    url(r'^newapart/$', mainviews.CreateApart, name='create'),
-    url(r'^createapart/$', mainviews.ApartCreateView.as_view(), 
-        name='createapart'),    
-    url(r'^updateapart/(?P<slug>[-\w]+)/$', mainviews.ApartUpdateView.as_view(), 
-        name='updateview'),
-    url(r'^uploadimage/(?P<slug>[-\w]+)/$', mainviews.uploadapartpic, 
-        name='uploadpic'),
 
-    # list views for searching perpose 
-    #url(r'^propertylist/$', mainviews.propertylist, name='propertylist'),
+# dorm app urls
+    url(r'^dorm-living/$', include('dormrent.urls'), namespace='dormrent'),
 
-    url(r'^propertylist(?:/(?P<city>[-\w]+))?(?:/(?P<university>[-\w]+))?/$',
-        mainviews.apartlist, name='apartlist'),
+# onlinelearning urls  
+    url(r'^learn/$', include('onlinelearning.urls'), namespace='learning'),
 
-
-    url(r'^comparison/$', mainviews.ComparisonApart, name='comparison'),
-
- #   url(r'^ajax/commentsave/$', mainviews.commentsSave, name='commentsave'),
-    url(r'^(?P<slug>[-\w]+)/$', mainviews.ApartDetail, name='detail'),
-
-    url(r'^ajax/apartlist/$', ajaxviews.apartlist.as_view(), name='ajaxlist'),
-    url(r'^ajax/commentslist/$', ajaxviews.CommentList.as_view(), name='commentlist'),
-    url(r'^ajax/visitedapartlist/$', ajaxviews.visitedApart.as_view(), name='ajaxvisitedlist'),
-
-    url(r'^ajax/apart/(?P<pk>[0-9]+)/$', ajaxviews.ApartDetail.as_view()),
-    url(r'^roomtypes/(?P<pk>[0-9]+)/$', mainviews.roomtypedetail, name="roomtypedetail"),
-
-    # ajax thumbs up down share views
-    url(r'^ajax/thumbsup/(?P<pk>[0-9]+)/$', ajaxviews.thumbsup, name="thumbsup"),
-    url(r'^ajax/thumbsdown/(?P<pk>[0-9]+)/$', ajaxviews.thumbsdown, name="thumbsdown"),
-    url(r'^ajax/shareaparts/(?P<pk>[0-9]+)/$', ajaxviews.shareaparts, name="shareaparts"),
-    url(r'^ajax/likeup(?:/(?P<pk>[0-9]+))?/$', ajaxviews.commentLikeUp, name="likeup"),
-    url(r'^ajax/commentdetail/(?P<pk>[0-9]+)/$', ajaxviews.commentDetail.as_view(), 
-        name="commentupdate"),
+# accounts info
+    url(r'^accounts/', include('allauth.urls')),
 
 # language setting
     url(r'^i18n/', include('django.conf.urls.i18n')),
