@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 
 from .models import *
-from .forms import ApartForm,ImageFormHelper, \
-          CommentForm, MainSearchForm,ContactForm, \
-          ContactApartOwnerForm, ImageFormSet, ContactFormClaim
+from .forms import ApartForm,ImageFormHelper,MainSearchForm, ImageFormSet
+from main.forms import *
 
 from django.conf import settings
 from django.utils import timezone
@@ -16,11 +15,15 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.utils.translation import ugettext as _
+from django.urls import reverse
 
 # Create your views here.
 
 def index(request):
-	template='main/index.html'
+	"""
+	home page of dorm apart rent
+	"""
+	template='dormrent/index.html'
 
 	ulist = University.objects.all()
 	patterlist = []
@@ -38,7 +41,10 @@ def index(request):
 
 
 def list(request):
-	template = 'main/list.html'
+	"""
+	not so sure which view is using this
+	"""
+	template = 'dormrent/list.html'
 
 	if request.GET:
 		if 'apart' in request.GET:
@@ -47,7 +53,7 @@ def list(request):
 			apartlist = Apart.objects.filter(title__icontains=apartname)
 
 			if apartlist.count() == 1 :
-				url = reverse_lazy('detail', kwargs={'slug':apartlist[0].slug})
+				url = reverse(ApartDetail, kwargs={'slug':apartlist[0].slug})
 				return redirect(url)
 
 	else:
@@ -62,8 +68,13 @@ def list(request):
 
 	return render(request, template, context)
 
+
+
 def list2(request):
-	template = 'main/listajax.html'
+	"""
+	mapview of list
+	"""
+	template = 'dormrent/listajax.html'
 
 	if request.GET:
 		if 'university' in request.GET: 
@@ -108,7 +119,7 @@ def apartlist(request, city=None, university=None):
 	'university': University slug, string
 	"""
 
-	template = 'main/apartlist.html'
+	template = 'dormrent/apartlist.html'
 
 	apartlist = None
 	cities = None
@@ -124,7 +135,7 @@ def apartlist(request, city=None, university=None):
 			)
 
 		if apartlist.count() == 1 and universities.count() == 0:
-			url = reverse_lazy('detail', kwargs={'slug':apartlist[0].slug})
+			url = reverse_lazy('dormrent:detail', kwargs={'slug':apartlist[0].slug})
 			return redirect(url)
 
 	#if request.GET:
@@ -161,7 +172,7 @@ def apartlist(request, city=None, university=None):
 
 
 def propertylist(request):
-	template = 'main/propertylist.html'
+	template = 'dormrent/propertylist.html'
 
 	cities = University.objects.values_list('city', flat=True).distinct().order_by('city')
 
@@ -173,7 +184,7 @@ def propertylist(request):
 # apart create, update, detail, delete pages
 
 def CreateApart(request):
-	template = 'main/apartform.html'
+	template = 'dormrent/apartform.html'
 
 	if request.POST:
 		form = ApartForm(request.POST)
@@ -200,14 +211,14 @@ def CreateApart(request):
 class ApartCreateView(CreateView):
 	model = Apart
 	form_class = ApartForm
-	template_name = 'main/apartform.html'
+	template_name = 'dormrent/apartform.html'
 
 
 
 class ApartUpdateView(UpdateView):
 	model = Apart
 	form_class = ApartForm
-	template_name = 'main/apartform.html'
+	template_name = 'dormrent/apartform.html'
 
 
 def uploadapartpic(request,slug):
@@ -221,7 +232,7 @@ def uploadapartpic(request,slug):
 	
 	form = ImageFormSet(instance = apart)
 
-	template='main/uploadpic.html'
+	template='dormrent/uploadpic.html'
 	context = {
 	'form':form,
 	'apart': apart,
@@ -233,7 +244,7 @@ def uploadapartpic(request,slug):
 
 
 def ApartDetail(request, slug):
-	template='main/apartdetail.html'
+	template='dormrent/apartdetail.html'
 
 	apart = Apart.objects.get(slug=slug)
 
@@ -302,7 +313,7 @@ def get_client_ip(request):
 def ComparisonApart(request):
 	#template='main/apartdetail.html'
 
-	template = 'main/comparison.html'
+	template = 'dormrent/comparison.html'
 
 	if request.GET:
 		apartlist = request.GET.get('apartlist').split(',')[0:-1]
@@ -344,7 +355,7 @@ def ComparisonApart(request):
 
 
 def ContactPage(request, slug):
-	template='main/contact.html'
+	template='dormrent/contact.html'
 
 	title = _('contact me')
 	confirm_message = None
@@ -415,7 +426,7 @@ def ContactPage(request, slug):
 
 
 def roomtypedetail(request, pk):
-	template = 'main/roomtypedetail.html'
+	template = 'dormrent/roomtypedetail.html'
 	roomtype = RoomType.objects.get(pk=pk)
 	print(roomtype)
 
@@ -428,7 +439,7 @@ def roomtypedetail(request, pk):
 
 
 def helppage(request):
-	template = 'main/helppage.html'
+	template = 'dormrent/helppage.html'
 	questions = FrequentlyAskedQuestions.objects.all()
 
 	context = {
@@ -442,7 +453,7 @@ def helppage(request):
 def userProfile(request):
 	user = request.user
 
-	template = 'main/userprofile.html'
+	template = 'dormrent/userprofile.html'
 
 	context = {
 	'user': user,

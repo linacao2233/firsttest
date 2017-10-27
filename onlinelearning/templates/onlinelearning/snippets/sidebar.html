@@ -1,0 +1,32 @@
+{% comment %}
+side nav bar for each class 
+input: subject
+
+
+{% endcomment %}
+<nav id="sidebar">
+	<div class="siderbar-hearder">
+		<h3> {{subject.name}} </h3>
+	</div>
+	<div class="list-group text-center text-md-left">
+		{% for chapter in subject.chapters.all %}
+		<a href="#chapter{{forloop.counter}}" class="list-group-item justify-content-between" data-toggle="collapse" aria-expanded="false">{{chapter.name}}<span class="badge badge-default badge-pill">{{chapter.videos_set.all.count}} Videos</span></a>
+		<div class="collapse" id="chapter{{forloop.counter}}">
+			{% for video in chapter.videos_set.all %}
+			<a href="{% url 'learning:videodetail' subject.slug chapter.slug video.slug %}" class="pl-5 list-group-item list-group-item-success">{{video.name}}</a>
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+	
+</nav>
+
+<script type="text/javascript">
+	$('a.list-group-item').each(
+		function(){
+			if ($(this).attr('href') == '{{request.path}}') {
+				$(this).toggleClass('active');
+				$(this).parent().toggleClass('show')
+			}
+		})
+</script>

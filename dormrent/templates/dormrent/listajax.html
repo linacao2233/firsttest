@@ -49,10 +49,10 @@ h1 {
 
     <div class="row my-4 bg-faded" id="smallnav">
         <nav> 
-            <a href="{% url 'home'%}">{% trans 'Home' %}</a> >
-            <a href="{% url 'apartlist' %}">{% trans 'List' %}</a> >
-            <a href="{% url 'apartlist' city=city %}">{{city}}</a> >
-            {{gatelist.0.university.title}} <a href="{% url 'apartlist' city=city university=university %}"><i class="fa fa-list-ul"></i></a>
+            <a href="{% url 'dormrent:index'%}">{% trans 'Living Home' %}</a> >
+            <a href="{% url 'dormrent:apartlist' %}">{% trans 'List' %}</a> >
+            <a href="{% url 'dormrent:apartlist' city=city %}">{{city}}</a> >
+            {{gatelist.0.university.title}} <a href="{% url 'dormrent:apartlist' city=city university=university %}"><i class="fa fa-list-ul"></i></a>
         </nav>
     </div>
 {% endwith %}
@@ -315,7 +315,7 @@ h1 {
                 //clear markercluster
                 markerCluster.clearMarkers();
 
-                getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1)+'&sortby='+newvalue);
+                getapartlist("{% url 'dormrent:ajaxlist' %}?"+window.location.search.substr(1)+'&sortby='+newvalue);
             },
 
         },
@@ -337,7 +337,7 @@ h1 {
                 Vue.delete(this.comparelist, index);
             },
             compareaparts: function(index) {
-                var hrefurl='{% url 'comparison' %}?apartlist='
+                var hrefurl='{% url 'dormrent:comparison' %}?apartlist='
 
                 console.log(this.comparelist);
 
@@ -374,7 +374,7 @@ h1 {
     var infowindow1 = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
-    getapartlist("{% url 'ajaxlist' %}?"+window.location.search.substr(1)+'&sortby='+apartvue.sortby);
+    getapartlist("{% url 'dormrent:ajaxlist' %}?"+window.location.search.substr(1)+'&sortby='+apartvue.sortby);
     getvisitedlist();
 
     var markerCluster = new MarkerClusterer(map, apartvue.apartmarkers,
@@ -435,7 +435,7 @@ h1 {
 
     function getvisitedlist() {
         $.ajax({
-            url: "{% url 'ajaxvisitedlist' %}",
+            url: "{% url 'dormrent:ajaxvisitedlist' %}",
             success: function(data){
                 apartvue.visitedlist = data.results;
             },

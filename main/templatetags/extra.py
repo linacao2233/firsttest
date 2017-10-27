@@ -1,5 +1,5 @@
 from django import template
-from main.models import University
+from dormrent.models import University
 
 register = template.Library()
 

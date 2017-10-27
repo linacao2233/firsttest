@@ -32,10 +32,10 @@ urlpatterns = [
 
 
 # dorm app urls
-    url(r'^dorm-living/$', include('dormrent.urls'), namespace='dormrent'),
+    url(r'^dorm-living/', include('dormrent.urls', namespace='dormrent')),
 
 # onlinelearning urls  
-    url(r'^learn/$', include('onlinelearning.urls'), namespace='learning'),
+    url(r'^learn/', include('onlinelearning.urls', namespace='learning')),
 
 # accounts info
     url(r'^accounts/', include('allauth.urls')),

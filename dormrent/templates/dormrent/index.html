@@ -24,7 +24,7 @@
 
     <h1 style="line-height: 5rem;">{% trans 'Find the apartment perfect for you!' %}</h1>
 
-    <form method="GET" action="{% url 'list' %}">
+    <form method="GET" action="{% url 'dormrent:list' %}">
         <input class="form-control col-md-6 offset-md-3 my-3" list="universitylist" class="mt-4" placeholder='{% trans "University, City" %}' name="university" required pattern="{{matchingpattern}}">
         <datalist id="universitylist">
             	{% for university in universitylist %}
@@ -37,6 +37,12 @@
             <button class='gender btn btn-primary' type="submit" name="Erkek">{% trans 'Boy' %} </i>
         </button>
     </form>
+
+<p class="my-4">
+    
+    <a href="{% url 'dormrent:createapart' %}" class="btn btn-secondary">{% trans 'List a Property' %}</a>
+    <a href="{% url 'dormrent:apartlist' %}" class="btn btn-secondary">{% trans 'List' %}</a>
+</p>
 </div>
 
 <section id="features" class="container">
@@ -89,19 +95,6 @@
 <script type="text/javascript">
 {% block script %}
 
-// $('.gender').click(function (){
-// 	console.log('clicked');
-// 	var university = $('input').val();
-// 	if (university =='') {
-
-// 	}
-// 	else {
-// 	var gender = $(this).text();
-// 	window.location.href = "{% url 'list' %}?university="+university+'&gender='+gender;
-// 	}
-// 	//console.log(university)
-// 	//console.log(gender)
-// })
 
 {% endblock %}
 </script>

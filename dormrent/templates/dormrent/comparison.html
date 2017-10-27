@@ -57,7 +57,7 @@ Comparison page
             <img src="{% static 'img/logo_thumb.jpg'%}">
           {% endif %}
           
-          <h4 class="card-title">{{forloop.counter}}, {{apart.title}} <a href="{% url 'detail' apart.slug %}"> >> </a></h4> 
+          <h4 class="card-title">{{forloop.counter}}, {{apart.title}} <a href="{% url 'dormrent:detail' apart.slug %}"> >> </a></h4> 
 
           </th>
           {% endfor %}
@@ -86,7 +86,7 @@ Comparison page
             {% for apart in apartlist %}
               <td>
                  {% for roomtype in apart.roomtype.all %}
-                  <a href="{% url 'roomtypedetail' roomtype.pk %}" title="{{roomtype.description}}">{{roomtype}}</a>, 
+                  <a href="{% url 'dormrent:roomtypedetail' roomtype.pk %}" title="{{roomtype.description}}">{{roomtype}}</a>, 
                   {% endfor %}
               </td>
             {% endfor %}

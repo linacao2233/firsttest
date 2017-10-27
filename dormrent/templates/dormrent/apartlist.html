@@ -8,14 +8,14 @@
 <div class="container">
 	<div class="row my-4 bg-faded" id="smallnav">
 		<nav> 
-			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
-			<a href="{% url 'apartlist' %}">{% trans 'List' %}</a> >
+			<a href="{% url 'dormrent:index'%}">{% trans 'Home' %}</a> >
+			<a href="{% url 'dormrent:apartlist' %}">{% trans 'List' %}</a> >
 			{% if city %}
-			<a href="{% url 'apartlist' city=city %}">{{city}}</a> >
+			<a href="{% url 'dormrent:apartlist' city=city %}">{{city}}</a> >
 			{% endif %}
 			{% if universityobject %}
 			{{universityobject.title}} 
-			<a href="{% url 'list' %}?university={{universityobject.title}}, {{universityobject.city}}" title="{% trans 'map view' %}"><i class="fa fa-map"></i></a>
+			<a href="{% url 'dormrent:list' %}?university={{universityobject.title}}, {{universityobject.city}}" title="{% trans 'map view' %}"><i class="fa fa-map"></i></a>
 			{% endif %}
 		</nav>
 	</div>
@@ -29,7 +29,7 @@
 
 		<ul>
 			{% for city in cities %}
-				<li class="col-12"><a href="{% url 'apartlist' city=city %}">{{city}}</a></li>
+				<li class="col-12"><a href="{% url 'dormrent:apartlist' city=city %}">{{city}}</a></li>
 			{% endfor %}
 		</ul>
 		{% endif %}
@@ -41,7 +41,7 @@
 			<h2>{% trans 'universities' %}</h2>
 						<ul>
 					{% for university in universities %}
-						<li class="col-12"><a href="{% url 'apartlist' city=university.city university=university.slug %}">{{university.title}}</a></li>
+						<li class="col-12"><a href="{% url 'dormrent:apartlist' city=university.city university=university.slug %}">{{university.title}}</a></li>
 					{% endfor %}
 					</ul>
 				
@@ -87,7 +87,7 @@
 	    	
 	    		<div id="map" style="height: 200px"></div>
 
-	    		<a href="{% url 'list' %}?university={{universityobject.title}}, {{universityobject.city}}">{% trans 'Map View' %}</a>
+	    		<a href="{% url 'dormrent:list' %}?university={{universityobject.title}}, {{universityobject.city}}">{% trans 'Map View' %}</a>
 	    		
 	    	</div>
 			<script src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyCcdmdG9ePdOCuyTdjPH3U91mE7B6pUwdI&language={{LANGUAGE_CODE}}"></script>

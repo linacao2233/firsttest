@@ -89,8 +89,8 @@
 
 	</h1> 
 	{% if request.user is apart.ownedby or request.user.is_staff %}
-		<a class="btn btn-primary" href="{% url 'updateview' apart.slug %}"> <i class="fa fa-pencil-square-o"></i> {% trans 'Edit' %} </a>
-		<a class="btn btn-primary" href="{% url 'uploadpic' apart.slug %}"><i class="fa fa-upload"></i> {% trans 'Upload Pictures' %}</a>
+		<a class="btn btn-primary" href="{% url 'dormrent:updateview' apart.slug %}"> <i class="fa fa-pencil-square-o"></i> {% trans 'Edit' %} </a>
+		<a class="btn btn-primary" href="{% url 'dormrent:uploadpic' apart.slug %}"><i class="fa fa-upload"></i> {% trans 'Upload Pictures' %}</a>
 	{% endif %}
 
 	<div class="row" id="configurebuttons">
@@ -199,7 +199,7 @@
 				<dt class="col-sm-4 p-1 my-1"> {% trans 'Type of rooms' %} :</dt>
 				{% for roomtype in apart.roomtype.all %}
 				<dd class="col-sm-3 p-1 my-1" title="{{roomtype.description}}
-				"> {{roomtype}} <a href="{% url 'roomtypedetail' roomtype.pk %}">>></a></dd>
+				"> {{roomtype}} <a href="{% url 'dormrent:roomtypedetail' roomtype.pk %}">>></a></dd>
 				{% endfor %}
 			</dl>
 			
@@ -322,7 +322,7 @@ $(function () {
   // get comments from backend
 
   $.ajax({
-  	url: "{% url 'commentlist' %}?apart={{apart.pk}}",
+  	url: "{% url 'dormrent:commentlist' %}?apart={{apart.pk}}",
   	method: "GET",
   	success: function(data) {
   		commentapp.comments = data.results;
@@ -337,7 +337,7 @@ $(function () {
 
 	function thumbsup(){
 		$.ajax({
-			url: "{% url 'thumbsup' apart.pk %}",
+			url: "{% url 'dormrent:thumbsup' apart.pk %}",
 			method: "POST",
 			success: function(data) {
 				console.log(data);
@@ -352,7 +352,7 @@ $(function () {
 
 	function thumbsdown(){
 		$.ajax({
-			url: "{% url 'thumbsdown' apart.pk %}",
+			url: "{% url 'dormrent:thumbsdown' apart.pk %}",
 			method: "POST",
 			success: function(data) {
 				console.log(data);
@@ -367,7 +367,7 @@ $(function () {
 
 	function shareapart(){
 		$.ajax({
-			url: "{% url 'shareaparts' apart.pk %}",
+			url: "{% url 'dormrent:shareaparts' apart.pk %}",
 			method: "POST",
 			success: function(data) {
 				console.log(data);
@@ -469,7 +469,7 @@ $(function () {
 				this.rating = 0;
 
 				$.ajax({
-					url: "{% url 'commentlist' %}",
+					url: "{% url 'dormrent:commentlist' %}",
 					data: senddata,
 					method: "POST",
 
@@ -486,7 +486,7 @@ $(function () {
 			},
 			addlikenumber: function(commentid) {
 				console.log(this.comments[commentid].id);
-				var likeupurl = "{% url 'likeup' %}"+this.comments[commentid].id+'/';
+				var likeupurl = "{% url 'dormrent:likeup' %}"+this.comments[commentid].id+'/';
 				$.ajax({
 					url: likeupurl,
 					method: "POST",

@@ -1,30 +1,6 @@
 {% load i18n %}
 <nav class="navbar container-fluid text-center" id="searchNav" style="background: #d4d4d4;">
 
-<!-- <div class="row">
-<div class="col-md-4 offset-md-2">
-<form class="form-inline" method="GET" action="{% url 'list' %}">
-  <div class="input-group">
-      <input class="form-control" list="universitylist" class="mt-4" placeholder="university, City" name="university" required pattern="{{matchingpattern}}">
-      <span class="input-group-btn">
-       <button class='gender btn btn-danger' type="submit" name="Kiz">{% trans 'Kiz' %}</button>
-      </span>
-      <span class="input-group-btn">
-              <button class='gender btn btn-primary' type="submit" name="Erkek">{% trans 'Erkek' %}</button>
-    </span>
-
-  </div>
-        <datalist id="universitylist">
-          {% for university in universitylist %}
-          <option value="{{university.title}}, {{university.city}}">{{university.title}}, {{university.city}}</option>
-          {% endfor %}
-        </datalist>
-</form>
-</div>
-<div class="col-md-4">
-{% include 'searchapart.html' %}
-</div>
-</div> -->
 <div class="col-md-6 offset-md-3">
 {% include 'main/snippets/mixedsearch.html' %}
 </div>

@@ -1,4 +1,5 @@
-from .models import Apart, University, Comment
+from .models import Apart, University
+from main.models import Comment
 from .serializers import ApartSerializer, CommentSerializer
 
 from rest_framework import status

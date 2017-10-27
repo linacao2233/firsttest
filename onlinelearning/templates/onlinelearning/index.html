@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+<style>
+	{% block style %}
+	.subjectblock {
+		background-color: #f1f1f1;
+		height: 200px;		
+	}
+
+	.subjectblock:hover {
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+	}
+
+	{% endblock %}
+</style>
+
+
+{% block content %}
+{% include 'topnavbar.html' %}
+
+<div class="jumbotron text-center bg-info" id="jumbotron">
+	<h1> {% trans 'Welcome' %}</h1>
+</div>
+
+<div class="container my-4" id="subject">
+	<div class="row">
+		
+	{% for subject in subjects %}
+	<a href="{% url 'learning:videolist' subject.slug %}" class="col-md-4 col-sm-6">
+		<div class="my-2 mp-2 subjectblock text-center">
+			<h3> {{subject.name}} </h3>
+			<p>{{ subject.description }}</p>
+		</div>
+	</a>
+
+	{% endfor %}
+	</div>
+
+</div>
+{% endblock %}

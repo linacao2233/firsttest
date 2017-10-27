@@ -22,10 +22,8 @@ from django.contrib.contenttypes.models import ContentType
 
 
 class Comment(models.Model):
-	"""
-	a general comment model which can be used for different models
-	"""
-	created_by = models.ForeignKey(User, null=True, blank=True)
+	created_by = models.ForeignKey(User, null=True, blank=True,
+		related_name='generalcomments')
 	ipaddress = models.CharField(max_length=100, null=True, blank=True)
 	starlevel = models.PositiveSmallIntegerField(
 		choices=[(1,1),(2,2),(3,3),(4,4),(5,5)],

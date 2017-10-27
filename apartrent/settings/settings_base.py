@@ -162,7 +162,7 @@ WSGI_APPLICATION = 'apartrent.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'yurtweb2',
+        'NAME': 'apartlearning',
         'USER': 'lcao',
         'PASSWORD': 'test123456',
     }

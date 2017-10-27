@@ -19,8 +19,8 @@ body {
 <div class="container">
 	<div class="row my-4 bg-faded" id="smallnav">
 		<nav> 
-			<a href="{% url 'home'%}">{% trans 'Home' %}</a> >
-			<a href="{% url 'apartlist' %}">{% trans 'List' %}</a>
+			<a href="{% url 'dormrent:index'%}">{% trans 'Home' %}</a> >
+			<a href="{% url 'dormrent:apartlist' %}">{% trans 'List' %}</a>
 
 		</nav>
 	</div>
@@ -29,13 +29,12 @@ body {
 		<ul>
 
 		{% for city in cities %}
-	    <li> <a href="{% url 'apartlist' city=city university='all' %}">{{city}}</a>
+	    <li> <a href="{% url 'dormrent:apartlist' city=city university='all' %}">{{city}}</a>
 	    </li>
 		{% endfor %}
 		</ul>
 		
 	</div>
-
 
 </div>
 

@@ -46,21 +46,21 @@ h2 {
 
 	<ul>
 	{% for apart in user.likedaparts.all %}
-		<li><a href="{% url 'detail' apart.slug %}">{{apart.title}}</a></li>
+		<li><a href="{% url 'dormrent:detail' apart.slug %}">{{apart.title}}</a></li>
 	{% endfor %}
 	</ul>
 
 	<h2> {% trans 'disliked properties' %} </h2>
 	<ul>
 	{% for apart in user.dislikedaparts.all %}
-			<li><a href="{% url 'detail' apart.slug %}">{{apart.title}}</a></li>
+			<li><a href="{% url 'dormrent:detail' apart.slug %}">{{apart.title}}</a></li>
 	{% endfor %}
 	</ul>
 
 	<h2>{% trans 'visited aparts' %}</h2>
 		<ul>
 	{% for apart in user.visitedaparts.all %}
-				<li><a href="{% url 'detail' apart.slug %}">{{apart.title}}</a></li>
+				<li><a href="{% url 'dormrent:detail' apart.slug %}">{{apart.title}}</a></li>
 	{% endfor %}
 	</ul>
 

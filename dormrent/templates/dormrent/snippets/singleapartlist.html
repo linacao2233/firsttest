@@ -10,7 +10,7 @@
         {% endif %}
         </div>
         <div class="col-6">           
-            <a href="{% url 'detail' apart.slug %}">{{ apart.title }}</a> <br>
+            <a href="{% url 'dormrent:detail' apart.slug %}">{{ apart.title }}</a> <br>
             {{apart.starlevel|ratingstar|safe}}
              {{apart.starlevel}}/5  ({{apart.comment_set.all|length}}  {% trans 'comments' %})
         </div>

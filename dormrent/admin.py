@@ -68,8 +68,6 @@ class featureadmin(admin.ModelAdmin):
 
 
 admin.site.register(Apart,ApartAdmin)
-admin.site.register(Comment)
 admin.site.register(RoomType)
 admin.site.register(University,UniversityAdmin)
 admin.site.register(ApartFeatures, featureadmin)
-admin.site.register(FrequentlyAskedQuestions)

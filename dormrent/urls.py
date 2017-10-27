@@ -22,7 +22,7 @@ from . import views as mainviews
 from . import ajaxviews as ajaxviews
 
 urlpatterns = [
-    url(r'^$', mainviews.index, name='home'),
+    url(r'^$', mainviews.index, name='index'),
     url(r'^list/$', mainviews.list2, name='list'),
     url(r'^filterapart/$', mainviews.list, name='filterapart'),
     url(r'^help/$', mainviews.helppage, name='helppage'),

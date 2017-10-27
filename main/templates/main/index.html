@@ -3,15 +3,26 @@
 
 <style type="text/css">
 {% block style%}
-.jumbotron {
+    .subjectblock {
+        background-color: #f1f1f1;
+        height: 200px;      
+    }
 
-    height: 80vh;
-    background: url("{% static 'img/ayladraw.png' %}");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
+    .subjectblock:hover {
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+    }
+    .sectionhearder {
+        position: relative;
+    }
+    .showalllink {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
 
-
+    section {
+        min-height: 40vh;
+    }
 {% endblock %}
 </style>
 
@@ -20,88 +31,65 @@
 
 {% include 'topnavbar.html' %}
 
-<div class="jumbotron text-center bg-info">
-
-    <h1 style="line-height: 5rem;">{% trans 'Find the apartment perfect for you!' %}</h1>
-
-    <form method="GET" action="{% url 'list' %}">
-        <input class="form-control col-md-6 offset-md-3 my-3" list="universitylist" class="mt-4" placeholder='{% trans "University, City" %}' name="university" required pattern="{{matchingpattern}}">
-        <datalist id="universitylist">
-            	{% for university in universitylist %}
-            	<option value="{{university.title}}, {{university.city}}">{{university.title}}, {{university.city}}</option>
-            	{% endfor %}
-        </datalist>
-
-            <button class='gender btn btn-danger' type="submit" name="Kiz">{% trans 'Girl' %}
-        </button>
-            <button class='gender btn btn-primary' type="submit" name="Erkek">{% trans 'Boy' %} </i>
-        </button>
-    </form>
+<div class="jumbotron text-center bg-info" id="jumbotron">
+    <h1> {% trans 'Welcome' %}</h1>
 </div>
 
-<section id="features" class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="" alt="image example" width="">
-        </div>
-        <div class="col-md-6 text-center p-4">
-            <h2>{% trans 'Check out real comments' %}</h2>
-            <p> {% trans 'Check the comments from real students' %}. </p>
-            <button class="btn btn-secondary">{% trans 'Find out more!' %}</button>    
-        </div>
-
-         <div class="col-md-6">
-            <img src="" alt="image example" width="" ="100%">
-        
-        </div>
-         <div class="col-md-6 text-center p-4">
-             <h2>{% trans 'Compare different properties' %}</h2>
-            <p> {% trans 'Select the properties you are interested in to compare them side by side.' %}' </p>
-             <a href="#" class="btn btn-secondary"> {% trans 'Start' %} </a>
-    <!-- <button onclick="#">Find out more!</button>
-     -->    
-         </div>  
+<section id="learning" class="container">  
+    <div class="sectionhearder">        
+        <h2>Online Learning</h2>
+        <a href="{% url 'learning:index' %}" class="showalllink">Show all</a>
     </div>
+    <hr>
+        
+    <div class="row text-center">
+        {% for subject in subjects %}
+        <a href="{% url 'learning:videolist' subject.slug %}" class="col-lg-3 col-md-4 col-sm-6">
+        <div style="height: 200px;" class="subjectblock m-2">
+            <h3> {{subject.name}} </h3>
+            <p>{{ subject.description }}</p>
+            
+        </div>
+        </a>
+        {% endfor %}
+    </div>
+    
 </section>
 
-<section id="aboutus" class="bg-faded">
-    <div class="container">
-    <h2 class="text-center">{% trans 'About Us' %}</h2><p>
-    {% trans "Our goal is to reduce our students' anxiety in finding a suitable dorm by helping in evaluating the dorms first without leaving their homes as well as gathering the spoken comments about different dorms with the help of already accomodated students in those dorms." %}</p>
-
-    {% trans "<p>To add a comment about a place that you used to live or currently living, you don't need to login. While you can login through registration or login via google or facebook login,  it's also possible to leave your comments through your facebook account. Anonymous commenting is also available if you'd like to share your experience without dısclosing your identity, however these comments can not be used in popularity through comments list.</p>" %}
-
-    {% trans "<p>You will have the option of comparing dorms without visiting in person.</p> <p>After login our website, you can configure your own important properties from the 'Dorm's properties' section. This way, your selection of important properties will be shown in the dorm page as well as during comparison of different dorms.</p>" %}
-        
+<section id="living" class="container">
+   <div class="sectionhearder">        
+        <h2>Dorm renting</h2>
+        <a href="{% url 'dormrent:index' %}" class="showalllink">Show all</a>
     </div>
+    <hr>
+    
+</section>
 
+<section id="activity" class="container">
+   <div class="sectionhearder">        
+        <h2>Activities</h2>
+        <a href="{% url 'dormrent:index' %}" class="showalllink">Show all</a>
+    </div>
+    <hr>
+    
+</section>
 
-
+<section id="food" class="container">
+   <div class="sectionhearder">        
+        <h2>Restraunt</h2>
+        <a href="{% url 'dormrent:index' %}" class="showalllink">Show all</a>
+    </div>
+    <hr>
     
 </section>
 
 {% include 'footer.html' %}
-
-<script type="text/javascript" src="{% static 'js/datalist.polyfill.min.js' %}"></script>
 
 {% endblock %}
 
 <script type="text/javascript">
 {% block script %}
 
-// $('.gender').click(function (){
-// 	console.log('clicked');
-// 	var university = $('input').val();
-// 	if (university =='') {
-
-// 	}
-// 	else {
-// 	var gender = $(this).text();
-// 	window.location.href = "{% url 'list' %}?university="+university+'&gender='+gender;
-// 	}
-// 	//console.log(university)
-// 	//console.log(gender)
-// })
 
 {% endblock %}
 </script>
