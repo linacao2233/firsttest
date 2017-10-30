@@ -25,14 +25,6 @@ urlpatterns = [
     url(r'^$', mainviews.index, name='index'),
     url(r'^list/$', mainviews.list2, name='list'),
     url(r'^filterapart/$', mainviews.list, name='filterapart'),
-    url(r'^help/$', mainviews.helppage, name='helppage'),
-
-    # testing views
-    #url(r'^list2/$', mainviews.list2, name='list2'),
-
-    url(r'^contact/(?P<slug>[-\w]+)/$', mainviews.ContactPage, name='contact'),
-    url(r'^accounts/', include('allauth.urls')),
-    url(r'^profile/$', mainviews.userProfile, name='userprofile'),
 
 # apart create, update, detail, delete views
     url(r'^newapart/$', mainviews.CreateApart, name='create'),

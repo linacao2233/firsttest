@@ -1,5 +1,5 @@
-from .models import Apart, University
-from main.models import Comment
+from .models import Apart, University,Comment
+#from main.models import Comment
 from .serializers import ApartSerializer, CommentSerializer
 
 from rest_framework import status
@@ -134,6 +134,10 @@ class CommentList(generics.ListCreateAPIView):
 	ordering_fields = ('apart', 'starlevel', 'modifiedTime')
 
 	queryset = Comment.objects.all().order_by('-modifiedTime')
+
+
+
+
 		
 
 

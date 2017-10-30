@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 
 from .models import *
-from .forms import ApartForm,ImageFormHelper,MainSearchForm, ImageFormSet
+from .forms import ApartForm,ImageFormHelper,MainSearchForm, ImageFormSet,CommentForm
 from main.forms import *
 
 from django.conf import settings

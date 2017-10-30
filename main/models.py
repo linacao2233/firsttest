@@ -21,7 +21,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 
-class Comment(models.Model):
+class CommentGeneral(models.Model):
 	created_by = models.ForeignKey(User, null=True, blank=True,
 		related_name='generalcomments')
 	ipaddress = models.CharField(max_length=100, null=True, blank=True)

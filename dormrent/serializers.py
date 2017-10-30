@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import * 
-from main.models import Comment
+#from main.models import Comment
 from django.urls import reverse_lazy
 
 
@@ -24,7 +24,7 @@ class CommentSerializer(serializers.ModelSerializer):
 			'likenumber', 'apart')
 
 	createdname = serializers.ReadOnlyField(source='created_by.username')
-	apart = serializers.ReadOnlyField(source='content_object')
+	#apart = serializers.ReadOnlyField(source='content_object')
 
 
 

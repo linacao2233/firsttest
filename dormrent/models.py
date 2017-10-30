@@ -181,33 +181,40 @@ class Apart(models.Model):
 		return reverse_lazy('dormrent:detail',kwargs={'slug': self.slug})
 
 
-# class Comment(models.Model):
-# 	created_by = models.ForeignKey(User, null=True, blank=True)
-# 	ipaddress = models.CharField(max_length=100, null=True, blank=True)
-# 	starlevel = models.PositiveSmallIntegerField(
-# 		choices=[(1,1),(2,2),(3,3),(4,4),(5,5)],
-# 		default=1,
-# 		)
-# 	body = models.TextField(null=True,blank=True)
+class Comment(models.Model):
+	created_by = models.ForeignKey(User, null=True, blank=True)
+	ipaddress = models.CharField(max_length=100, null=True, blank=True)
+	starlevel = models.PositiveSmallIntegerField(
+		choices=[(1,1),(2,2),(3,3),(4,4),(5,5)],
+		default=1,
+		)
+	body = models.TextField(null=True,blank=True)
 
-# 	createdTime = models.DateTimeField(auto_now_add=True)
-# 	modifiedTime = models.DateTimeField(auto_now_add=True)
+	createdTime = models.DateTimeField(auto_now_add=True)
+	modifiedTime = models.DateTimeField(auto_now_add=True)
 
-# 	likenumber = models.PositiveIntegerField(default=0)
+	likenumber = models.PositiveIntegerField(default=0)
 
-# 	apart = models.ForeignKey(Apart)
+	apart = models.ForeignKey(Apart)
 
-# 	def __str__(self):
-# 		return self.owner.username+'-'+self.apartment.title
+	def __str__(self):
+		return self.owner.username+'-'+self.apartment.title
 
-# 	def modifiedtimesince(self):
-# 		return timesince(self.modifiedTime)
+	def modifiedtimesince(self):
+		return timesince(self.modifiedTime)
 
 
-# 	def save(self, *args, **kwargs):
-# 		self.modifiedTime = timezone.now()
+	def save(self, *args, **kwargs):
+		self.modifiedTime = timezone.now()
 
-# 		super(Comment,self).save(*args, **kwargs)
+		# change apart star level when saving
+
+		apart = self.apart
+		commentstarlevel = apart.comment_set.values_list('starlevel',flat=True)
+		apart.starlevel = sum(commentstarlevel)/len(commentstarlevel)
+		apart.save()
+
+		super(Comment,self).save(*args, **kwargs)
 
 
 def apart_image_path(instance,filename):

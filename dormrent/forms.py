@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from .models import Apart, University, ApartImage
+from .models import Apart, University, Comment, ApartImage
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit,Layout,Field,Div,ButtonHolder,HTML
@@ -98,6 +98,15 @@ ImageFormSet = inlineformset_factory(
 	fields=('image',),
 	extra=1,
 	can_delete=True,)
+
+
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model = Comment
+		fields = [
+		'starlevel', 
+		'body',
+		]
 
 
 class MainSearchForm(forms.Form):

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Comment, ContactMe
+from .models import CommentGeneral, ContactMe
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit,Layout,Field,Div,ButtonHolder,HTML
@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class CommentForm(forms.ModelForm):
 	class Meta:
-		model = Comment
+		model = CommentGeneral
 		fields = [
 		'starlevel', 
 		'body',
